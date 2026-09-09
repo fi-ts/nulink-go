@@ -53,8 +53,8 @@ func registerVMHandlers(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/v1/vm/location/list", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, &client.VMInstanceGetLocationsResponeModel{
 			Locations: []client.NucleusDBLocations{
-				{LocationUuid: uuidPtr("11111111-1111-1111-1111-111111111111"), Title: "Frankfurt"},
-				{LocationUuid: uuidPtr("22222222-2222-2222-2222-222222222222"), Title: "Nuremberg"},
+				{LocationUuid: uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), Title: "Nürnberg"},
+				{LocationUuid: uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"), Title: "Stuttgart"},
 			},
 		})
 	})
@@ -72,22 +72,14 @@ func registerVMHandlers(mux *http.ServeMux) {
 		})
 	})
 
-	// POST /api/v1/vm/service/list - Listet alle verfügbaren VM Services.
-	mux.HandleFunc("POST /api/v1/vm/service/list", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, &client.VMInstanceGetServicesResponseModel{
-			Services: []client.NucleusDBServices{
-				{ServiceTitle: "Standard", ServiceUuid: "33333333-3333-3333-3333-333333333333"},
-				{ServiceTitle: "Premium", ServiceUuid: "44444444-4444-4444-4444-444444444444"},
-			},
-		})
-	})
-
 	// POST /api/v1/vm/stagetype/list - Listet alle Stage Types.
 	mux.HandleFunc("POST /api/v1/vm/stagetype/list", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, &client.VMInstanceGetStageTypesResponseModel{
 			StageTypes: []client.NucleusDBStageTypes{
-				{StageTypeUuid: uuidPtr("55555555-5555-5555-5555-555555555555"), StageTypeTitle: "Production"},
-				{StageTypeUuid: uuidPtr("66666666-6666-6666-6666-666666666666"), StageTypeTitle: "Staging"},
+				{StageTypeUuid: uuidPtr("f04ac2b8-8157-352a-c0f1-36a59a58d841"), StageTypeTitle: "Entwicklung"},
+				{StageTypeUuid: uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"), StageTypeTitle: "Produktion"},
+				{StageTypeUuid: uuidPtr("c3739ef4-11f1-eaa8-4fcc-717aeaad508e"), StageTypeTitle: "Test"},
+				{StageTypeUuid: uuidPtr("853b452e-bb72-a743-f1b5-b308387cdb41"), StageTypeTitle: "Abnahme"},
 			},
 		})
 	})
@@ -108,8 +100,8 @@ func registerVMHandlers(mux *http.ServeMux) {
 					IpRangeStart:   "10.0.0.10",
 					IpRangeEnd:     "10.0.0.200",
 					UseDhcp:        true,
-					StageTypeTitle: "Production",
-					StageTypeUuid:  uuidPtr("55555555-5555-5555-5555-555555555555"),
+					StageTypeTitle: "Produktion",
+					StageTypeUuid:  uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
 					TenantTitle:    "ftap",
 					TenantUuid:     "ftap",
 				},
