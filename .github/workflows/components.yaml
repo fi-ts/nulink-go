@@ -1,0 +1,29 @@
+---
+name: Components
+
+on:
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - published
+  push:
+    branches:
+      - main
+
+jobs:
+  draft:
+    uses: metal-stack/actions-common/.github/workflows/release-drafter.yaml@v1
+
+  go-build:
+    uses: metal-stack/actions-common/.github/workflows/go-build.yaml@v1
+    secrets:
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+    with:
+      lint: true
+      test: true
+      build: false
+      test-command: go test ./... -coverprofile=coverage.out -covermode=atomic && go tool cover -func=coverage.out
