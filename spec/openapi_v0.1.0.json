@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "NULINK",
-    "version": "0.4.0"
+    "version": "0.1.0"
   },
   "paths": {
     "/api/v1/login/access-token": {
@@ -6049,7 +6049,7 @@
         "properties": {
           "instances": {
             "items": {
-              "$ref": "#/components/schemas/NucleusDBVMsLightUser"
+              "$ref": "#/components/schemas/NucleusDBVMs"
             },
             "type": "array",
             "title": "Instances"
