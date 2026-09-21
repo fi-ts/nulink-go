@@ -1,0 +1,5606 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "NULINK", "version": "0.2.0" },
+  "paths": {
+    "/api/v1/login/access-token": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login Access Token",
+        "description": "OAuth2 compatible token login, get an access token for future requests",
+        "operationId": "login_access_token_api_v1_login_access_token_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_access_token_api_v1_login_access_token_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Token" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/login/test-token": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Test Token",
+        "description": "Test access token",
+        "operationId": "test_token_api_v1_login_test_token_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/api/v1/tenant/contact": {
+      "get": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Contact Get",
+        "description": "Listet alle Kontakte eines Tenants",
+        "operationId": "tenant_contact_get_api_v1_tenant_contact_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantGetContactsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Contact Post",
+        "description": "Erstellt einen neuen Kontakt in einem Tenant",
+        "operationId": "tenant_contact_post_api_v1_tenant_contact_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantContactCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/contact/create/validate": {
+      "post": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Contact Create Validate",
+        "description": "Validiert einen Request zur Erstellung einen neuen Kontakt in einem Tenant",
+        "operationId": "tenant_contact_create_validate_api_v1_tenant_contact_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantContactCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/contact/{contact_uuid}/": {
+      "put": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Contact Put",
+        "description": "Daten eines Kontakts eines Tenants ändern",
+        "operationId": "tenant_contact_put_api_v1_tenant_contact__contact_uuid___put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "contact_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Contact Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantContactUpdateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/contact/{contact_uuid}/update/validate": {
+      "post": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Contact Update Validate Post",
+        "description": "Validierung eines Requests zur Änderung der Daten eines Kontakts eines Tenants",
+        "operationId": "tenant_contact_update_validate_post_api_v1_tenant_contact__contact_uuid__update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "contact_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Contact Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantContactUpdateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/domain": {
+      "get": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Domain Get",
+        "description": "Listet all Domains eines Tenants",
+        "operationId": "tenant_domain_get_api_v1_tenant_domain_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantGetDomainsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/ldap": {
+      "get": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Ldap Get",
+        "description": "Listet alle LDAPs eines Tenants",
+        "operationId": "tenant_ldap_get_api_v1_tenant_ldap_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantGetLDAPsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/application": {
+      "get": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Application Get",
+        "description": "Listet alle Applications eines Tenants optional gefiltert pro domain_uuid.",
+        "operationId": "tenant_application_get_api_v1_tenant_application_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "domain_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Domain Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantGetApplicationsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Application Post",
+        "description": "Erstellt einer Applikation in einer Domäne",
+        "operationId": "tenant_application_post_api_v1_tenant_application_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantDBApplicationCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/application/create/validate": {
+      "post": {
+        "tags": ["Tenant management"],
+        "summary": "Tenant Application Create Validate Post",
+        "description": "Validiert einen Request zur Erstellung einer Applikation in einer Domäne",
+        "operationId": "tenant_application_create_validate_post_api_v1_tenant_application_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantDBApplicationCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/stagetype": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Stagetype Get",
+        "description": "Listet alle Stagetypes",
+        "operationId": "vm_stagetype_get_api_v1_vm_stagetype_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetStageTypesResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/vlan": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Vlan Get",
+        "description": "Listet alle VLANs eines Tenants",
+        "operationId": "vm_vlan_get_api_v1_vm_vlan_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetVlansResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/location": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Location Get",
+        "description": "Listet alle verfügbaren VM Locations eines Tenants",
+        "operationId": "vm_location_get_api_v1_vm_location_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetLocationsResponeModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/os": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Os Get",
+        "description": "Listet alle verfügbaren VM OSs",
+        "operationId": "vm_os_get_api_v1_vm_os_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetOSSResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/api/v1/vm/interface": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Interface Get",
+        "description": "Listet alle Interfaces",
+        "operationId": "vm_interface_get_api_v1_vm_interface_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "interface_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Interface Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetInterfacesResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/snapshot": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Snapshot Get",
+        "description": "Listet alle Snapshots",
+        "operationId": "vm_snapshot_get_api_v1_vm_snapshot_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "snapshot_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Snapshot Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetSnapshotsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/disk": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Disk Get",
+        "description": "Listet alle Disks",
+        "operationId": "vm_disk_get_api_v1_vm_disk_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "disk_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Disk Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetDisksResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance": {
+      "get": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Get",
+        "description": "Listet alle virtuellen Maschinen Instanzen incl. aller Entitäten.",
+        "operationId": "vm_instance_get_api_v1_vm_instance_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "instance_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetVMsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Post",
+        "description": "Erstellt eine virtuelle Maschinen Instanz.",
+        "operationId": "vm_instance_windows_post_api_v1_vm_instance_windows_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceWindowsCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Create Validate Post",
+        "description": "Validiert einen Create Windows Instanz Request",
+        "operationId": "vm_instance_windows_create_validate_post_api_v1_vm_instance_windows_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceWindowsCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Post",
+        "description": "Erstellt eine virtuelle Maschinen Instanz.",
+        "operationId": "vm_instance_linux_post_api_v1_vm_instance_linux_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceLinuxCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Create Validate Post",
+        "description": "Validiert einen Create Linux Instanz Request",
+        "operationId": "vm_instance_linux_create_validate_post_api_v1_vm_instance_linux_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceLinuxCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows/{instance_uuid}/reinstall": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Reinstall Post",
+        "description": "Reinstallieren einer Windows Instanz.",
+        "operationId": "vm_instance_windows_reinstall_post_api_v1_vm_instance_windows__instance_uuid__reinstall_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceReinstallInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows/{instance_uuid}/reinstall/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Reinstall Validate Post",
+        "description": "Validiert einen Windows oder Linux Instanz Reinstall Request.",
+        "operationId": "vm_instance_windows_reinstall_validate_post_api_v1_vm_instance_windows__instance_uuid__reinstall_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceReinstallInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux/{instance_uuid}/reinstall": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Reinstall Post",
+        "description": "Reinstallieren einer Linux Instanz.",
+        "operationId": "vm_instance_linux_reinstall_post_api_v1_vm_instance_linux__instance_uuid__reinstall_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceReinstallInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux/{instance_uuid}/reinstall/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Reinstall Validate Post",
+        "description": "Validiert einen Windows oder Linux Instanz Reinstall Request.",
+        "operationId": "vm_instance_linux_reinstall_validate_post_api_v1_vm_instance_linux__instance_uuid__reinstall_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceReinstallInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}": {
+      "delete": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Delete",
+        "description": "Kündigung einer virtuellen Maschinen Instanz.\nDer vertraglich geregelte Abrechnungszeitraum ändert sich nicht bei sofortiger Löschung der Instanz.",
+        "operationId": "vm_instance_delete_api_v1_vm_instance__instance_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Delete Validate Post",
+        "description": "Validiert einen Delete VM Instanz Request.",
+        "operationId": "vm_instance_delete_validate_post_api_v1_vm_instance__instance_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux/{instance_uuid}/disk": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Disk Post",
+        "description": "Bestellung einer Linux Datendisk",
+        "operationId": "vm_instance_linux_disk_post_api_v1_vm_instance_linux__instance_uuid__disk_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddDiskLinuxInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/linux/{instance_uuid}/disk/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Linux Disk Create Validate Post",
+        "description": "Validiert einen Request zur Bestellung einer Linux Datendisk",
+        "operationId": "vm_instance_linux_disk_create_validate_post_api_v1_vm_instance_linux__instance_uuid__disk_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddDiskLinuxInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows/{instance_uuid}/disk": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Disk Post",
+        "description": "Bestellung einer Windows Datendisk",
+        "operationId": "vm_instance_windows_disk_post_api_v1_vm_instance_windows__instance_uuid__disk_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddDiskWindowsInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/windows/{instance_uuid}/disk/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Windows Disk Create Validate Post",
+        "description": "Validiert einen Request zur Bestellung einer Linux Datendisk",
+        "operationId": "vm_instance_windows_disk_create_validate_post_api_v1_vm_instance_windows__instance_uuid__disk_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddDiskWindowsInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Disk Put",
+        "description": "Änderung einer Datendisk",
+        "operationId": "vm_instance_disk_put_api_v1_vm_instance__instance_uuid__disk__disk_uuid__put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "disk_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Disk Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceChangeDiskInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Disk Delete",
+        "description": "Kündigung einer Datendisk",
+        "operationId": "vm_instance_disk_delete_api_v1_vm_instance__instance_uuid__disk__disk_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "disk_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Disk Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteDiskInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Disk Update Validate Post",
+        "description": "Validierung eines Requests zur Änderung einer Datendisk",
+        "operationId": "vm_instance_disk_update_validate_post_api_v1_vm_instance__instance_uuid__disk__disk_uuid__update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "disk_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Disk Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceChangeDiskInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Disk Delete Validate Post",
+        "description": "Validierung eines Requests zur Kündigung einer Datendisk",
+        "operationId": "vm_instance_disk_delete_validate_post_api_v1_vm_instance__instance_uuid__disk__disk_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "disk_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Disk Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteDiskInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/ip": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Post",
+        "description": "Bestellung einer zusätzlichen IP-Adresse",
+        "operationId": "vm_instance_ip_post_api_v1_vm_instance__instance_uuid__ip_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/ip/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Create Validate Post",
+        "description": "Validierung eines Requests zur Bestellung einer zusätzlichen IP-Adresse",
+        "operationId": "vm_instance_ip_create_validate_post_api_v1_vm_instance__instance_uuid__ip_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceAddIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}": {
+      "delete": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Delete",
+        "description": "Löschung einer zusätzlichen IP-Adresse",
+        "operationId": "vm_instance_ip_delete_api_v1_vm_instance__instance_uuid__ip__interface_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "interface_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Interface Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Put",
+        "description": "Umzug einer zusätzlichen IP-Adresse zu einer anderen virtuellen Maschine",
+        "operationId": "vm_instance_ip_put_api_v1_vm_instance__instance_uuid__ip__interface_uuid__put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "interface_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Interface Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Delete Validate Post",
+        "description": "Validierung eines Requests zur Löschung einer zusätzlichen IP-Adresse",
+        "operationId": "vm_instance_ip_delete_validate_post_api_v1_vm_instance__instance_uuid__ip__interface_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "interface_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Interface Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Ip Update Validate",
+        "description": "Validierung eines Requests zum Umzug einer zusätzlichen IP-Adresse zu einer anderen virtuellen Maschine",
+        "operationId": "vm_instance_ip_update_validate_api_v1_vm_instance__instance_uuid__ip__interface_uuid__update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "interface_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Interface Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateIPInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/restart": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Restart Post",
+        "description": "Instanz neu starten.",
+        "operationId": "vm_instance_restart_post_api_v1_vm_instance__instance_uuid__restart_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceRestartInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/restart/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Restart Validate Post",
+        "description": "Validierung eines Requests zum Neustart einer Instanz..",
+        "operationId": "vm_instance_restart_validate_post_api_v1_vm_instance__instance_uuid__restart_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceRestartInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/performanceclass": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Performanceclass Put",
+        "description": "Änderung der Leistungsklasse",
+        "operationId": "vm_instance_performanceclass_put_api_v1_vm_instance__instance_uuid__performanceclass_put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdatePerformanceClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/performanceclass/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Performanceclass Update Validate Post",
+        "description": "Validierung eines Requests zur Änderung der Leistungsklasse",
+        "operationId": "vm_instance_performanceclass_update_validate_post_api_v1_vm_instance__instance_uuid__performanceclass_update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdatePerformanceClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/serviceclass": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Serviceclass Put",
+        "description": "Änderung der Serviceklasse",
+        "operationId": "vm_instance_serviceclass_put_api_v1_vm_instance__instance_uuid__serviceclass_put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateServiceClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/serviceclass/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Serviceclass Update Validate Post",
+        "description": "Valdierung eines Requests zur Änderung der Serviceklasse",
+        "operationId": "vm_instance_serviceclass_update_validate_post_api_v1_vm_instance__instance_uuid__serviceclass_update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateServiceClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/storageclass": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Storageclass Put",
+        "description": "Änderung der Storageklasse",
+        "operationId": "vm_instance_storageclass_put_api_v1_vm_instance__instance_uuid__storageclass_put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateStorageClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/storageclass/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Storageclass Update Validate",
+        "description": "Validierung eines Requests zur Änderung der Storageklasse",
+        "operationId": "vm_instance_storageclass_update_validate_api_v1_vm_instance__instance_uuid__storageclass_update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateStorageClassInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/contact": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Contact Put",
+        "description": "Änderung des hinterlegen Kontakts einer VM",
+        "operationId": "vm_instance_contact_put_api_v1_vm_instance__instance_uuid__contact_put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateContactInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/contact/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Contact Update Validate Post",
+        "description": "Validierung eines Requests zur Änderung des hinterlegen Kontakts einer VM",
+        "operationId": "vm_instance_contact_update_validate_post_api_v1_vm_instance__instance_uuid__contact_update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateContactInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/labels": {
+      "put": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Labels Put",
+        "description": "Änderung der Labels einer VM",
+        "operationId": "vm_instance_labels_put_api_v1_vm_instance__instance_uuid__labels_put",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateLabelsInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/labels/update/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Labels Update Validate Post",
+        "description": "Änderung der Labels",
+        "operationId": "vm_instance_labels_update_validate_post_api_v1_vm_instance__instance_uuid__labels_update_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceUpdateLabelsInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/snapshot": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Snapshot Post",
+        "description": "Erstellt einen Snapshot",
+        "operationId": "vm_instance_snapshot_post_api_v1_vm_instance__instance_uuid__snapshot_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceSnapshotCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/snapshot/create/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Snapshot Create Validate",
+        "description": "Validiert einen Request zur Erstellung einen Snapshot",
+        "operationId": "vm_instance_snapshot_create_validate_api_v1_vm_instance__instance_uuid__snapshot_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceSnapshotCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/snapshot/{snapshot_uuid}": {
+      "delete": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Snapshot Delete",
+        "description": "Löscht einen Snapshot einer Instanz",
+        "operationId": "vm_instance_snapshot_delete_api_v1_vm_instance__instance_uuid__snapshot__snapshot_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "snapshot_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Snapshot Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteSnapshotInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Virtual machine management"],
+        "summary": "Vm Instance Snapshot Delete Validate",
+        "description": "Validiert einen Request zur Löschung einen Snapshot einer Instanz",
+        "operationId": "vm_instance_snapshot_delete_validate_api_v1_vm_instance__instance_uuid__snapshot__snapshot_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "snapshot_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Snapshot Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VMInstanceDeleteSnapshotInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/container/instance": {
+      "get": {
+        "tags": ["Container instance management"],
+        "summary": "Container Instance Get",
+        "description": "Liste der Container Instanzen",
+        "operationId": "container_instance_get_api_v1_container_instance_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "instance_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetLinuxVMsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Container instance management"],
+        "summary": "Container Instance Post",
+        "description": "Anlage einer Container Instanz",
+        "operationId": "container_instance_post_api_v1_container_instance_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerInstanceCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/container/instance/create/validate": {
+      "post": {
+        "tags": ["Container instance management"],
+        "summary": "Container Instance Create Validate Post",
+        "description": "Anlage einer Container Instanz",
+        "operationId": "container_instance_create_validate_post_api_v1_container_instance_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerInstanceCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/container/instance/{instance_uuid}": {
+      "delete": {
+        "tags": ["Container instance management"],
+        "summary": "Container Instance Delete",
+        "description": "Kündigung einer Container Instanz.\nDer vertraglich geregelte Abrechnungszeitraum ändert sich nicht bei sofortiger Löschung der Instanz.",
+        "operationId": "container_instance_delete_api_v1_container_instance__instance_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerInstanceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/container/instance/{instance_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Container instance management"],
+        "summary": "Container Instance Delete Validate Post",
+        "description": "Validierung eines Requests zur Kündigung einer Container Instanz.",
+        "operationId": "container_instance_delete_validate_post_api_v1_container_instance__instance_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContainerInstanceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/kiteworks/appliance": {
+      "get": {
+        "tags": ["Kiteworks appliance management"],
+        "summary": "Kiteworks Appliance Get",
+        "description": "Liste der Kiteworks appliances",
+        "operationId": "kiteworks_appliance_get_api_v1_kiteworks_appliance_get",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "tenant",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Tenant" }
+          },
+          {
+            "name": "instance_uuid",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                { "type": "string", "format": "uuid" },
+                { "type": "null" }
+              ],
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VMInstanceGetLinuxVMsResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Kiteworks appliance management"],
+        "summary": "Kiteworks Appliance Post",
+        "description": "Anlage einer Kiteworks appliance",
+        "operationId": "kiteworks_appliance_post_api_v1_kiteworks_appliance_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KiteworksApplianceCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/kiteworks/appliance/create/validate": {
+      "post": {
+        "tags": ["Kiteworks appliance management"],
+        "summary": "Kiteworks Appliance Create Validate",
+        "description": "Validierung eines Requests zur Anlage einer Kiteworks appliance",
+        "operationId": "kiteworks_appliance_create_validate_api_v1_kiteworks_appliance_create_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KiteworksApplianceCreateInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/kiteworks/appliance/{instance_uuid}": {
+      "delete": {
+        "tags": ["Kiteworks appliance management"],
+        "summary": "Kiteworks Appliance Delete",
+        "description": "Kündigung einer Kiteworks appliance.\nDer vertraglich geregelte Abrechnungszeitraum ändert sich nicht bei sofortiger Löschung der Appliance.",
+        "operationId": "kiteworks_appliance_delete_api_v1_kiteworks_appliance__instance_uuid__delete",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KiteworksApplianceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericRequestResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/kiteworks/appliance/{instance_uuid}/delete/validate": {
+      "post": {
+        "tags": ["Kiteworks appliance management"],
+        "summary": "Kiteworks Appliance Delete Validate Post",
+        "description": "Validierung eines Requests zur Kündigung einer Kiteworks appliance.",
+        "operationId": "kiteworks_appliance_delete_validate_post_api_v1_kiteworks_appliance__instance_uuid__delete_validate_post",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "instance_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Instance Uuid"
+            }
+          },
+          {
+            "name": "x-original-token",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "X Original Token" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KiteworksApplianceDeleteInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationSuccessResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/utils/readiness-check/": {
+      "get": {
+        "tags": ["Tools"],
+        "summary": "Utils Readiness Check",
+        "operationId": "utils_readiness_check_api_v1_utils_readiness_check__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean",
+                  "title": "Response Utils Readiness Check Api V1 Utils Readiness Check  Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": ["HTML"],
+        "summary": "Read Root",
+        "description": "Welcome page",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login_access_token_api_v1_login_access_token_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              { "type": "string", "pattern": "^password$" },
+              { "type": "null" }
+            ],
+            "title": "Grant Type"
+          },
+          "username": { "type": "string", "title": "Username" },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password"
+          },
+          "scope": { "type": "string", "title": "Scope", "default": "" },
+          "client_id": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "format": "password",
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": ["username", "password"],
+        "title": "Body_login_access_token_api_v1_login_access_token_post"
+      },
+      "ContainerInstanceCreateInputModel": {
+        "properties": {
+          "availability": {
+            "type": "string",
+            "enum": ["v0", "v1", "v2", "v3"],
+            "title": "Availability"
+          },
+          "serviceclass": {
+            "type": "string",
+            "enum": ["sz1", "sz2", "sz3"],
+            "title": "Serviceclass"
+          },
+          "storageclass": {
+            "type": "string",
+            "enum": ["performance", "high_performance"],
+            "title": "Storageclass"
+          },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "ram": { "type": "integer", "title": "Ram" },
+          "cpu": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "title": "Cpu"
+          },
+          "contract": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Contract",
+            "default": false
+          },
+          "billable": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Billable",
+            "default": true
+          },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "tenant_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Tenant Labels",
+            "default": {}
+          },
+          "project_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Project Labels",
+            "default": {}
+          },
+          "entity_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Entity Labels",
+            "default": {}
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "location_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Uuid"
+          },
+          "vlan_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Vlan Uuid"
+          },
+          "backup": { "type": "boolean", "title": "Backup" },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "ldap_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Ldap Uuid"
+          },
+          "disks": {
+            "items": { "$ref": "#/components/schemas/DiskLinuxInputModel" },
+            "type": "array",
+            "title": "Disks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "availability",
+          "serviceclass",
+          "storageclass",
+          "contact_uuid",
+          "ram",
+          "cpu",
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "os_uuid",
+          "location_uuid",
+          "vlan_uuid",
+          "backup",
+          "encrypted",
+          "ldap_uuid",
+          "disks"
+        ],
+        "title": "ContainerInstanceCreateInputModel"
+      },
+      "ContainerInstanceDeleteInputModel": {
+        "properties": {
+          "delete_instantly": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Delete Instantly",
+            "default": false
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "ContainerInstanceDeleteInputModel"
+      },
+      "DiskLinuxInputModel": {
+        "properties": {
+          "mountpoint": { "type": "string", "title": "Mountpoint" },
+          "disk_size_gb": {
+            "type": "integer",
+            "minimum": 10.0,
+            "title": "Disk Size Gb",
+            "default": 20
+          },
+          "auto_extend": {
+            "type": "boolean",
+            "title": "Auto Extend",
+            "default": false
+          },
+          "label": { "type": "string", "title": "Label" }
+        },
+        "type": "object",
+        "required": ["mountpoint", "label"],
+        "title": "DiskLinuxInputModel"
+      },
+      "DiskWindowsInputModel": {
+        "properties": {
+          "driveletter": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Driveletter"
+          },
+          "disk_size_gb": {
+            "type": "integer",
+            "minimum": 10.0,
+            "title": "Disk Size Gb",
+            "default": 20
+          },
+          "auto_extend": {
+            "type": "boolean",
+            "title": "Auto Extend",
+            "default": false
+          },
+          "label": { "type": "string", "title": "Label" }
+        },
+        "type": "object",
+        "required": ["driveletter", "label"],
+        "title": "DiskWindowsInputModel"
+      },
+      "GenericRequestResponseModel": {
+        "properties": {
+          "request_status": {
+            "$ref": "#/components/schemas/RequestStatusConfig"
+          },
+          "request_type": { "$ref": "#/components/schemas/RequestTypeConfig" },
+          "item_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Item Uuid"
+          },
+          "automation_id": { "type": "integer", "title": "Automation Id" },
+          "automation_type": { "type": "string", "title": "Automation Type" }
+        },
+        "type": "object",
+        "required": [
+          "request_status",
+          "request_type",
+          "item_uuid",
+          "automation_id",
+          "automation_type"
+        ],
+        "title": "GenericRequestResponseModel"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "KiteworksApplianceCreateInputModel": {
+        "properties": {
+          "storageclass": {
+            "type": "string",
+            "enum": ["performance", "high_performance"],
+            "title": "Storageclass"
+          },
+          "availability": {
+            "type": "string",
+            "enum": ["v0", "v1", "v2", "v3"],
+            "title": "Availability"
+          },
+          "serviceclass": {
+            "type": "string",
+            "enum": ["sz1", "sz2", "sz3"],
+            "title": "Serviceclass"
+          },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "contract": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Contract",
+            "default": false
+          },
+          "billable": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Billable",
+            "default": true
+          },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "tenant_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Tenant Labels",
+            "default": {}
+          },
+          "project_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Project Labels",
+            "default": {}
+          },
+          "entity_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Entity Labels",
+            "default": {}
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "pod_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Pod Uuid"
+          },
+          "vlan_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Vlan Uuid"
+          },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "tshirt_size": {
+            "type": "string",
+            "enum": ["Medium", "Large"],
+            "title": "Tshirt Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "storageclass",
+          "availability",
+          "serviceclass",
+          "contact_uuid",
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "pod_uuid",
+          "vlan_uuid",
+          "encrypted",
+          "tshirt_size"
+        ],
+        "title": "KiteworksApplianceCreateInputModel"
+      },
+      "KiteworksApplianceDeleteInputModel": {
+        "properties": {
+          "delete_instantly": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Delete Instantly",
+            "default": false
+          },
+          "execution_time": {
+            "type": "string",
+            "format": "date",
+            "title": "Execution Time"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "KiteworksApplianceDeleteInputModel"
+      },
+      "NucleusDBApplications": {
+        "properties": {
+          "application_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Application Uuid"
+          },
+          "application_title": {
+            "type": "string",
+            "title": "Application Title"
+          },
+          "domain_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Domain Uuid"
+          },
+          "feature_set": { "type": "string", "title": "Feature Set" },
+          "domain_fqdn": { "type": "string", "title": "Domain Fqdn" },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": [
+          "application_title",
+          "domain_uuid",
+          "feature_set",
+          "domain_fqdn",
+          "tenant"
+        ],
+        "title": "NucleusDBApplications"
+      },
+      "NucleusDBContacts": {
+        "properties": {
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "firstname": { "type": "string", "title": "Firstname" },
+          "lastname": { "type": "string", "title": "Lastname" },
+          "department": { "type": "string", "title": "Department" },
+          "phone": { "type": "string", "title": "Phone" },
+          "mailaddress": { "type": "string", "title": "Mailaddress" },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": [
+          "firstname",
+          "lastname",
+          "department",
+          "phone",
+          "mailaddress",
+          "tenant"
+        ],
+        "title": "NucleusDBContacts"
+      },
+      "NucleusDBDomains": {
+        "properties": {
+          "domain_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Domain Uuid"
+          },
+          "netbios": { "type": "string", "title": "Netbios" },
+          "domain_fqdn": { "type": "string", "title": "Domain Fqdn" },
+          "acronym2": { "type": "string", "title": "Acronym2" },
+          "idm_stage": { "type": "string", "title": "Idm Stage" },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": [
+          "netbios",
+          "domain_fqdn",
+          "acronym2",
+          "idm_stage",
+          "tenant"
+        ],
+        "title": "NucleusDBDomains"
+      },
+      "NucleusDBInterface": {
+        "properties": {
+          "interface_uuid": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Interface Uuid"
+          },
+          "ipaddress": { "type": "string", "title": "Ipaddress" },
+          "macaddress": { "type": "string", "title": "Macaddress" }
+        },
+        "type": "object",
+        "required": ["interface_uuid", "ipaddress", "macaddress"],
+        "title": "NucleusDBInterface"
+      },
+      "NucleusDBLDAPs": {
+        "properties": {
+          "ldap_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Ldap Uuid"
+          },
+          "ldap_fqdn": { "type": "string", "title": "Ldap Fqdn" },
+          "acronym_infoblox": { "type": "string", "title": "Acronym Infoblox" },
+          "system_id": { "type": "string", "title": "System Id" },
+          "dn_host_group": { "type": "string", "title": "Dn Host Group" },
+          "dn_sudo_group": { "type": "string", "title": "Dn Sudo Group" },
+          "ldap_server": { "type": "string", "title": "Ldap Server" },
+          "ldap_port": { "type": "integer", "title": "Ldap Port" },
+          "root_dse": { "type": "string", "title": "Root Dse" },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": [
+          "ldap_fqdn",
+          "acronym_infoblox",
+          "system_id",
+          "dn_host_group",
+          "dn_sudo_group",
+          "ldap_server",
+          "ldap_port",
+          "root_dse",
+          "tenant"
+        ],
+        "title": "NucleusDBLDAPs"
+      },
+      "NucleusDBLinuxDisk": {
+        "properties": {
+          "disk_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Disk Uuid"
+          },
+          "disk_size_gb": { "type": "integer", "title": "Disk Size Gb" },
+          "mountpoint": { "type": "string", "title": "Mountpoint" },
+          "auto_extend": { "type": "boolean", "title": "Auto Extend" }
+        },
+        "type": "object",
+        "required": ["disk_uuid", "disk_size_gb", "mountpoint", "auto_extend"],
+        "title": "NucleusDBLinuxDisk"
+      },
+      "NucleusDBLinuxVMs": {
+        "properties": {
+          "vm_uuid": { "type": "string", "format": "uuid", "title": "Vm Uuid" },
+          "vm_fqdn": { "type": "string", "title": "Vm Fqdn" },
+          "status": { "type": "string", "title": "Status" },
+          "status_info": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Status Info"
+          },
+          "interfaces": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/NucleusDBInterface" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Interfaces"
+          },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "os_type": { "type": "string", "title": "Os Type" },
+          "os_title": { "type": "string", "title": "Os Title" },
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "contract": { "type": "boolean", "title": "Contract" },
+          "serviceclass": { "type": "string", "title": "Serviceclass" },
+          "availability": { "type": "string", "title": "Availability" },
+          "cpu": { "type": "integer", "title": "Cpu" },
+          "ram": { "type": "integer", "title": "Ram" },
+          "storageclass": { "type": "string", "title": "Storageclass" },
+          "labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Labels"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "billable": { "type": "boolean", "title": "Billable" },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "stage_type_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Stage Type Uuid"
+          },
+          "service_id": { "type": "string", "title": "Service Id" },
+          "service_title": { "type": "string", "title": "Service Title" },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "mailaddress": { "type": "string", "title": "Mailaddress" },
+          "snapshots": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/NucleusDBSnapshot" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Snapshots"
+          },
+          "disks": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/NucleusDBLinuxDisk" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Disks"
+          },
+          "ldap_uuid": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Ldap Uuid"
+          },
+          "ldap_fqdn": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Ldap Fqdn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vm_fqdn",
+          "status",
+          "status_info",
+          "interfaces",
+          "encrypted",
+          "os_type",
+          "os_title",
+          "os_uuid",
+          "project_uuid",
+          "tenant",
+          "contract",
+          "serviceclass",
+          "availability",
+          "cpu",
+          "ram",
+          "storageclass",
+          "labels",
+          "order_number",
+          "billable",
+          "billing_start_date",
+          "stage_type_uuid",
+          "service_id",
+          "service_title",
+          "contact_uuid",
+          "mailaddress",
+          "snapshots",
+          "disks",
+          "ldap_uuid",
+          "ldap_fqdn"
+        ],
+        "title": "NucleusDBLinuxVMs"
+      },
+      "NucleusDBLocations": {
+        "properties": {
+          "location_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Uuid"
+          },
+          "location_title": { "type": "string", "title": "Location Title" },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["location_title", "tenant"],
+        "title": "NucleusDBLocations"
+      },
+      "NucleusDBOss": {
+        "properties": {
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "os_title": { "type": "string", "title": "Os Title" },
+          "os_type": { "type": "string", "title": "Os Type" },
+          "os_version": { "type": "string", "title": "Os Version" }
+        },
+        "type": "object",
+        "required": ["os_title", "os_type", "os_version"],
+        "title": "NucleusDBOss"
+      },
+      "NucleusDBSnapshot": {
+        "properties": {
+          "snapshot_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Uuid"
+          },
+          "name": { "type": "string", "title": "Name" }
+        },
+        "type": "object",
+        "required": ["snapshot_uuid", "name"],
+        "title": "NucleusDBSnapshot"
+      },
+      "NucleusDBStageTypes": {
+        "properties": {
+          "stage_type_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Stage Type Uuid"
+          },
+          "stage_type_title": { "type": "string", "title": "Stage Type Title" }
+        },
+        "type": "object",
+        "required": ["stage_type_title"],
+        "title": "NucleusDBStageTypes"
+      },
+      "NucleusDBVlans": {
+        "properties": {
+          "vlan_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Vlan Uuid"
+          },
+          "pod_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Pod Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "pod_title": { "type": "string", "title": "Pod Title" },
+          "vlan_id": { "type": "integer", "title": "Vlan Id" },
+          "subnet_title": { "type": "string", "title": "Subnet Title" },
+          "subnet": { "type": "string", "title": "Subnet" },
+          "subnetmask": { "type": "string", "title": "Subnetmask" },
+          "gateway": { "type": "string", "title": "Gateway" },
+          "ip_range_start": { "type": "string", "title": "Ip Range Start" },
+          "ip_range_end": { "type": "string", "title": "Ip Range End" },
+          "use_dhcp": { "type": "boolean", "title": "Use Dhcp" },
+          "stage_type_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Stage Type Uuid"
+          },
+          "stage_type_title": { "type": "string", "title": "Stage Type Title" }
+        },
+        "type": "object",
+        "required": [
+          "tenant",
+          "pod_title",
+          "vlan_id",
+          "subnet_title",
+          "subnet",
+          "subnetmask",
+          "gateway",
+          "ip_range_start",
+          "ip_range_end",
+          "use_dhcp",
+          "stage_type_title"
+        ],
+        "title": "NucleusDBVlans"
+      },
+      "NucleusDBWindowsDisk": {
+        "properties": {
+          "disk_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Disk Uuid"
+          },
+          "disk_size_gb": { "type": "integer", "title": "Disk Size Gb" },
+          "driveletter": { "type": "string", "title": "Driveletter" },
+          "auto_extend": { "type": "boolean", "title": "Auto Extend" }
+        },
+        "type": "object",
+        "required": ["disk_uuid", "disk_size_gb", "driveletter", "auto_extend"],
+        "title": "NucleusDBWindowsDisk"
+      },
+      "NucleusDBWindowsVMs": {
+        "properties": {
+          "vm_uuid": { "type": "string", "format": "uuid", "title": "Vm Uuid" },
+          "vm_fqdn": { "type": "string", "title": "Vm Fqdn" },
+          "status": { "type": "string", "title": "Status" },
+          "status_info": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Status Info"
+          },
+          "interfaces": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/NucleusDBInterface" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Interfaces"
+          },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "os_type": { "type": "string", "title": "Os Type" },
+          "os_title": { "type": "string", "title": "Os Title" },
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "contract": { "type": "boolean", "title": "Contract" },
+          "serviceclass": { "type": "string", "title": "Serviceclass" },
+          "availability": { "type": "string", "title": "Availability" },
+          "cpu": { "type": "integer", "title": "Cpu" },
+          "ram": { "type": "integer", "title": "Ram" },
+          "storageclass": { "type": "string", "title": "Storageclass" },
+          "labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Labels"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "billable": { "type": "boolean", "title": "Billable" },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "stage_type_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Stage Type Uuid"
+          },
+          "service_id": { "type": "string", "title": "Service Id" },
+          "service_title": { "type": "string", "title": "Service Title" },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "mailaddress": { "type": "string", "title": "Mailaddress" },
+          "snapshots": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/NucleusDBSnapshot" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Snapshots"
+          },
+          "disks": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/NucleusDBWindowsDisk"
+                },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Disks"
+          },
+          "domain_uuid": {
+            "anyOf": [
+              { "type": "string", "format": "uuid" },
+              { "type": "null" }
+            ],
+            "title": "Domain Uuid"
+          },
+          "domain_fqdn": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Domain Fqdn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vm_fqdn",
+          "status",
+          "status_info",
+          "interfaces",
+          "encrypted",
+          "os_type",
+          "os_title",
+          "os_uuid",
+          "project_uuid",
+          "tenant",
+          "contract",
+          "serviceclass",
+          "availability",
+          "cpu",
+          "ram",
+          "storageclass",
+          "labels",
+          "order_number",
+          "billable",
+          "billing_start_date",
+          "stage_type_uuid",
+          "service_id",
+          "service_title",
+          "contact_uuid",
+          "mailaddress",
+          "snapshots",
+          "disks",
+          "domain_uuid",
+          "domain_fqdn"
+        ],
+        "title": "NucleusDBWindowsVMs"
+      },
+      "RequestStatusConfig": {
+        "type": "string",
+        "enum": ["Requested"],
+        "title": "RequestStatusConfig",
+        "description": "RequestStatusConfig(*values)"
+      },
+      "RequestTypeConfig": {
+        "type": "string",
+        "enum": [
+          "create_vm_application_server",
+          "create_vm_application_server",
+          "delete_vm",
+          "update_vm_reinstall",
+          "update_vm_reinstall",
+          "update_vm_restart",
+          "update_vm_create_disk",
+          "update_vm_update_disk",
+          "update_vm_delete_disk",
+          "update_vm_encryption",
+          "update_vm_serviceclass",
+          "update_vm_performanceclass",
+          "update_vm_storageclass",
+          "update_vm_update_labels",
+          "create_vm_sql_server",
+          "delete_vm",
+          "update_vm_create_db",
+          "update_vm_delete_db",
+          "create_vm_container_server",
+          "delete_vm",
+          "update_vm_create_ip",
+          "update_vm_delete_ip",
+          "update_vm_update_ip",
+          "update_vm_create_snapshot",
+          "update_vm_delete_snapshot",
+          "update_vm_update_contact",
+          "update_tenant_create_contact",
+          "update_tenant_update_contact",
+          "update_tenant_create_dbapplication",
+          "create_vm_applicance_kiteworks",
+          "delete_vm"
+        ],
+        "title": "RequestTypeConfig",
+        "description": "RequestTypeConfig(*values)"
+      },
+      "TenantContactCreateInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "firstname": { "type": "string", "title": "Firstname" },
+          "lastname": { "type": "string", "title": "Lastname" },
+          "department": { "type": "string", "title": "Department" },
+          "phone": { "type": "string", "title": "Phone" },
+          "mailaddress": { "type": "string", "title": "Mailaddress" }
+        },
+        "type": "object",
+        "required": [
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "firstname",
+          "lastname",
+          "department",
+          "phone",
+          "mailaddress"
+        ],
+        "title": "TenantContactCreateInputModel"
+      },
+      "TenantContactUpdateInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "firstname": { "type": "string", "title": "Firstname" },
+          "lastname": { "type": "string", "title": "Lastname" },
+          "department": { "type": "string", "title": "Department" },
+          "phone": { "type": "string", "title": "Phone" },
+          "mailaddress": { "type": "string", "title": "Mailaddress" }
+        },
+        "type": "object",
+        "required": [
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "firstname",
+          "lastname",
+          "department",
+          "phone",
+          "mailaddress"
+        ],
+        "title": "TenantContactUpdateInputModel"
+      },
+      "TenantDBApplicationCreateInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "domain_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Domain Uuid"
+          },
+          "application_title": {
+            "type": "string",
+            "title": "Application Title"
+          },
+          "mssql_feature_set": {
+            "type": "string",
+            "enum": ["basic", "lite"],
+            "title": "Mssql Feature Set"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "domain_uuid",
+          "application_title",
+          "mssql_feature_set"
+        ],
+        "title": "TenantDBApplicationCreateInputModel"
+      },
+      "TenantGetApplicationsResponseModel": {
+        "properties": {
+          "applications": {
+            "items": { "$ref": "#/components/schemas/NucleusDBApplications" },
+            "type": "array",
+            "title": "Applications"
+          }
+        },
+        "type": "object",
+        "required": ["applications"],
+        "title": "TenantGetApplicationsResponseModel"
+      },
+      "TenantGetContactsResponseModel": {
+        "properties": {
+          "contacts": {
+            "items": { "$ref": "#/components/schemas/NucleusDBContacts" },
+            "type": "array",
+            "title": "Contacts"
+          }
+        },
+        "type": "object",
+        "required": ["contacts"],
+        "title": "TenantGetContactsResponseModel"
+      },
+      "TenantGetDomainsResponseModel": {
+        "properties": {
+          "domains": {
+            "items": { "$ref": "#/components/schemas/NucleusDBDomains" },
+            "type": "array",
+            "title": "Domains"
+          }
+        },
+        "type": "object",
+        "required": ["domains"],
+        "title": "TenantGetDomainsResponseModel"
+      },
+      "TenantGetLDAPsResponseModel": {
+        "properties": {
+          "ldaps": {
+            "items": { "$ref": "#/components/schemas/NucleusDBLDAPs" },
+            "type": "array",
+            "title": "Ldaps"
+          }
+        },
+        "type": "object",
+        "required": ["ldaps"],
+        "title": "TenantGetLDAPsResponseModel"
+      },
+      "Token": {
+        "properties": {
+          "access_token": { "type": "string", "title": "Access Token" },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": ["access_token"],
+        "title": "Token"
+      },
+      "User": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "permissions": { "type": "string", "title": "Permissions" },
+          "disabled": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Disabled"
+          }
+        },
+        "type": "object",
+        "required": ["name", "permissions"],
+        "title": "User"
+      },
+      "VMInstanceAddDiskLinuxInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "disk": { "$ref": "#/components/schemas/DiskLinuxInputModel" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant", "disk"],
+        "title": "VMInstanceAddDiskLinuxInputModel"
+      },
+      "VMInstanceAddDiskWindowsInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "disk": { "$ref": "#/components/schemas/DiskWindowsInputModel" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant", "disk"],
+        "title": "VMInstanceAddDiskWindowsInputModel"
+      },
+      "VMInstanceAddIPInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceAddIPInputModel"
+      },
+      "VMInstanceChangeDiskInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "disk_size_gb": {
+            "type": "integer",
+            "minimum": 10.0,
+            "title": "Disk Size Gb",
+            "default": 20
+          },
+          "auto_extend": {
+            "type": "boolean",
+            "title": "Auto Extend",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceChangeDiskInputModel"
+      },
+      "VMInstanceDeleteDiskInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceDeleteDiskInputModel"
+      },
+      "VMInstanceDeleteIPInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceDeleteIPInputModel"
+      },
+      "VMInstanceDeleteInputModel": {
+        "properties": {
+          "delete_instantly": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Delete Instantly",
+            "default": false
+          },
+          "execution_time": {
+            "type": "string",
+            "format": "date",
+            "title": "Execution Time"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceDeleteInputModel"
+      },
+      "VMInstanceDeleteSnapshotInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceDeleteSnapshotInputModel"
+      },
+      "VMInstanceGetDisksResponseModel": {
+        "properties": {
+          "disks": {
+            "items": {
+              "anyOf": [
+                { "$ref": "#/components/schemas/NucleusDBLinuxDisk" },
+                { "$ref": "#/components/schemas/NucleusDBWindowsDisk" }
+              ]
+            },
+            "type": "array",
+            "title": "Disks"
+          }
+        },
+        "type": "object",
+        "required": ["disks"],
+        "title": "VMInstanceGetDisksResponseModel"
+      },
+      "VMInstanceGetInterfacesResponseModel": {
+        "properties": {
+          "interfaces": {
+            "items": { "$ref": "#/components/schemas/NucleusDBInterface" },
+            "type": "array",
+            "title": "Interfaces"
+          }
+        },
+        "type": "object",
+        "required": ["interfaces"],
+        "title": "VMInstanceGetInterfacesResponseModel"
+      },
+      "VMInstanceGetLinuxVMsResponseModel": {
+        "properties": {
+          "instances": {
+            "items": { "$ref": "#/components/schemas/NucleusDBLinuxVMs" },
+            "type": "array",
+            "title": "Instances"
+          }
+        },
+        "type": "object",
+        "required": ["instances"],
+        "title": "VMInstanceGetLinuxVMsResponseModel"
+      },
+      "VMInstanceGetLocationsResponeModel": {
+        "properties": {
+          "locations": {
+            "items": { "$ref": "#/components/schemas/NucleusDBLocations" },
+            "type": "array",
+            "title": "Locations"
+          }
+        },
+        "type": "object",
+        "required": ["locations"],
+        "title": "VMInstanceGetLocationsResponeModel"
+      },
+      "VMInstanceGetOSSResponseModel": {
+        "properties": {
+          "oss": {
+            "items": { "$ref": "#/components/schemas/NucleusDBOss" },
+            "type": "array",
+            "title": "Oss"
+          }
+        },
+        "type": "object",
+        "required": ["oss"],
+        "title": "VMInstanceGetOSSResponseModel"
+      },
+      "VMInstanceGetSnapshotsResponseModel": {
+        "properties": {
+          "snapshots": {
+            "items": { "$ref": "#/components/schemas/NucleusDBSnapshot" },
+            "type": "array",
+            "title": "Snapshots"
+          }
+        },
+        "type": "object",
+        "required": ["snapshots"],
+        "title": "VMInstanceGetSnapshotsResponseModel"
+      },
+      "VMInstanceGetStageTypesResponseModel": {
+        "properties": {
+          "stage_types": {
+            "items": { "$ref": "#/components/schemas/NucleusDBStageTypes" },
+            "type": "array",
+            "title": "Stage Types"
+          }
+        },
+        "type": "object",
+        "required": ["stage_types"],
+        "title": "VMInstanceGetStageTypesResponseModel"
+      },
+      "VMInstanceGetVMsResponseModel": {
+        "properties": {
+          "instances": {
+            "items": {
+              "anyOf": [
+                { "$ref": "#/components/schemas/NucleusDBLinuxVMs" },
+                { "$ref": "#/components/schemas/NucleusDBWindowsVMs" }
+              ]
+            },
+            "type": "array",
+            "title": "Instances"
+          }
+        },
+        "type": "object",
+        "required": ["instances"],
+        "title": "VMInstanceGetVMsResponseModel"
+      },
+      "VMInstanceGetVlansResponseModel": {
+        "properties": {
+          "vlans": {
+            "items": { "$ref": "#/components/schemas/NucleusDBVlans" },
+            "type": "array",
+            "title": "Vlans"
+          }
+        },
+        "type": "object",
+        "required": ["vlans"],
+        "title": "VMInstanceGetVlansResponseModel"
+      },
+      "VMInstanceLinuxCreateInputModel": {
+        "properties": {
+          "availability": {
+            "type": "string",
+            "enum": ["v0", "v1", "v2", "v3"],
+            "title": "Availability"
+          },
+          "serviceclass": {
+            "type": "string",
+            "enum": ["sz1", "sz2", "sz3"],
+            "title": "Serviceclass"
+          },
+          "storageclass": {
+            "type": "string",
+            "enum": ["performance", "high_performance"],
+            "title": "Storageclass"
+          },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "ram": { "type": "integer", "title": "Ram" },
+          "cpu": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "title": "Cpu"
+          },
+          "contract": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Contract",
+            "default": false
+          },
+          "billable": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Billable",
+            "default": true
+          },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "tenant_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Tenant Labels",
+            "default": {}
+          },
+          "project_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Project Labels",
+            "default": {}
+          },
+          "entity_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Entity Labels",
+            "default": {}
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "location_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Uuid"
+          },
+          "vlan_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Vlan Uuid"
+          },
+          "backup": { "type": "boolean", "title": "Backup" },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "ldap_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Ldap Uuid"
+          },
+          "disks": {
+            "items": { "$ref": "#/components/schemas/DiskLinuxInputModel" },
+            "type": "array",
+            "title": "Disks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "availability",
+          "serviceclass",
+          "storageclass",
+          "contact_uuid",
+          "ram",
+          "cpu",
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "os_uuid",
+          "location_uuid",
+          "vlan_uuid",
+          "backup",
+          "encrypted",
+          "ldap_uuid",
+          "disks"
+        ],
+        "title": "VMInstanceLinuxCreateInputModel"
+      },
+      "VMInstanceReinstallInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceReinstallInputModel"
+      },
+      "VMInstanceRestartInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceRestartInputModel"
+      },
+      "VMInstanceSnapshotCreateInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "snapshot_name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Snapshot Name"
+          }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant", "snapshot_name"],
+        "title": "VMInstanceSnapshotCreateInputModel"
+      },
+      "VMInstanceUpdateContactInputModel": {
+        "properties": {
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["contact_uuid", "order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceUpdateContactInputModel"
+      },
+      "VMInstanceUpdateIPInputModel": {
+        "properties": {
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "target_vm_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Target Vm Uuid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "target_vm_uuid"
+        ],
+        "title": "VMInstanceUpdateIPInputModel"
+      },
+      "VMInstanceUpdateLabelsInputModel": {
+        "properties": {
+          "tenant_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Tenant Labels",
+            "default": {}
+          },
+          "project_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Project Labels",
+            "default": {}
+          },
+          "entity_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Entity Labels",
+            "default": {}
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceUpdateLabelsInputModel"
+      },
+      "VMInstanceUpdatePerformanceClassInputModel": {
+        "properties": {
+          "ram": { "type": "integer", "title": "Ram" },
+          "cpu": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "title": "Cpu"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["ram", "cpu", "order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceUpdatePerformanceClassInputModel"
+      },
+      "VMInstanceUpdateServiceClassInputModel": {
+        "properties": {
+          "serviceclass": {
+            "type": "string",
+            "enum": ["sz1", "sz2", "sz3"],
+            "title": "Serviceclass"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["serviceclass", "order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceUpdateServiceClassInputModel"
+      },
+      "VMInstanceUpdateStorageClassInputModel": {
+        "properties": {
+          "storageclass": {
+            "type": "string",
+            "enum": ["performance", "high_performance"],
+            "title": "Storageclass"
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" }
+        },
+        "type": "object",
+        "required": ["storageclass", "order_number", "project_uuid", "tenant"],
+        "title": "VMInstanceUpdateStorageClassInputModel"
+      },
+      "VMInstanceWindowsCreateInputModel": {
+        "properties": {
+          "availability": {
+            "type": "string",
+            "enum": ["v0", "v1", "v2", "v3"],
+            "title": "Availability"
+          },
+          "serviceclass": {
+            "type": "string",
+            "enum": ["sz1", "sz2", "sz3"],
+            "title": "Serviceclass"
+          },
+          "storageclass": {
+            "type": "string",
+            "enum": ["performance", "high_performance"],
+            "title": "Storageclass"
+          },
+          "contact_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Contact Uuid"
+          },
+          "ram": { "type": "integer", "title": "Ram" },
+          "cpu": {
+            "type": "integer",
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "title": "Cpu"
+          },
+          "contract": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Contract",
+            "default": false
+          },
+          "billable": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Billable",
+            "default": true
+          },
+          "billing_start_date": {
+            "anyOf": [
+              { "type": "string", "format": "date" },
+              { "type": "null" }
+            ],
+            "title": "Billing Start Date"
+          },
+          "tenant_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Tenant Labels",
+            "default": {}
+          },
+          "project_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Project Labels",
+            "default": {}
+          },
+          "entity_labels": {
+            "anyOf": [
+              { "additionalProperties": true, "type": "object" },
+              { "type": "null" }
+            ],
+            "title": "Entity Labels",
+            "default": {}
+          },
+          "order_number": { "type": "string", "title": "Order Number" },
+          "project_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Project Uuid"
+          },
+          "tenant": { "type": "string", "title": "Tenant" },
+          "name": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Name"
+          },
+          "os_uuid": { "type": "string", "format": "uuid", "title": "Os Uuid" },
+          "location_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Location Uuid"
+          },
+          "vlan_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Vlan Uuid"
+          },
+          "backup": { "type": "boolean", "title": "Backup" },
+          "encrypted": { "type": "boolean", "title": "Encrypted" },
+          "domain_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Domain Uuid"
+          },
+          "disks": {
+            "items": { "$ref": "#/components/schemas/DiskWindowsInputModel" },
+            "type": "array",
+            "title": "Disks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "availability",
+          "serviceclass",
+          "storageclass",
+          "contact_uuid",
+          "ram",
+          "cpu",
+          "order_number",
+          "project_uuid",
+          "tenant",
+          "os_uuid",
+          "location_uuid",
+          "vlan_uuid",
+          "backup",
+          "encrypted",
+          "domain_uuid",
+          "disks"
+        ],
+        "title": "VMInstanceWindowsCreateInputModel"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      },
+      "ValidationSuccessResponseModel": {
+        "properties": { "success": { "type": "boolean", "title": "Success" } },
+        "type": "object",
+        "required": ["success"],
+        "title": "ValidationSuccessResponseModel"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" }
+        }
+      }
+    }
+  }
+}
