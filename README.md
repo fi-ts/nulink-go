@@ -18,5 +18,5 @@ client, url, cleanup, err := fake.Start()
 defer cleanup()
 ```
 
-It serves canned data (currently the VM endpoints, e.g. `POST /api/v1/vm/os/list`)
+It serves canned data (currently the VM endpoints, e.g. `GET /api/v1/mvm/os`)
 through a real HTTP server, so the generated client exercises the full transport,

@@ -41,25 +41,25 @@ func Start() (*client.Client, string, func(), error) {
 }
 
 func registerVMHandlers(mux *http.ServeMux) {
-	mux.HandleFunc("GET /api/v1/vm/location", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("GET /api/v1/mvm/location", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultLocations())
 	})
 
-	mux.HandleFunc("GET /api/v1/vm/os", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("GET /api/v1/mvm/os", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultOSs())
 	})
 
-	mux.HandleFunc("GET /api/v1/vm/stagetype", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("GET /api/v1/mvm/stagetype", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultStageTypes())
 	})
 
-	mux.HandleFunc("GET /api/v1/vm/vlan", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("GET /api/v1/mvm/vlan", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultVlans())
 	})
 
 	// Optional instance_uuid query narrows the result to a single VM;
 	// unknown UUIDs get a 404.
-	mux.HandleFunc("GET /api/v1/vm/instance", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("GET /api/v1/mvm/instance", func(w http.ResponseWriter, r *http.Request) {
 		instanceUUID := r.URL.Query().Get("instance_uuid")
 		if instanceUUID == "" {
 			writeJSON(w, defaultVMs())
@@ -80,61 +80,61 @@ func registerVMHandlers(mux *http.ServeMux) {
 		http.Error(w, "vm instance not found", http.StatusNotFound)
 	})
 
-	mux.HandleFunc("POST /api/v1/vm/instance/linux", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, genericResponse("create_vm_application_server", linuxVMUUID))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/linux/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/create/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/vm/instance/windows", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, genericResponse("create_vm_application_server", windowsVMUUID))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/windows/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/create/validate", validateOK)
 
-	mux.HandleFunc("DELETE /api/v1/vm/instance/{instance_uuid}", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("delete_vm", r.PathValue("instance_uuid")))
 	})
 
-	mux.HandleFunc("POST /api/v1/vm/instance/linux/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_create_disk", r.PathValue("instance_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/linux/{instance_uuid}/disk/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/vm/instance/windows/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_create_disk", r.PathValue("instance_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/windows/{instance_uuid}/disk/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate", validateOK)
 
-	mux.HandleFunc("PUT /api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_update_disk", r.PathValue("disk_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate", validateOK)
 
-	mux.HandleFunc("DELETE /api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_delete_disk", r.PathValue("disk_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/vm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_create_ip", r.PathValue("instance_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/{instance_uuid}/ip/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate", validateOK)
 
-	mux.HandleFunc("PUT /api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_update_ip", r.PathValue("interface_uuid")))
 	})
-	mux.HandleFunc("POST /api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate", validateOK)
 
-	mux.HandleFunc("DELETE /api/v1/vm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_delete_ip", r.PathValue("interface_uuid")))
 	})
 
-	mux.HandleFunc("PUT /api/v1/vm/instance/{instance_uuid}/performanceclass", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_performanceclass", r.PathValue("instance_uuid")))
 	})
-	mux.HandleFunc("PUT /api/v1/vm/instance/{instance_uuid}/serviceclass", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_serviceclass", r.PathValue("instance_uuid")))
 	})
-	mux.HandleFunc("PUT /api/v1/vm/instance/{instance_uuid}/contact", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/contact", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, genericResponse("update_vm_update_contact", r.PathValue("instance_uuid")))
 	})
 }
@@ -257,6 +257,10 @@ const (
 	linuxVMUUID   = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
 )
 
+// defaultVMs returns the canned VM list served by GET /instance. Each VM
+// carries the full disk set the upstream 0.3.0 API returns: the OS disk
+// (provisioned by the backend), the fixed system disk (volume F on
+// Windows, /appdata on Linux) and one data disk.
 func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 	windows := client.NucleusDBWindowsVMs{
 		VmUuid:        uuidPtr(windowsVMUUID),
@@ -265,7 +269,8 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		StageTypeUuid: uuid.MustParse("410cda2a-5810-135c-f25c-48a8200ab112"),
 		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), Ipaddress: "10.0.0.11", Macaddress: "AA:BB:CC:DD:EE:01"}},
 		Encrypted:     false,
-		Disks:         &[]client.NucleusDBWindowsDisk{{AutoExtend: true, DiskSizeGb: 100, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), Driveletter: "C"}},
+		Disks:         &[]client.NucleusDBWindowsDisk{{AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb1"), Driveletter: "C", DiskType: "os"}, {AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2"), Driveletter: "F", DiskType: "system"}, {AutoExtend: false, DiskSizeGb: 100, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb3"), Driveletter: "D", DiskType: "data"}},
+		LocationUuid:  uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"),
 		DomainUuid:    uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
 		DomainFqdn:    strPtr("corp.example.com"),
 		ProjectUuid:   uuid.MustParse("e8b24441-2712-4dc0-878f-503f53102b28"),
@@ -292,7 +297,8 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		StageTypeUuid: uuid.MustParse("410cda2a-5810-135c-f25c-48a8200ab112"),
 		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("cccccccc-cccc-cccc-cccc-cccccccccccc"), Ipaddress: "10.0.0.21", Macaddress: "AA:BB:CC:DD:EE:02"}},
 		Encrypted:     false,
-		Disks:         &[]client.NucleusDBLinuxDisk{{AutoExtend: true, DiskSizeGb: 50, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-dddddddddddd"), Mountpoint: "/data"}},
+		Disks:         &[]client.NucleusDBLinuxDisk{{AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd1"), Mountpoint: "/", DiskType: "os"}, {AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd2"), Mountpoint: "/appdata", DiskType: "system"}, {AutoExtend: true, DiskSizeGb: 100, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd3"), Mountpoint: "/data", DiskType: "data"}, {AutoExtend: false, DiskSizeGb: 200, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd4"), Mountpoint: "/backup", DiskType: "data"}},
+		LocationUuid:  uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"),
 		LdapUuid:      uuidPtr("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
 		LdapFqdn:      strPtr("ldap.example.com"),
 		ProjectUuid:   uuid.MustParse("e8b24441-2712-4dc0-878f-503f53102b28"),
