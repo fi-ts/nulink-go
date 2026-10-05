@@ -57,6 +57,14 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, defaultVlans())
 	})
 
+	mux.HandleFunc("GET /api/v1/tenant/ldap", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, defaultLDAPs())
+	})
+
+	mux.HandleFunc("GET /api/v1/tenant/domain", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, defaultDomains())
+	})
+
 	// Optional instance_uuid query narrows the result to a single VM;
 	// unknown UUIDs get a 404.
 	mux.HandleFunc("GET /api/v1/mvm/instance", func(w http.ResponseWriter, r *http.Request) {
@@ -221,7 +229,7 @@ func defaultVlans() *client.VMInstanceGetVlansResponseModel {
 				VlanId:         2001,
 				PodTitle:       "POD01",
 				PodUuid:        uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
-				SubnetTitle:    "pg-mgm-pod01-vm-vlan2001",
+				SubnetTitle:    "subnet-mgmt-vlan2001",
 				Subnet:         "100.64.1.0/24",
 				Subnetmask:     "255.255.255.0",
 				Gateway:        "100.64.1.1",
@@ -237,7 +245,7 @@ func defaultVlans() *client.VMInstanceGetVlansResponseModel {
 				VlanId:         2008,
 				PodTitle:       "POD01",
 				PodUuid:        uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
-				SubnetTitle:    "pg-svc-pod01-vm-vlan2008",
+				SubnetTitle:    "subnet-svc-vlan2008",
 				Subnet:         "100.64.8.0/24",
 				Subnetmask:     "255.255.255.0",
 				Gateway:        "100.64.8.1",
@@ -247,6 +255,30 @@ func defaultVlans() *client.VMInstanceGetVlansResponseModel {
 				StageTypeTitle: "Produktion",
 				StageTypeUuid:  uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
 				Tenant:         "fac7f4b6-bd59-fef7-cd45-dcaddb43e523",
+			},
+		},
+	}
+}
+
+func defaultLDAPs() *client.TenantGetLDAPsResponseModel {
+	return &client.TenantGetLDAPsResponseModel{
+		Ldaps: []client.NucleusDBLDAPs{
+			{
+				LdapUuid: uuidPtr("8e4912ec-de8c-944e-ef72-7d0b6f0b472b"),
+				LdapFqdn: "ldap.example.com",
+				Tenant:   "ftap",
+			},
+		},
+	}
+}
+
+func defaultDomains() *client.TenantGetDomainsResponseModel {
+	return &client.TenantGetDomainsResponseModel{
+		Domains: []client.NucleusDBDomains{
+			{
+				DomainUuid: uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
+				DomainFqdn: "corp.example.com",
+				Tenant:     "ftap",
 			},
 		},
 	}
