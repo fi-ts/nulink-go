@@ -321,6 +321,7 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		OsType:        "windows",
 		OrderNumber:   "12345",
 		Labels:        mapPtr(map[string]interface{}{"accounting_key": "AK-WIN-1"}),
+		Billable:      true,
 	}
 	linux := client.NucleusDBLinuxVMs{
 		VmUuid:        uuidPtr(linuxVMUUID),
@@ -349,6 +350,7 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		OsType:        "linux",
 		OrderNumber:   "12345",
 		Labels:        mapPtr(map[string]interface{}{"accounting_key": "AK-LIN-1"}),
+		Billable:      true,
 	}
 
 	winItem := client.VMInstanceGetVMsResponseModel_Instances_Item{}
