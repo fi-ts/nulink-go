@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/oapi-codegen/runtime"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -56,24 +57,6 @@ func (e ContainerInstanceCreateInputModelServiceclass) Valid() bool {
 	case ContainerInstanceCreateInputModelServiceclassSz2:
 		return true
 	case ContainerInstanceCreateInputModelServiceclassSz3:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for ContainerInstanceCreateInputModelStorageclass.
-const (
-	ContainerInstanceCreateInputModelStorageclassHighPerformance ContainerInstanceCreateInputModelStorageclass = "high_performance"
-	ContainerInstanceCreateInputModelStorageclassPerformance     ContainerInstanceCreateInputModelStorageclass = "performance"
-)
-
-// Valid indicates whether the value is a known member of the ContainerInstanceCreateInputModelStorageclass enum.
-func (e ContainerInstanceCreateInputModelStorageclass) Valid() bool {
-	switch e {
-	case ContainerInstanceCreateInputModelStorageclassHighPerformance:
-		return true
-	case ContainerInstanceCreateInputModelStorageclassPerformance:
 		return true
 	default:
 		return false
@@ -125,24 +108,6 @@ func (e KiteworksApplianceCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
-// Defines values for KiteworksApplianceCreateInputModelStorageclass.
-const (
-	KiteworksApplianceCreateInputModelStorageclassHighPerformance KiteworksApplianceCreateInputModelStorageclass = "high_performance"
-	KiteworksApplianceCreateInputModelStorageclassPerformance     KiteworksApplianceCreateInputModelStorageclass = "performance"
-)
-
-// Valid indicates whether the value is a known member of the KiteworksApplianceCreateInputModelStorageclass enum.
-func (e KiteworksApplianceCreateInputModelStorageclass) Valid() bool {
-	switch e {
-	case KiteworksApplianceCreateInputModelStorageclassHighPerformance:
-		return true
-	case KiteworksApplianceCreateInputModelStorageclassPerformance:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for KiteworksApplianceCreateInputModelTshirtSize.
 const (
 	Large  KiteworksApplianceCreateInputModelTshirtSize = "Large"
@@ -155,111 +120,6 @@ func (e KiteworksApplianceCreateInputModelTshirtSize) Valid() bool {
 	case Large:
 		return true
 	case Medium:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for RequestStatusConfig.
-const (
-	Requested RequestStatusConfig = "Requested"
-)
-
-// Valid indicates whether the value is a known member of the RequestStatusConfig enum.
-func (e RequestStatusConfig) Valid() bool {
-	switch e {
-	case Requested:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for RequestTypeConfig.
-const (
-	CreateVmApplicanceKiteworks     RequestTypeConfig = "create_vm_applicance_kiteworks"
-	CreateVmApplicationServer       RequestTypeConfig = "create_vm_application_server"
-	CreateVmContainerServer         RequestTypeConfig = "create_vm_container_server"
-	CreateVmSqlServer               RequestTypeConfig = "create_vm_sql_server"
-	DeleteVm                        RequestTypeConfig = "delete_vm"
-	UpdateTenantCreateContact       RequestTypeConfig = "update_tenant_create_contact"
-	UpdateTenantCreateDbapplication RequestTypeConfig = "update_tenant_create_dbapplication"
-	UpdateTenantUpdateContact       RequestTypeConfig = "update_tenant_update_contact"
-	UpdateVmCreateDb                RequestTypeConfig = "update_vm_create_db"
-	UpdateVmCreateDisk              RequestTypeConfig = "update_vm_create_disk"
-	UpdateVmCreateIp                RequestTypeConfig = "update_vm_create_ip"
-	UpdateVmCreateSnapshot          RequestTypeConfig = "update_vm_create_snapshot"
-	UpdateVmDeleteDb                RequestTypeConfig = "update_vm_delete_db"
-	UpdateVmDeleteDisk              RequestTypeConfig = "update_vm_delete_disk"
-	UpdateVmDeleteIp                RequestTypeConfig = "update_vm_delete_ip"
-	UpdateVmDeleteSnapshot          RequestTypeConfig = "update_vm_delete_snapshot"
-	UpdateVmEncryption              RequestTypeConfig = "update_vm_encryption"
-	UpdateVmPerformanceclass        RequestTypeConfig = "update_vm_performanceclass"
-	UpdateVmReinstall               RequestTypeConfig = "update_vm_reinstall"
-	UpdateVmRestart                 RequestTypeConfig = "update_vm_restart"
-	UpdateVmServiceclass            RequestTypeConfig = "update_vm_serviceclass"
-	UpdateVmStorageclass            RequestTypeConfig = "update_vm_storageclass"
-	UpdateVmUpdateContact           RequestTypeConfig = "update_vm_update_contact"
-	UpdateVmUpdateDisk              RequestTypeConfig = "update_vm_update_disk"
-	UpdateVmUpdateIp                RequestTypeConfig = "update_vm_update_ip"
-	UpdateVmUpdateLabels            RequestTypeConfig = "update_vm_update_labels"
-)
-
-// Valid indicates whether the value is a known member of the RequestTypeConfig enum.
-func (e RequestTypeConfig) Valid() bool {
-	switch e {
-	case CreateVmApplicanceKiteworks:
-		return true
-	case CreateVmApplicationServer:
-		return true
-	case CreateVmContainerServer:
-		return true
-	case CreateVmSqlServer:
-		return true
-	case DeleteVm:
-		return true
-	case UpdateTenantCreateContact:
-		return true
-	case UpdateTenantCreateDbapplication:
-		return true
-	case UpdateTenantUpdateContact:
-		return true
-	case UpdateVmCreateDb:
-		return true
-	case UpdateVmCreateDisk:
-		return true
-	case UpdateVmCreateIp:
-		return true
-	case UpdateVmCreateSnapshot:
-		return true
-	case UpdateVmDeleteDb:
-		return true
-	case UpdateVmDeleteDisk:
-		return true
-	case UpdateVmDeleteIp:
-		return true
-	case UpdateVmDeleteSnapshot:
-		return true
-	case UpdateVmEncryption:
-		return true
-	case UpdateVmPerformanceclass:
-		return true
-	case UpdateVmReinstall:
-		return true
-	case UpdateVmRestart:
-		return true
-	case UpdateVmServiceclass:
-		return true
-	case UpdateVmStorageclass:
-		return true
-	case UpdateVmUpdateContact:
-		return true
-	case UpdateVmUpdateDisk:
-		return true
-	case UpdateVmUpdateIp:
-		return true
-	case UpdateVmUpdateLabels:
 		return true
 	default:
 		return false
@@ -311,24 +171,6 @@ func (e VMInstanceLinuxCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
-// Defines values for VMInstanceLinuxCreateInputModelStorageclass.
-const (
-	VMInstanceLinuxCreateInputModelStorageclassHighPerformance VMInstanceLinuxCreateInputModelStorageclass = "high_performance"
-	VMInstanceLinuxCreateInputModelStorageclassPerformance     VMInstanceLinuxCreateInputModelStorageclass = "performance"
-)
-
-// Valid indicates whether the value is a known member of the VMInstanceLinuxCreateInputModelStorageclass enum.
-func (e VMInstanceLinuxCreateInputModelStorageclass) Valid() bool {
-	switch e {
-	case VMInstanceLinuxCreateInputModelStorageclassHighPerformance:
-		return true
-	case VMInstanceLinuxCreateInputModelStorageclassPerformance:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for VMInstanceUpdateServiceClassInputModelServiceclass.
 const (
 	VMInstanceUpdateServiceClassInputModelServiceclassSz1 VMInstanceUpdateServiceClassInputModelServiceclass = "sz1"
@@ -344,24 +186,6 @@ func (e VMInstanceUpdateServiceClassInputModelServiceclass) Valid() bool {
 	case VMInstanceUpdateServiceClassInputModelServiceclassSz2:
 		return true
 	case VMInstanceUpdateServiceClassInputModelServiceclassSz3:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for VMInstanceUpdateStorageClassInputModelStorageclass.
-const (
-	VMInstanceUpdateStorageClassInputModelStorageclassHighPerformance VMInstanceUpdateStorageClassInputModelStorageclass = "high_performance"
-	VMInstanceUpdateStorageClassInputModelStorageclassPerformance     VMInstanceUpdateStorageClassInputModelStorageclass = "performance"
-)
-
-// Valid indicates whether the value is a known member of the VMInstanceUpdateStorageClassInputModelStorageclass enum.
-func (e VMInstanceUpdateStorageClassInputModelStorageclass) Valid() bool {
-	switch e {
-	case VMInstanceUpdateStorageClassInputModelStorageclassHighPerformance:
-		return true
-	case VMInstanceUpdateStorageClassInputModelStorageclassPerformance:
 		return true
 	default:
 		return false
@@ -413,24 +237,6 @@ func (e VMInstanceWindowsCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
-// Defines values for VMInstanceWindowsCreateInputModelStorageclass.
-const (
-	VMInstanceWindowsCreateInputModelStorageclassHighPerformance VMInstanceWindowsCreateInputModelStorageclass = "high_performance"
-	VMInstanceWindowsCreateInputModelStorageclassPerformance     VMInstanceWindowsCreateInputModelStorageclass = "performance"
-)
-
-// Valid indicates whether the value is a known member of the VMInstanceWindowsCreateInputModelStorageclass enum.
-func (e VMInstanceWindowsCreateInputModelStorageclass) Valid() bool {
-	switch e {
-	case VMInstanceWindowsCreateInputModelStorageclassHighPerformance:
-		return true
-	case VMInstanceWindowsCreateInputModelStorageclassPerformance:
-		return true
-	default:
-		return false
-	}
-}
-
 // BodyLoginAccessTokenApiV1LoginAccessTokenPost defines model for Body_login_access_token_api_v1_login_access_token_post.
 type BodyLoginAccessTokenApiV1LoginAccessTokenPost struct {
 	ClientId     *string `json:"client_id,omitempty"`
@@ -450,21 +256,20 @@ type ContainerInstanceCreateInputModel struct {
 	ContactUuid      openapi_types.UUID                            `json:"contact_uuid"`
 	Contract         *bool                                         `json:"contract,omitempty"`
 	Cpu              int                                           `json:"cpu"`
+	DatacenterUuid   openapi_types.UUID                            `json:"datacenter_uuid"`
 	Disks            []DiskLinuxInputModel                         `json:"disks"`
 	Encrypted        bool                                          `json:"encrypted"`
-	EntityLabels     *map[string]interface{}                       `json:"entity_labels,omitempty"`
+	EntityLabels     *map[string]string                            `json:"entity_labels,omitempty"`
 	LdapUuid         openapi_types.UUID                            `json:"ldap_uuid"`
-	LocationUuid     openapi_types.UUID                            `json:"location_uuid"`
 	Name             *string                                       `json:"name,omitempty"`
 	OrderNumber      string                                        `json:"order_number"`
 	OsUuid           openapi_types.UUID                            `json:"os_uuid"`
-	ProjectLabels    *map[string]interface{}                       `json:"project_labels,omitempty"`
+	ProjectLabels    *map[string]string                            `json:"project_labels,omitempty"`
 	ProjectUuid      openapi_types.UUID                            `json:"project_uuid"`
 	Ram              int                                           `json:"ram"`
 	Serviceclass     ContainerInstanceCreateInputModelServiceclass `json:"serviceclass"`
-	Storageclass     ContainerInstanceCreateInputModelStorageclass `json:"storageclass"`
 	Tenant           string                                        `json:"tenant"`
-	TenantLabels     *map[string]interface{}                       `json:"tenant_labels,omitempty"`
+	TenantLabels     *map[string]string                            `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                            `json:"vlan_uuid"`
 }
 
@@ -474,15 +279,15 @@ type ContainerInstanceCreateInputModelAvailability string
 // ContainerInstanceCreateInputModelServiceclass defines model for ContainerInstanceCreateInputModel.Serviceclass.
 type ContainerInstanceCreateInputModelServiceclass string
 
-// ContainerInstanceCreateInputModelStorageclass defines model for ContainerInstanceCreateInputModel.Storageclass.
-type ContainerInstanceCreateInputModelStorageclass string
-
 // ContainerInstanceDeleteInputModel defines model for ContainerInstanceDeleteInputModel.
 type ContainerInstanceDeleteInputModel struct {
 	DeleteInstantly *bool              `json:"delete_instantly,omitempty"`
+	EntityLabels    *map[string]string `json:"entity_labels,omitempty"`
 	OrderNumber     string             `json:"order_number"`
+	ProjectLabels   *map[string]string `json:"project_labels,omitempty"`
 	ProjectUuid     openapi_types.UUID `json:"project_uuid"`
 	Tenant          string             `json:"tenant"`
+	TenantLabels    *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // DiskLinuxInputModel defines model for DiskLinuxInputModel.
@@ -503,15 +308,13 @@ type DiskWindowsInputModel struct {
 
 // GenericRequestResponseModel defines model for GenericRequestResponseModel.
 type GenericRequestResponseModel struct {
-	AutomationId   int                `json:"automation_id"`
-	AutomationType string             `json:"automation_type"`
-	ItemUuid       openapi_types.UUID `json:"item_uuid"`
-
-	// RequestStatus RequestStatusConfig(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)
-	RequestStatus RequestStatusConfig `json:"request_status"`
-
-	// RequestType RequestTypeConfig(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)
-	RequestType RequestTypeConfig `json:"request_type"`
+	AutomationId    int                `json:"automation_id"`
+	AutomationType  string             `json:"automation_type"`
+	ItemType        string             `json:"item_type"`
+	ItemUuid        openapi_types.UUID `json:"item_uuid"`
+	OperationStatus string             `json:"operation_status"`
+	OperationType   string             `json:"operation_type"`
+	OperationUuid   openapi_types.UUID `json:"operation_uuid"`
 }
 
 // HTTPValidationError defines model for HTTPValidationError.
@@ -527,16 +330,15 @@ type KiteworksApplianceCreateInputModel struct {
 	ContactUuid      openapi_types.UUID                             `json:"contact_uuid"`
 	Contract         *bool                                          `json:"contract,omitempty"`
 	Encrypted        bool                                           `json:"encrypted"`
-	EntityLabels     *map[string]interface{}                        `json:"entity_labels,omitempty"`
+	EntityLabels     *map[string]string                             `json:"entity_labels,omitempty"`
 	Name             *string                                        `json:"name,omitempty"`
 	OrderNumber      string                                         `json:"order_number"`
 	PodUuid          openapi_types.UUID                             `json:"pod_uuid"`
-	ProjectLabels    *map[string]interface{}                        `json:"project_labels,omitempty"`
+	ProjectLabels    *map[string]string                             `json:"project_labels,omitempty"`
 	ProjectUuid      openapi_types.UUID                             `json:"project_uuid"`
 	Serviceclass     KiteworksApplianceCreateInputModelServiceclass `json:"serviceclass"`
-	Storageclass     KiteworksApplianceCreateInputModelStorageclass `json:"storageclass"`
 	Tenant           string                                         `json:"tenant"`
-	TenantLabels     *map[string]interface{}                        `json:"tenant_labels,omitempty"`
+	TenantLabels     *map[string]string                             `json:"tenant_labels,omitempty"`
 	TshirtSize       KiteworksApplianceCreateInputModelTshirtSize   `json:"tshirt_size"`
 	VlanUuid         openapi_types.UUID                             `json:"vlan_uuid"`
 }
@@ -547,19 +349,19 @@ type KiteworksApplianceCreateInputModelAvailability string
 // KiteworksApplianceCreateInputModelServiceclass defines model for KiteworksApplianceCreateInputModel.Serviceclass.
 type KiteworksApplianceCreateInputModelServiceclass string
 
-// KiteworksApplianceCreateInputModelStorageclass defines model for KiteworksApplianceCreateInputModel.Storageclass.
-type KiteworksApplianceCreateInputModelStorageclass string
-
 // KiteworksApplianceCreateInputModelTshirtSize defines model for KiteworksApplianceCreateInputModel.TshirtSize.
 type KiteworksApplianceCreateInputModelTshirtSize string
 
 // KiteworksApplianceDeleteInputModel defines model for KiteworksApplianceDeleteInputModel.
 type KiteworksApplianceDeleteInputModel struct {
 	DeleteInstantly *bool               `json:"delete_instantly,omitempty"`
-	ExecutionTime   *openapi_types.Date `json:"execution_time,omitempty"`
+	EntityLabels    *map[string]string  `json:"entity_labels,omitempty"`
+	ExecutionDate   *openapi_types.Date `json:"execution_date,omitempty"`
 	OrderNumber     string              `json:"order_number"`
+	ProjectLabels   *map[string]string  `json:"project_labels,omitempty"`
 	ProjectUuid     openapi_types.UUID  `json:"project_uuid"`
 	Tenant          string              `json:"tenant"`
+	TenantLabels    *map[string]string  `json:"tenant_labels,omitempty"`
 }
 
 // NucleusDBContacts defines model for NucleusDBContacts.
@@ -573,14 +375,28 @@ type NucleusDBContacts struct {
 	Tenant      string              `json:"tenant"`
 }
 
+// NucleusDBDatacenter defines model for NucleusDBDatacenter.
+type NucleusDBDatacenter struct {
+	DatacenterTitle string             `json:"datacenter_title"`
+	DatacenterUuid  openapi_types.UUID `json:"datacenter_uuid"`
+}
+
+// NucleusDBDatacenters defines model for NucleusDBDatacenters.
+type NucleusDBDatacenters struct {
+	DatacenterTitle string              `json:"datacenter_title"`
+	DatacenterUuid  *openapi_types.UUID `json:"datacenter_uuid,omitempty"`
+}
+
 // NucleusDBDomains defines model for NucleusDBDomains.
 type NucleusDBDomains struct {
-	Acronym2   string              `json:"acronym2"`
-	DomainFqdn string              `json:"domain_fqdn"`
-	DomainUuid *openapi_types.UUID `json:"domain_uuid,omitempty"`
-	IdmStage   string              `json:"idm_stage"`
-	Netbios    string              `json:"netbios"`
-	Tenant     string              `json:"tenant"`
+	Acronym2    string                 `json:"acronym2"`
+	Datacenters *[]NucleusDBDatacenter `json:"datacenters"`
+	DomainFqdn  string                 `json:"domain_fqdn"`
+	DomainUuid  *openapi_types.UUID    `json:"domain_uuid,omitempty"`
+	IdmStage    string                 `json:"idm_stage"`
+	Netbios     string                 `json:"netbios"`
+	Tenant      string                 `json:"tenant"`
+	TenantTitle string                 `json:"tenant_title"`
 }
 
 // NucleusDBInterface defines model for NucleusDBInterface.
@@ -588,6 +404,7 @@ type NucleusDBInterface struct {
 	InterfaceUuid *openapi_types.UUID `json:"interface_uuid"`
 	Ipaddress     string              `json:"ipaddress"`
 	Macaddress    string              `json:"macaddress"`
+	VlanUuid      openapi_types.UUID  `json:"vlan_uuid"`
 }
 
 // NucleusDBLDAPs defines model for NucleusDBLDAPs.
@@ -616,6 +433,7 @@ type NucleusDBLinuxDisk struct {
 // NucleusDBLinuxVMs defines model for NucleusDBLinuxVMs.
 type NucleusDBLinuxVMs struct {
 	Availability     string                  `json:"availability"`
+	Backup           bool                    `json:"backup"`
 	Billable         bool                    `json:"billable"`
 	BillingStartDate *openapi_types.Date     `json:"billing_start_date"`
 	ContactUuid      openapi_types.UUID      `json:"contact_uuid"`
@@ -629,6 +447,7 @@ type NucleusDBLinuxVMs struct {
 	LdapUuid         *openapi_types.UUID     `json:"ldap_uuid"`
 	LocationUuid     *openapi_types.UUID     `json:"location_uuid"`
 	Mailaddress      string                  `json:"mailaddress"`
+	Operations       *[]NucleusDBOperation   `json:"operations"`
 	OrderNumber      string                  `json:"order_number"`
 	OsTitle          string                  `json:"os_title"`
 	OsType           string                  `json:"os_type"`
@@ -642,7 +461,6 @@ type NucleusDBLinuxVMs struct {
 	StageTypeUuid    openapi_types.UUID      `json:"stage_type_uuid"`
 	Status           string                  `json:"status"`
 	StatusInfo       *string                 `json:"status_info"`
-	Storageclass     string                  `json:"storageclass"`
 	Tenant           string                  `json:"tenant"`
 	VmFqdn           string                  `json:"vm_fqdn"`
 	VmUuid           *openapi_types.UUID     `json:"vm_uuid,omitempty"`
@@ -653,6 +471,33 @@ type NucleusDBLocations struct {
 	LocationTitle string              `json:"location_title"`
 	LocationUuid  *openapi_types.UUID `json:"location_uuid,omitempty"`
 	Tenant        string              `json:"tenant"`
+}
+
+// NucleusDBOperation defines model for NucleusDBOperation.
+type NucleusDBOperation struct {
+	CreatedAt     time.Time          `json:"created_at"`
+	ItemType      string             `json:"item_type"`
+	ItemUuid      openapi_types.UUID `json:"item_uuid"`
+	OrderNumber   string             `json:"order_number"`
+	RequestStatus string             `json:"request_status"`
+	RequestType   string             `json:"request_type"`
+	RequestUuid   openapi_types.UUID `json:"request_uuid"`
+	RequestedBy   string             `json:"requested_by"`
+	UpdatedAt     time.Time          `json:"updated_at"`
+}
+
+// NucleusDBOperations defines model for NucleusDBOperations.
+type NucleusDBOperations struct {
+	CreatedAt       time.Time           `json:"created_at"`
+	ItemType        string              `json:"item_type"`
+	ItemUuid        string              `json:"item_uuid"`
+	OperationStatus string              `json:"operation_status"`
+	OperationType   string              `json:"operation_type"`
+	OperationUuid   *openapi_types.UUID `json:"operation_uuid,omitempty"`
+	OrderNumber     string              `json:"order_number"`
+	RequestedBy     string              `json:"requested_by"`
+	Tenant          string              `json:"tenant"`
+	UpdatedAt       time.Time           `json:"updated_at"`
 }
 
 // NucleusDBOss defines model for NucleusDBOss.
@@ -671,26 +516,33 @@ type NucleusDBSnapshot struct {
 
 // NucleusDBStageTypes defines model for NucleusDBStageTypes.
 type NucleusDBStageTypes struct {
+	Acronym1       string              `json:"acronym1"`
 	StageTypeTitle string              `json:"stage_type_title"`
 	StageTypeUuid  *openapi_types.UUID `json:"stage_type_uuid,omitempty"`
 }
 
 // NucleusDBVlans defines model for NucleusDBVlans.
 type NucleusDBVlans struct {
-	Gateway        string              `json:"gateway"`
-	IpRangeEnd     string              `json:"ip_range_end"`
-	IpRangeStart   string              `json:"ip_range_start"`
-	PodTitle       string              `json:"pod_title"`
-	PodUuid        *openapi_types.UUID `json:"pod_uuid,omitempty"`
-	StageTypeTitle string              `json:"stage_type_title"`
-	StageTypeUuid  *openapi_types.UUID `json:"stage_type_uuid,omitempty"`
-	Subnet         string              `json:"subnet"`
-	SubnetTitle    string              `json:"subnet_title"`
-	Subnetmask     string              `json:"subnetmask"`
-	Tenant         string              `json:"tenant"`
-	UseDhcp        bool                `json:"use_dhcp"`
-	VlanId         int                 `json:"vlan_id"`
-	VlanUuid       *openapi_types.UUID `json:"vlan_uuid,omitempty"`
+	DatacenterTitle string              `json:"datacenter_title"`
+	DatacenterUuid  openapi_types.UUID  `json:"datacenter_uuid"`
+	DomainFqdn      *string             `json:"domain_fqdn"`
+	DomainUuid      *openapi_types.UUID `json:"domain_uuid"`
+	Gateway         string              `json:"gateway"`
+	IpRangeEnd      string              `json:"ip_range_end"`
+	IpRangeStart    string              `json:"ip_range_start"`
+	LocationUuid    openapi_types.UUID  `json:"location_uuid"`
+	PodTitle        string              `json:"pod_title"`
+	PodUuid         *openapi_types.UUID `json:"pod_uuid,omitempty"`
+	StageTypeTitle  string              `json:"stage_type_title"`
+	StageTypeUuid   *openapi_types.UUID `json:"stage_type_uuid,omitempty"`
+	Subnet          string              `json:"subnet"`
+	SubnetTitle     string              `json:"subnet_title"`
+	Subnetmask      string              `json:"subnetmask"`
+	Tenant          string              `json:"tenant"`
+	TenantTitle     string              `json:"tenant_title"`
+	UseDhcp         bool                `json:"use_dhcp"`
+	VlanId          int                 `json:"vlan_id"`
+	VlanUuid        *openapi_types.UUID `json:"vlan_uuid,omitempty"`
 }
 
 // NucleusDBWindowsDisk defines model for NucleusDBWindowsDisk.
@@ -705,6 +557,7 @@ type NucleusDBWindowsDisk struct {
 // NucleusDBWindowsVMs defines model for NucleusDBWindowsVMs.
 type NucleusDBWindowsVMs struct {
 	Availability     string                  `json:"availability"`
+	Backup           bool                    `json:"backup"`
 	Billable         bool                    `json:"billable"`
 	BillingStartDate *openapi_types.Date     `json:"billing_start_date"`
 	ContactUuid      openapi_types.UUID      `json:"contact_uuid"`
@@ -718,6 +571,7 @@ type NucleusDBWindowsVMs struct {
 	Labels           *map[string]interface{} `json:"labels"`
 	LocationUuid     *openapi_types.UUID     `json:"location_uuid"`
 	Mailaddress      string                  `json:"mailaddress"`
+	Operations       *[]NucleusDBOperation   `json:"operations"`
 	OrderNumber      string                  `json:"order_number"`
 	OsTitle          string                  `json:"os_title"`
 	OsType           string                  `json:"os_type"`
@@ -731,40 +585,39 @@ type NucleusDBWindowsVMs struct {
 	StageTypeUuid    openapi_types.UUID      `json:"stage_type_uuid"`
 	Status           string                  `json:"status"`
 	StatusInfo       *string                 `json:"status_info"`
-	Storageclass     string                  `json:"storageclass"`
 	Tenant           string                  `json:"tenant"`
 	VmFqdn           string                  `json:"vm_fqdn"`
 	VmUuid           *openapi_types.UUID     `json:"vm_uuid,omitempty"`
 }
 
-// RequestStatusConfig RequestStatusConfig(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)
-type RequestStatusConfig string
-
-// RequestTypeConfig RequestTypeConfig(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)
-type RequestTypeConfig string
-
 // TenantContactCreateInputModel defines model for TenantContactCreateInputModel.
 type TenantContactCreateInputModel struct {
-	Department  string             `json:"department"`
-	Firstname   string             `json:"firstname"`
-	Lastname    string             `json:"lastname"`
-	Mailaddress string             `json:"mailaddress"`
-	OrderNumber string             `json:"order_number"`
-	Phone       string             `json:"phone"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	Department    string             `json:"department"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	Firstname     string             `json:"firstname"`
+	Lastname      string             `json:"lastname"`
+	Mailaddress   string             `json:"mailaddress"`
+	OrderNumber   string             `json:"order_number"`
+	Phone         string             `json:"phone"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // TenantContactUpdateInputModel defines model for TenantContactUpdateInputModel.
 type TenantContactUpdateInputModel struct {
-	Department  string             `json:"department"`
-	Firstname   string             `json:"firstname"`
-	Lastname    string             `json:"lastname"`
-	Mailaddress string             `json:"mailaddress"`
-	OrderNumber string             `json:"order_number"`
-	Phone       string             `json:"phone"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	Department    string             `json:"department"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	Firstname     string             `json:"firstname"`
+	Lastname      string             `json:"lastname"`
+	Mailaddress   string             `json:"mailaddress"`
+	OrderNumber   string             `json:"order_number"`
+	Phone         string             `json:"phone"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // TenantGetContactsResponseModel defines model for TenantGetContactsResponseModel.
@@ -782,6 +635,11 @@ type TenantGetLDAPsResponseModel struct {
 	Ldaps []NucleusDBLDAPs `json:"ldaps"`
 }
 
+// TenantGetOperationsResponseModel defines model for TenantGetOperationsResponseModel.
+type TenantGetOperationsResponseModel struct {
+	Operations []NucleusDBOperations `json:"operations"`
+}
+
 // Token defines model for Token.
 type Token struct {
 	AccessToken string  `json:"access_token"`
@@ -797,64 +655,93 @@ type User struct {
 
 // VMInstanceAddDiskLinuxInputModel defines model for VMInstanceAddDiskLinuxInputModel.
 type VMInstanceAddDiskLinuxInputModel struct {
-	Disk        DiskLinuxInputModel `json:"disk"`
-	OrderNumber string              `json:"order_number"`
-	ProjectUuid openapi_types.UUID  `json:"project_uuid"`
-	Tenant      string              `json:"tenant"`
+	Disk          DiskLinuxInputModel `json:"disk"`
+	EntityLabels  *map[string]string  `json:"entity_labels,omitempty"`
+	OrderNumber   string              `json:"order_number"`
+	ProjectLabels *map[string]string  `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID  `json:"project_uuid"`
+	Tenant        string              `json:"tenant"`
+	TenantLabels  *map[string]string  `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceAddDiskWindowsInputModel defines model for VMInstanceAddDiskWindowsInputModel.
 type VMInstanceAddDiskWindowsInputModel struct {
-	Disk        DiskWindowsInputModel `json:"disk"`
-	OrderNumber string                `json:"order_number"`
-	ProjectUuid openapi_types.UUID    `json:"project_uuid"`
-	Tenant      string                `json:"tenant"`
+	Disk          DiskWindowsInputModel `json:"disk"`
+	EntityLabels  *map[string]string    `json:"entity_labels,omitempty"`
+	OrderNumber   string                `json:"order_number"`
+	ProjectLabels *map[string]string    `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID    `json:"project_uuid"`
+	Tenant        string                `json:"tenant"`
+	TenantLabels  *map[string]string    `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceAddIPInputModel defines model for VMInstanceAddIPInputModel.
 type VMInstanceAddIPInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceChangeDiskInputModel defines model for VMInstanceChangeDiskInputModel.
 type VMInstanceChangeDiskInputModel struct {
-	AutoExtend  *bool              `json:"auto_extend,omitempty"`
-	DiskSizeGb  *int               `json:"disk_size_gb,omitempty"`
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	AutoExtend    *bool              `json:"auto_extend,omitempty"`
+	DiskSizeGb    int                `json:"disk_size_gb"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceDeleteDiskInputModel defines model for VMInstanceDeleteDiskInputModel.
 type VMInstanceDeleteDiskInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceDeleteIPInputModel defines model for VMInstanceDeleteIPInputModel.
 type VMInstanceDeleteIPInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceDeleteInputModel defines model for VMInstanceDeleteInputModel.
 type VMInstanceDeleteInputModel struct {
 	DeleteInstantly *bool               `json:"delete_instantly,omitempty"`
-	ExecutionTime   *openapi_types.Date `json:"execution_time,omitempty"`
+	EntityLabels    *map[string]string  `json:"entity_labels,omitempty"`
+	ExecutionDate   *openapi_types.Date `json:"execution_date,omitempty"`
 	OrderNumber     string              `json:"order_number"`
+	ProjectLabels   *map[string]string  `json:"project_labels,omitempty"`
 	ProjectUuid     openapi_types.UUID  `json:"project_uuid"`
 	Tenant          string              `json:"tenant"`
+	TenantLabels    *map[string]string  `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceDeleteSnapshotInputModel defines model for VMInstanceDeleteSnapshotInputModel.
 type VMInstanceDeleteSnapshotInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+}
+
+// VMInstanceGetDatacentersResponeModel defines model for VMInstanceGetDatacentersResponeModel.
+type VMInstanceGetDatacentersResponeModel struct {
+	Datacenters []NucleusDBDatacenters `json:"datacenters"`
 }
 
 // VMInstanceGetDisksResponseModel defines model for VMInstanceGetDisksResponseModel.
@@ -921,21 +808,20 @@ type VMInstanceLinuxCreateInputModel struct {
 	ContactUuid      openapi_types.UUID                          `json:"contact_uuid"`
 	Contract         *bool                                       `json:"contract,omitempty"`
 	Cpu              int                                         `json:"cpu"`
+	DatacenterUuid   openapi_types.UUID                          `json:"datacenter_uuid"`
 	Disks            []DiskLinuxInputModel                       `json:"disks"`
 	Encrypted        bool                                        `json:"encrypted"`
-	EntityLabels     *map[string]interface{}                     `json:"entity_labels,omitempty"`
+	EntityLabels     *map[string]string                          `json:"entity_labels,omitempty"`
 	LdapUuid         openapi_types.UUID                          `json:"ldap_uuid"`
-	LocationUuid     openapi_types.UUID                          `json:"location_uuid"`
 	Name             *string                                     `json:"name,omitempty"`
 	OrderNumber      string                                      `json:"order_number"`
 	OsUuid           openapi_types.UUID                          `json:"os_uuid"`
-	ProjectLabels    *map[string]interface{}                     `json:"project_labels,omitempty"`
+	ProjectLabels    *map[string]string                          `json:"project_labels,omitempty"`
 	ProjectUuid      openapi_types.UUID                          `json:"project_uuid"`
 	Ram              int                                         `json:"ram"`
 	Serviceclass     VMInstanceLinuxCreateInputModelServiceclass `json:"serviceclass"`
-	Storageclass     VMInstanceLinuxCreateInputModelStorageclass `json:"storageclass"`
 	Tenant           string                                      `json:"tenant"`
-	TenantLabels     *map[string]interface{}                     `json:"tenant_labels,omitempty"`
+	TenantLabels     *map[string]string                          `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                          `json:"vlan_uuid"`
 }
 
@@ -945,87 +831,94 @@ type VMInstanceLinuxCreateInputModelAvailability string
 // VMInstanceLinuxCreateInputModelServiceclass defines model for VMInstanceLinuxCreateInputModel.Serviceclass.
 type VMInstanceLinuxCreateInputModelServiceclass string
 
-// VMInstanceLinuxCreateInputModelStorageclass defines model for VMInstanceLinuxCreateInputModel.Storageclass.
-type VMInstanceLinuxCreateInputModelStorageclass string
-
 // VMInstanceReinstallInputModel defines model for VMInstanceReinstallInputModel.
 type VMInstanceReinstallInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceRestartInputModel defines model for VMInstanceRestartInputModel.
 type VMInstanceRestartInputModel struct {
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceSnapshotCreateInputModel defines model for VMInstanceSnapshotCreateInputModel.
 type VMInstanceSnapshotCreateInputModel struct {
-	OrderNumber  string             `json:"order_number"`
-	ProjectUuid  openapi_types.UUID `json:"project_uuid"`
-	SnapshotName string             `json:"snapshot_name"`
-	Tenant       string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	SnapshotName  string             `json:"snapshot_name"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdateContactInputModel defines model for VMInstanceUpdateContactInputModel.
 type VMInstanceUpdateContactInputModel struct {
-	ContactUuid openapi_types.UUID `json:"contact_uuid"`
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Tenant      string             `json:"tenant"`
+	ContactUuid   openapi_types.UUID `json:"contact_uuid"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdateIPInputModel defines model for VMInstanceUpdateIPInputModel.
 type VMInstanceUpdateIPInputModel struct {
-	OrderNumber  string             `json:"order_number"`
-	ProjectUuid  openapi_types.UUID `json:"project_uuid"`
-	TargetVmUuid openapi_types.UUID `json:"target_vm_uuid"`
-	Tenant       string             `json:"tenant"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	TargetVmUuid  openapi_types.UUID `json:"target_vm_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdateLabelsInputModel defines model for VMInstanceUpdateLabelsInputModel.
 type VMInstanceUpdateLabelsInputModel struct {
-	EntityLabels  *map[string]interface{} `json:"entity_labels,omitempty"`
-	OrderNumber   string                  `json:"order_number"`
-	ProjectLabels *map[string]interface{} `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID      `json:"project_uuid"`
-	Tenant        string                  `json:"tenant"`
-	TenantLabels  *map[string]interface{} `json:"tenant_labels,omitempty"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdatePerformanceClassInputModel defines model for VMInstanceUpdatePerformanceClassInputModel.
 type VMInstanceUpdatePerformanceClassInputModel struct {
-	Cpu         int                `json:"cpu"`
-	OrderNumber string             `json:"order_number"`
-	ProjectUuid openapi_types.UUID `json:"project_uuid"`
-	Ram         int                `json:"ram"`
-	Tenant      string             `json:"tenant"`
+	Cpu           int                `json:"cpu"`
+	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber   string             `json:"order_number"`
+	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
+	Ram           int                `json:"ram"`
+	Tenant        string             `json:"tenant"`
+	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdateServiceClassInputModel defines model for VMInstanceUpdateServiceClassInputModel.
 type VMInstanceUpdateServiceClassInputModel struct {
-	OrderNumber  string                                             `json:"order_number"`
-	ProjectUuid  openapi_types.UUID                                 `json:"project_uuid"`
-	Serviceclass VMInstanceUpdateServiceClassInputModelServiceclass `json:"serviceclass"`
-	Tenant       string                                             `json:"tenant"`
+	EntityLabels  *map[string]string                                 `json:"entity_labels,omitempty"`
+	OrderNumber   string                                             `json:"order_number"`
+	ProjectLabels *map[string]string                                 `json:"project_labels,omitempty"`
+	ProjectUuid   openapi_types.UUID                                 `json:"project_uuid"`
+	Serviceclass  VMInstanceUpdateServiceClassInputModelServiceclass `json:"serviceclass"`
+	Tenant        string                                             `json:"tenant"`
+	TenantLabels  *map[string]string                                 `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceUpdateServiceClassInputModelServiceclass defines model for VMInstanceUpdateServiceClassInputModel.Serviceclass.
 type VMInstanceUpdateServiceClassInputModelServiceclass string
-
-// VMInstanceUpdateStorageClassInputModel defines model for VMInstanceUpdateStorageClassInputModel.
-type VMInstanceUpdateStorageClassInputModel struct {
-	OrderNumber  string                                             `json:"order_number"`
-	ProjectUuid  openapi_types.UUID                                 `json:"project_uuid"`
-	Storageclass VMInstanceUpdateStorageClassInputModelStorageclass `json:"storageclass"`
-	Tenant       string                                             `json:"tenant"`
-}
-
-// VMInstanceUpdateStorageClassInputModelStorageclass defines model for VMInstanceUpdateStorageClassInputModel.Storageclass.
-type VMInstanceUpdateStorageClassInputModelStorageclass string
 
 // VMInstanceWindowsCreateInputModel defines model for VMInstanceWindowsCreateInputModel.
 type VMInstanceWindowsCreateInputModel struct {
@@ -1036,21 +929,20 @@ type VMInstanceWindowsCreateInputModel struct {
 	ContactUuid      openapi_types.UUID                            `json:"contact_uuid"`
 	Contract         *bool                                         `json:"contract,omitempty"`
 	Cpu              int                                           `json:"cpu"`
+	DatacenterUuid   openapi_types.UUID                            `json:"datacenter_uuid"`
 	Disks            []DiskWindowsInputModel                       `json:"disks"`
 	DomainUuid       openapi_types.UUID                            `json:"domain_uuid"`
 	Encrypted        bool                                          `json:"encrypted"`
-	EntityLabels     *map[string]interface{}                       `json:"entity_labels,omitempty"`
-	LocationUuid     openapi_types.UUID                            `json:"location_uuid"`
+	EntityLabels     *map[string]string                            `json:"entity_labels,omitempty"`
 	Name             *string                                       `json:"name,omitempty"`
 	OrderNumber      string                                        `json:"order_number"`
 	OsUuid           openapi_types.UUID                            `json:"os_uuid"`
-	ProjectLabels    *map[string]interface{}                       `json:"project_labels,omitempty"`
+	ProjectLabels    *map[string]string                            `json:"project_labels,omitempty"`
 	ProjectUuid      openapi_types.UUID                            `json:"project_uuid"`
 	Ram              int                                           `json:"ram"`
 	Serviceclass     VMInstanceWindowsCreateInputModelServiceclass `json:"serviceclass"`
-	Storageclass     VMInstanceWindowsCreateInputModelStorageclass `json:"storageclass"`
 	Tenant           string                                        `json:"tenant"`
-	TenantLabels     *map[string]interface{}                       `json:"tenant_labels,omitempty"`
+	TenantLabels     *map[string]string                            `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                            `json:"vlan_uuid"`
 }
 
@@ -1059,9 +951,6 @@ type VMInstanceWindowsCreateInputModelAvailability string
 
 // VMInstanceWindowsCreateInputModelServiceclass defines model for VMInstanceWindowsCreateInputModel.Serviceclass.
 type VMInstanceWindowsCreateInputModelServiceclass string
-
-// VMInstanceWindowsCreateInputModelStorageclass defines model for VMInstanceWindowsCreateInputModel.Storageclass.
-type VMInstanceWindowsCreateInputModelStorageclass string
 
 // ValidationError defines model for ValidationError.
 type ValidationError struct {
@@ -1138,6 +1027,12 @@ type KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams str
 // KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams defines parameters for KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost.
 type KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams struct {
 	XOriginalToken string `json:"x-original-token"`
+}
+
+// VmDatacenterGetApiV1MvmDatacenterGetParams defines parameters for VmDatacenterGetApiV1MvmDatacenterGet.
+type VmDatacenterGetApiV1MvmDatacenterGetParams struct {
+	DatacenterUuid *openapi_types.UUID `form:"datacenter_uuid,omitempty" json:"datacenter_uuid,omitempty"`
+	XOriginalToken string              `json:"x-original-token"`
 }
 
 // VmDiskGetApiV1MvmDiskGetParams defines parameters for VmDiskGetApiV1MvmDiskGet.
@@ -1343,16 +1238,6 @@ type VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapsho
 	XOriginalToken string `json:"x-original-token"`
 }
 
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams defines parameters for VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut.
-type VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams defines parameters for VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost.
-type VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
 // VmInterfaceGetApiV1MvmInterfaceGetParams defines parameters for VmInterfaceGetApiV1MvmInterfaceGet.
 type VmInterfaceGetApiV1MvmInterfaceGetParams struct {
 	InterfaceUuid  *openapi_types.UUID `form:"interface_uuid,omitempty" json:"interface_uuid,omitempty"`
@@ -1361,7 +1246,13 @@ type VmInterfaceGetApiV1MvmInterfaceGetParams struct {
 
 // VmLocationGetApiV1MvmLocationGetParams defines parameters for VmLocationGetApiV1MvmLocationGet.
 type VmLocationGetApiV1MvmLocationGetParams struct {
-	Tenant string `form:"tenant" json:"tenant"`
+	Tenant         string `form:"tenant" json:"tenant"`
+	XOriginalToken string `json:"x-original-token"`
+}
+
+// VmOsGetApiV1MvmOsGetParams defines parameters for VmOsGetApiV1MvmOsGet.
+type VmOsGetApiV1MvmOsGetParams struct {
+	XOriginalToken string `json:"x-original-token"`
 }
 
 // VmSnapshotGetApiV1MvmSnapshotGetParams defines parameters for VmSnapshotGetApiV1MvmSnapshotGet.
@@ -1377,8 +1268,9 @@ type VmStagetypeGetApiV1MvmStagetypeGetParams struct {
 
 // VmVlanGetApiV1MvmVlanGetParams defines parameters for VmVlanGetApiV1MvmVlanGet.
 type VmVlanGetApiV1MvmVlanGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
+	Tenant         string             `form:"tenant" json:"tenant"`
+	DatacenterUuid openapi_types.UUID `form:"datacenter_uuid" json:"datacenter_uuid"`
+	XOriginalToken string             `json:"x-original-token"`
 }
 
 // TenantContactGetApiV1TenantContactGetParams defines parameters for TenantContactGetApiV1TenantContactGet.
@@ -1409,14 +1301,24 @@ type TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidateP
 
 // TenantDomainGetApiV1TenantDomainGetParams defines parameters for TenantDomainGetApiV1TenantDomainGet.
 type TenantDomainGetApiV1TenantDomainGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
+	Tenant         string              `form:"tenant" json:"tenant"`
+	DomainUuid     *openapi_types.UUID `form:"domain_uuid,omitempty" json:"domain_uuid,omitempty"`
+	DatacenterUuid *openapi_types.UUID `form:"datacenter_uuid,omitempty" json:"datacenter_uuid,omitempty"`
+	XOriginalToken string              `json:"x-original-token"`
 }
 
 // TenantLdapGetApiV1TenantLdapGetParams defines parameters for TenantLdapGetApiV1TenantLdapGet.
 type TenantLdapGetApiV1TenantLdapGetParams struct {
 	Tenant         string `form:"tenant" json:"tenant"`
 	XOriginalToken string `json:"x-original-token"`
+}
+
+// TenantOperationsGetApiV1TenantOperationsGetParams defines parameters for TenantOperationsGetApiV1TenantOperationsGet.
+type TenantOperationsGetApiV1TenantOperationsGetParams struct {
+	Tenant          string              `form:"tenant" json:"tenant"`
+	ItemUuid        *openapi_types.UUID `form:"item_uuid,omitempty" json:"item_uuid,omitempty"`
+	OperationStatus *string             `form:"operation_status,omitempty" json:"operation_status,omitempty"`
+	XOriginalToken  string              `json:"x-original-token"`
 }
 
 // ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody defines body for ContainerInstancePostApiV1ContainerInstancePost for application/json ContentType.
@@ -1559,12 +1461,6 @@ type VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDel
 
 // VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody defines body for VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost for application/json ContentType.
 type VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody = VMInstanceDeleteSnapshotInputModel
-
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody defines body for VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut for application/json ContentType.
-type VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody = VMInstanceUpdateStorageClassInputModel
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody defines body for VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost for application/json ContentType.
-type VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody = VMInstanceUpdateStorageClassInputModel
 
 // TenantContactPostApiV1TenantContactPostJSONRequestBody defines body for TenantContactPostApiV1TenantContactPost for application/json ContentType.
 type TenantContactPostApiV1TenantContactPostJSONRequestBody = TenantContactCreateInputModel
@@ -2032,6 +1928,13 @@ type ClientInterface interface {
 	// Corresponds with POST /api/v1/login/test-token (the `TestTokenApiV1LoginTestTokenPost` operationId).
 	TestTokenApiV1LoginTestTokenPost(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// VmDatacenterGetApiV1MvmDatacenterGet Vm Datacenter Get
+	//
+	// Listet alle verfügbaren Datacenters.
+	//
+	// Corresponds with GET /api/v1/mvm/datacenter (the `VmDatacenterGetApiV1MvmDatacenterGet` operationId).
+	VmDatacenterGetApiV1MvmDatacenterGet(ctx context.Context, params *VmDatacenterGetApiV1MvmDatacenterGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// VmDiskGetApiV1MvmDiskGet Vm Disk Get
 	//
 	// Listet alle Disks.
@@ -2138,7 +2041,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody Vm Instance Linux Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Linux Instanz Reinstall Request.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -2147,7 +2050,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost Vm Instance Linux Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Linux Instanz Reinstall Request.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -2590,7 +2493,7 @@ type ClientInterface interface {
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody Vm Instance Restart Post
 	//
-	// Instanz neu starten.
+	// Neustart einer Instanz.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -2599,7 +2502,7 @@ type ClientInterface interface {
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost Vm Instance Restart Post
 	//
-	// Instanz neu starten.
+	// Neustart einer Instanz.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -2698,7 +2601,7 @@ type ClientInterface interface {
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody Vm Instance Snapshot Delete
 	//
-	// Löscht einen Snapshot einer Instanz.
+	// Löschung eines Snapshots einer Instanz.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -2707,7 +2610,7 @@ type ClientInterface interface {
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete Vm Instance Snapshot Delete
 	//
-	// Löscht einen Snapshot einer Instanz.
+	// Löschung eines Snapshots einer Instanz.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -2716,7 +2619,7 @@ type ClientInterface interface {
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody Vm Instance Snapshot Delete Validate
 	//
-	// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+	// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -2725,48 +2628,12 @@ type ClientInterface interface {
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost Vm Instance Snapshot Delete Validate
 	//
-	// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+	// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 	//
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
 	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBody Vm Instance Storageclass Put
-	//
-	// Änderung der Storageklasse.
-	//
-	// Takes any type of body and a specified content type.
-	//
-	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-	VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut Vm Instance Storageclass Put
-	//
-	// Änderung der Storageklasse.
-	//
-	// Takes a body of the `application/json` content type.
-	//
-	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-	VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, body VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBody Vm Instance Storageclass Update Validate
-	//
-	// Validierung eines Requests zur Änderung der Storageklasse.
-	//
-	// Takes any type of body and a specified content type.
-	//
-	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-	VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost Vm Instance Storageclass Update Validate
-	//
-	// Validierung eines Requests zur Änderung der Storageklasse.
-	//
-	// Takes a body of the `application/json` content type.
-	//
-	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-	VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, body VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInterfaceGetApiV1MvmInterfaceGet Vm Interface Get
 	//
@@ -2787,7 +2654,7 @@ type ClientInterface interface {
 	// Listet alle verfügbaren VM OSs.
 	//
 	// Corresponds with GET /api/v1/mvm/os (the `VmOsGetApiV1MvmOsGet` operationId).
-	VmOsGetApiV1MvmOsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmOsGetApiV1MvmOsGet(ctx context.Context, params *VmOsGetApiV1MvmOsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmSnapshotGetApiV1MvmSnapshotGet Vm Snapshot Get
 	//
@@ -2903,10 +2770,31 @@ type ClientInterface interface {
 	// Corresponds with GET /api/v1/tenant/ldap (the `TenantLdapGetApiV1TenantLdapGet` operationId).
 	TenantLdapGetApiV1TenantLdapGet(ctx context.Context, params *TenantLdapGetApiV1TenantLdapGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// TenantOperationsGetApiV1TenantOperationsGet Tenant Operations Get
+	//
+	// Listet alle Operations eines Tenants.
+	//
+	// Corresponds with GET /api/v1/tenant/operations (the `TenantOperationsGetApiV1TenantOperationsGet` operationId).
+	TenantOperationsGetApiV1TenantOperationsGet(ctx context.Context, params *TenantOperationsGetApiV1TenantOperationsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UtilsHealthCheckApiV1UtilsHealthCheckGet Utils Health Check
+	//
+	// Execute database lookup and AWX trigger to check health of participating systems.
+	//
+	// Corresponds with GET /api/v1/utils/health-check/ (the `UtilsHealthCheckApiV1UtilsHealthCheckGet` operationId).
+	UtilsHealthCheckApiV1UtilsHealthCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// UtilsReadinessCheckApiV1UtilsReadinessCheckGet Utils Readiness Check
 	//
 	// Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 	UtilsReadinessCheckApiV1UtilsReadinessCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ReadRootCreatevmGet Read Root
+	//
+	// Welcome page.
+	//
+	// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
+	ReadRootCreatevmGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 // ReadRootGet Read Root
@@ -3323,6 +3211,23 @@ func (c *Client) TestTokenApiV1LoginTestTokenPost(ctx context.Context, reqEditor
 	return c.Client.Do(req)
 }
 
+// VmDatacenterGetApiV1MvmDatacenterGet Vm Datacenter Get
+//
+// Listet alle verfügbaren Datacenters.
+//
+// Corresponds with GET /api/v1/mvm/datacenter (the `VmDatacenterGetApiV1MvmDatacenterGet` operationId).
+func (c *Client) VmDatacenterGetApiV1MvmDatacenterGet(ctx context.Context, params *VmDatacenterGetApiV1MvmDatacenterGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmDatacenterGetApiV1MvmDatacenterGetRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // VmDiskGetApiV1MvmDiskGet Vm Disk Get
 //
 // Listet alle Disks.
@@ -3549,7 +3454,7 @@ func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidRe
 
 // VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody Vm Instance Linux Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Linux Instanz Reinstall Request.
 //
 // Takes any type of body and a specified content type.
 //
@@ -3568,7 +3473,7 @@ func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstan
 
 // VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost Vm Instance Linux Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Linux Instanz Reinstall Request.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -4501,7 +4406,7 @@ func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceIns
 
 // VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody Vm Instance Restart Post
 //
-// Instanz neu starten.
+// Neustart einer Instanz.
 //
 // Takes any type of body and a specified content type.
 //
@@ -4520,7 +4425,7 @@ func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWit
 
 // VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost Vm Instance Restart Post
 //
-// Instanz neu starten.
+// Neustart einer Instanz.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -4729,7 +4634,7 @@ func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSna
 
 // VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody Vm Instance Snapshot Delete
 //
-// Löscht einen Snapshot einer Instanz.
+// Löschung eines Snapshots einer Instanz.
 //
 // Takes any type of body and a specified content type.
 //
@@ -4748,7 +4653,7 @@ func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSna
 
 // VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete Vm Instance Snapshot Delete
 //
-// Löscht einen Snapshot einer Instanz.
+// Löschung eines Snapshots einer Instanz.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -4767,7 +4672,7 @@ func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSna
 
 // VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody Vm Instance Snapshot Delete Validate
 //
-// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 //
 // Takes any type of body and a specified content type.
 //
@@ -4786,89 +4691,13 @@ func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSna
 
 // VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost Vm Instance Snapshot Delete Validate
 //
-// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 //
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
 func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest(c.Server, instanceUuid, snapshotUuid, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBody Vm Instance Storageclass Put
-//
-// Änderung der Storageklasse.
-//
-// Takes any type of body and a specified content type.
-//
-// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-func (c *Client) VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequestWithBody(c.Server, instanceUuid, params, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut Vm Instance Storageclass Put
-//
-// Änderung der Storageklasse.
-//
-// Takes a body of the `application/json` content type.
-//
-// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-func (c *Client) VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, body VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequest(c.Server, instanceUuid, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBody Vm Instance Storageclass Update Validate
-//
-// Validierung eines Requests zur Änderung der Storageklasse.
-//
-// Takes any type of body and a specified content type.
-//
-// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-func (c *Client) VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost Vm Instance Storageclass Update Validate
-//
-// Validierung eines Requests zur Änderung der Storageklasse.
-//
-// Takes a body of the `application/json` content type.
-//
-// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-func (c *Client) VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, body VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequest(c.Server, instanceUuid, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4918,8 +4747,8 @@ func (c *Client) VmLocationGetApiV1MvmLocationGet(ctx context.Context, params *V
 // Listet alle verfügbaren VM OSs.
 //
 // Corresponds with GET /api/v1/mvm/os (the `VmOsGetApiV1MvmOsGet` operationId).
-func (c *Client) VmOsGetApiV1MvmOsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmOsGetApiV1MvmOsGetRequest(c.Server)
+func (c *Client) VmOsGetApiV1MvmOsGet(ctx context.Context, params *VmOsGetApiV1MvmOsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmOsGetApiV1MvmOsGetRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -5184,11 +5013,62 @@ func (c *Client) TenantLdapGetApiV1TenantLdapGet(ctx context.Context, params *Te
 	return c.Client.Do(req)
 }
 
+// TenantOperationsGetApiV1TenantOperationsGet Tenant Operations Get
+//
+// Listet alle Operations eines Tenants.
+//
+// Corresponds with GET /api/v1/tenant/operations (the `TenantOperationsGetApiV1TenantOperationsGet` operationId).
+func (c *Client) TenantOperationsGetApiV1TenantOperationsGet(ctx context.Context, params *TenantOperationsGetApiV1TenantOperationsGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantOperationsGetApiV1TenantOperationsGetRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// UtilsHealthCheckApiV1UtilsHealthCheckGet Utils Health Check
+//
+// Execute database lookup and AWX trigger to check health of participating systems.
+//
+// Corresponds with GET /api/v1/utils/health-check/ (the `UtilsHealthCheckApiV1UtilsHealthCheckGet` operationId).
+func (c *Client) UtilsHealthCheckApiV1UtilsHealthCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUtilsHealthCheckApiV1UtilsHealthCheckGetRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // UtilsReadinessCheckApiV1UtilsReadinessCheckGet Utils Readiness Check
 //
 // Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 func (c *Client) UtilsReadinessCheckApiV1UtilsReadinessCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// ReadRootCreatevmGet Read Root
+//
+// Welcome page.
+//
+// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
+func (c *Client) ReadRootCreatevmGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewReadRootCreatevmGetRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -5890,6 +5770,73 @@ func NewTestTokenApiV1LoginTestTokenPostRequest(server string) (*http.Request, e
 	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewVmDatacenterGetApiV1MvmDatacenterGetRequest constructs an http.Request for the VmDatacenterGetApiV1MvmDatacenterGet method
+func NewVmDatacenterGetApiV1MvmDatacenterGetRequest(server string, params *VmDatacenterGetApiV1MvmDatacenterGetParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/mvm/datacenter")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.DatacenterUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "datacenter_uuid", *params.DatacenterUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("x-original-token", headerParam0)
+
 	}
 
 	return req, nil
@@ -8359,126 +8306,6 @@ func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnap
 	return req, nil
 }
 
-// NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequest calls the generic VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut builder with application/json body
-func NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, body VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
-}
-
-// NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequestWithBody constructs an http.Request for the VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut method, with any body, and a specified content type
-func NewVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "instance_uuid", instanceUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/%s/storageclass", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
-	return req, nil
-}
-
-// NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequest calls the generic VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost builder with application/json body
-func NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, body VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
-}
-
-// NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "instance_uuid", instanceUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/%s/storageclass/update/validate", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
-	return req, nil
-}
-
 // NewVmInterfaceGetApiV1MvmInterfaceGetRequest constructs an http.Request for the VmInterfaceGetApiV1MvmInterfaceGet method
 func NewVmInterfaceGetApiV1MvmInterfaceGetRequest(server string, params *VmInterfaceGetApiV1MvmInterfaceGetParams) (*http.Request, error) {
 	var err error
@@ -8593,11 +8420,24 @@ func NewVmLocationGetApiV1MvmLocationGetRequest(server string, params *VmLocatio
 		return nil, err
 	}
 
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("x-original-token", headerParam0)
+
+	}
+
 	return req, nil
 }
 
 // NewVmOsGetApiV1MvmOsGetRequest constructs an http.Request for the VmOsGetApiV1MvmOsGet method
-func NewVmOsGetApiV1MvmOsGetRequest(server string) (*http.Request, error) {
+func NewVmOsGetApiV1MvmOsGetRequest(server string, params *VmOsGetApiV1MvmOsGetParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -8618,6 +8458,19 @@ func NewVmOsGetApiV1MvmOsGetRequest(server string) (*http.Request, error) {
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("x-original-token", headerParam0)
+
 	}
 
 	return req, nil
@@ -8759,6 +8612,14 @@ func NewVmVlanGetApiV1MvmVlanGetRequest(server string, params *VmVlanGetApiV1Mvm
 		var rawQueryFragments []string
 
 		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "tenant", params.Tenant, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "datacenter_uuid", params.DatacenterUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
 			return nil, err
 		} else {
 			for _, qp := range strings.Split(queryFrag, "&") {
@@ -9118,6 +8979,30 @@ func NewTenantDomainGetApiV1TenantDomainGetRequest(server string, params *Tenant
 			}
 		}
 
+		if params.DomainUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "domain_uuid", *params.DomainUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.DatacenterUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "datacenter_uuid", *params.DatacenterUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -9208,6 +9093,120 @@ func NewTenantLdapGetApiV1TenantLdapGetRequest(server string, params *TenantLdap
 	return req, nil
 }
 
+// NewTenantOperationsGetApiV1TenantOperationsGetRequest constructs an http.Request for the TenantOperationsGetApiV1TenantOperationsGet method
+func NewTenantOperationsGetApiV1TenantOperationsGetRequest(server string, params *TenantOperationsGetApiV1TenantOperationsGetParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/tenant/operations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "tenant", params.Tenant, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if params.ItemUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "item_uuid", *params.ItemUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.OperationStatus != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "operation_status", *params.OperationStatus, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+
+		var headerParam0 string
+
+		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("x-original-token", headerParam0)
+
+	}
+
+	return req, nil
+}
+
+// NewUtilsHealthCheckApiV1UtilsHealthCheckGetRequest constructs an http.Request for the UtilsHealthCheckApiV1UtilsHealthCheckGet method
+func NewUtilsHealthCheckApiV1UtilsHealthCheckGetRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/utils/health-check/")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest constructs an http.Request for the UtilsReadinessCheckApiV1UtilsReadinessCheckGet method
 func NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest(server string) (*http.Request, error) {
 	var err error
@@ -9218,6 +9217,33 @@ func NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest(server string) (*h
 	}
 
 	operationPath := fmt.Sprintf("/api/v1/utils/readiness-check/")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewReadRootCreatevmGetRequest constructs an http.Request for the ReadRootCreatevmGet method
+func NewReadRootCreatevmGetRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/createvm")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -9481,6 +9507,15 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /api/v1/login/test-token (the `TestTokenApiV1LoginTestTokenPost` operationId).
 	TestTokenApiV1LoginTestTokenPostWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TestTokenApiV1LoginTestTokenPostResponse, error)
 
+	// VmDatacenterGetApiV1MvmDatacenterGetWithResponse Vm Datacenter Get
+	//
+	// Listet alle verfügbaren Datacenters.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /api/v1/mvm/datacenter (the `VmDatacenterGetApiV1MvmDatacenterGet` operationId).
+	VmDatacenterGetApiV1MvmDatacenterGetWithResponse(ctx context.Context, params *VmDatacenterGetApiV1MvmDatacenterGetParams, reqEditors ...RequestEditorFn) (*VmDatacenterGetApiV1MvmDatacenterGetResponse, error)
+
 	// VmDiskGetApiV1MvmDiskGetWithResponse Vm Disk Get
 	//
 	// Listet alle Disks.
@@ -9591,7 +9626,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Linux Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Linux Instanz Reinstall Request.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -9600,7 +9635,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse Vm Instance Linux Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Linux Instanz Reinstall Request.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10043,7 +10078,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse Vm Instance Restart Post
 	//
-	// Instanz neu starten.
+	// Neustart einer Instanz.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10052,7 +10087,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse Vm Instance Restart Post
 	//
-	// Instanz neu starten.
+	// Neustart einer Instanz.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10151,7 +10186,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse Vm Instance Snapshot Delete
 	//
-	// Löscht einen Snapshot einer Instanz.
+	// Löschung eines Snapshots einer Instanz.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10160,7 +10195,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse Vm Instance Snapshot Delete
 	//
-	// Löscht einen Snapshot einer Instanz.
+	// Löschung eines Snapshots einer Instanz.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10169,7 +10204,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse Vm Instance Snapshot Delete Validate
 	//
-	// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+	// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -10178,48 +10213,12 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse Vm Instance Snapshot Delete Validate
 	//
-	// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+	// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
 	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error)
-
-	// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBodyWithResponse Vm Instance Storageclass Put
-	//
-	// Änderung der Storageklasse.
-	//
-	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
-	//
-	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-	VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse, error)
-
-	// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithResponse Vm Instance Storageclass Put
-	//
-	// Änderung der Storageklasse.
-	//
-	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
-	//
-	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-	VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, body VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse, error)
-
-	// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBodyWithResponse Vm Instance Storageclass Update Validate
-	//
-	// Validierung eines Requests zur Änderung der Storageklasse.
-	//
-	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
-	//
-	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-	VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse, error)
-
-	// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithResponse Vm Instance Storageclass Update Validate
-	//
-	// Validierung eines Requests zur Änderung der Storageklasse.
-	//
-	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
-	//
-	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-	VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, body VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse, error)
 
 	// VmInterfaceGetApiV1MvmInterfaceGetWithResponse Vm Interface Get
 	//
@@ -10246,7 +10245,7 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /api/v1/mvm/os (the `VmOsGetApiV1MvmOsGet` operationId).
-	VmOsGetApiV1MvmOsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmOsGetApiV1MvmOsGetResponse, error)
+	VmOsGetApiV1MvmOsGetWithResponse(ctx context.Context, params *VmOsGetApiV1MvmOsGetParams, reqEditors ...RequestEditorFn) (*VmOsGetApiV1MvmOsGetResponse, error)
 
 	// VmSnapshotGetApiV1MvmSnapshotGetWithResponse Vm Snapshot Get
 	//
@@ -10374,12 +10373,39 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /api/v1/tenant/ldap (the `TenantLdapGetApiV1TenantLdapGet` operationId).
 	TenantLdapGetApiV1TenantLdapGetWithResponse(ctx context.Context, params *TenantLdapGetApiV1TenantLdapGetParams, reqEditors ...RequestEditorFn) (*TenantLdapGetApiV1TenantLdapGetResponse, error)
 
+	// TenantOperationsGetApiV1TenantOperationsGetWithResponse Tenant Operations Get
+	//
+	// Listet alle Operations eines Tenants.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /api/v1/tenant/operations (the `TenantOperationsGetApiV1TenantOperationsGet` operationId).
+	TenantOperationsGetApiV1TenantOperationsGetWithResponse(ctx context.Context, params *TenantOperationsGetApiV1TenantOperationsGetParams, reqEditors ...RequestEditorFn) (*TenantOperationsGetApiV1TenantOperationsGetResponse, error)
+
+	// UtilsHealthCheckApiV1UtilsHealthCheckGetWithResponse Utils Health Check
+	//
+	// Execute database lookup and AWX trigger to check health of participating systems.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /api/v1/utils/health-check/ (the `UtilsHealthCheckApiV1UtilsHealthCheckGet` operationId).
+	UtilsHealthCheckApiV1UtilsHealthCheckGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilsHealthCheckApiV1UtilsHealthCheckGetResponse, error)
+
 	// UtilsReadinessCheckApiV1UtilsReadinessCheckGetWithResponse Utils Readiness Check
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 	UtilsReadinessCheckApiV1UtilsReadinessCheckGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse, error)
+
+	// ReadRootCreatevmGetWithResponse Read Root
+	//
+	// Welcome page.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
+	ReadRootCreatevmGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ReadRootCreatevmGetResponse, error)
 }
 
 type ReadRootGetResponse struct {
@@ -10979,6 +11005,54 @@ func (r TestTokenApiV1LoginTestTokenPostResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r TestTokenApiV1LoginTestTokenPostResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type VmDatacenterGetApiV1MvmDatacenterGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *VMInstanceGetDatacentersResponeModel
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *HTTPValidationError
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) GetJSON200() *VMInstanceGetDatacentersResponeModel {
+	return r.JSON200
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) GetJSON422() *HTTPValidationError {
+	return r.JSON422
+}
+
+// GetBody returns the raw response body bytes
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -12905,102 +12979,6 @@ func (r VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnap
 	return ""
 }
 
-type VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	// JSON200 the response for an HTTP 200 `application/json` response
-	JSON200 *GenericRequestResponseModel
-	// JSON422 the response for an HTTP 422 `application/json` response
-	JSON422 *HTTPValidationError
-}
-
-// GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) GetJSON200() *GenericRequestResponseModel {
-	return r.JSON200
-}
-
-// GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) GetJSON422() *HTTPValidationError {
-	return r.JSON422
-}
-
-// GetBody returns the raw response body bytes
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) GetBody() []byte {
-	return r.Body
-}
-
-// Status returns HTTPResponse.Status
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
-type VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	// JSON200 the response for an HTTP 200 `application/json` response
-	JSON200 *ValidationSuccessResponseModel
-	// JSON422 the response for an HTTP 422 `application/json` response
-	JSON422 *HTTPValidationError
-}
-
-// GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) GetJSON200() *ValidationSuccessResponseModel {
-	return r.JSON200
-}
-
-// GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) GetJSON422() *HTTPValidationError {
-	return r.JSON422
-}
-
-// GetBody returns the raw response body bytes
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) GetBody() []byte {
-	return r.Body
-}
-
-// Status returns HTTPResponse.Status
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
 type VmInterfaceGetApiV1MvmInterfaceGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -13102,11 +13080,18 @@ type VmOsGetApiV1MvmOsGetResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *VMInstanceGetOSSResponseModel
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *HTTPValidationError
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r VmOsGetApiV1MvmOsGetResponse) GetJSON200() *VMInstanceGetOSSResponseModel {
 	return r.JSON200
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r VmOsGetApiV1MvmOsGetResponse) GetJSON422() *HTTPValidationError {
+	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
@@ -13618,6 +13603,95 @@ func (r TenantLdapGetApiV1TenantLdapGetResponse) ContentType() string {
 	return ""
 }
 
+type TenantOperationsGetApiV1TenantOperationsGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *TenantGetOperationsResponseModel
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *HTTPValidationError
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) GetJSON200() *TenantGetOperationsResponseModel {
+	return r.JSON200
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) GetJSON422() *HTTPValidationError {
+	return r.JSON422
+}
+
+// GetBody returns the raw response body bytes
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r TenantOperationsGetApiV1TenantOperationsGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type UtilsHealthCheckApiV1UtilsHealthCheckGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *bool
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r UtilsHealthCheckApiV1UtilsHealthCheckGetResponse) GetJSON200() *bool {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r UtilsHealthCheckApiV1UtilsHealthCheckGetResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r UtilsHealthCheckApiV1UtilsHealthCheckGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UtilsHealthCheckApiV1UtilsHealthCheckGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UtilsHealthCheckApiV1UtilsHealthCheckGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -13653,6 +13727,40 @@ func (r UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse) StatusCode() int
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type ReadRootCreatevmGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r ReadRootCreatevmGetResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r ReadRootCreatevmGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ReadRootCreatevmGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r ReadRootCreatevmGetResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -13993,6 +14101,21 @@ func (c *ClientWithResponses) TestTokenApiV1LoginTestTokenPostWithResponse(ctx c
 	return ParseTestTokenApiV1LoginTestTokenPostResponse(rsp)
 }
 
+// VmDatacenterGetApiV1MvmDatacenterGetWithResponse Vm Datacenter Get
+//
+// Listet alle verfügbaren Datacenters.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /api/v1/mvm/datacenter (the `VmDatacenterGetApiV1MvmDatacenterGet` operationId).
+func (c *ClientWithResponses) VmDatacenterGetApiV1MvmDatacenterGetWithResponse(ctx context.Context, params *VmDatacenterGetApiV1MvmDatacenterGetParams, reqEditors ...RequestEditorFn) (*VmDatacenterGetApiV1MvmDatacenterGetResponse, error) {
+	rsp, err := c.VmDatacenterGetApiV1MvmDatacenterGet(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseVmDatacenterGetApiV1MvmDatacenterGetResponse(rsp)
+}
+
 // VmDiskGetApiV1MvmDiskGetWithResponse Vm Disk Get
 //
 // Listet alle Disks.
@@ -14175,7 +14298,7 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxI
 
 // VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Linux Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Linux Instanz Reinstall Request.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -14190,7 +14313,7 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstan
 
 // VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse Vm Instance Linux Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Linux Instanz Reinstall Request.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -14927,7 +15050,7 @@ func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1M
 
 // VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse Vm Instance Restart Post
 //
-// Instanz neu starten.
+// Neustart einer Instanz.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -14942,7 +15065,7 @@ func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidR
 
 // VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse Vm Instance Restart Post
 //
-// Instanz neu starten.
+// Neustart einer Instanz.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -15107,7 +15230,7 @@ func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceIn
 
 // VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse Vm Instance Snapshot Delete
 //
-// Löscht einen Snapshot einer Instanz.
+// Löschung eines Snapshots einer Instanz.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -15122,7 +15245,7 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUu
 
 // VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse Vm Instance Snapshot Delete
 //
-// Löscht einen Snapshot einer Instanz.
+// Löschung eines Snapshots einer Instanz.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -15137,7 +15260,7 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUu
 
 // VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse Vm Instance Snapshot Delete Validate
 //
-// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -15152,7 +15275,7 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceIn
 
 // VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse Vm Instance Snapshot Delete Validate
 //
-// Validiert einen Request zur Löschung einen Snapshot einer Instanz.
+// Validiert einen Request zur Löschung eines Snapshot einer Instanz.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -15163,66 +15286,6 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceIn
 		return nil, err
 	}
 	return ParseVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse(rsp)
-}
-
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBodyWithResponse Vm Instance Storageclass Put
-//
-// Änderung der Storageklasse.
-//
-// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
-//
-// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-func (c *ClientWithResponses) VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse, error) {
-	rsp, err := c.VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse(rsp)
-}
-
-// VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithResponse Vm Instance Storageclass Put
-//
-// Änderung der Storageklasse.
-//
-// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
-//
-// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/storageclass (the `VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut` operationId).
-func (c *ClientWithResponses) VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutParams, body VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse, error) {
-	rsp, err := c.VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPut(ctx, instanceUuid, params, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse(rsp)
-}
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBodyWithResponse Vm Instance Storageclass Update Validate
-//
-// Validierung eines Requests zur Änderung der Storageklasse.
-//
-// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
-//
-// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse(rsp)
-}
-
-// VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithResponse Vm Instance Storageclass Update Validate
-//
-// Validierung eines Requests zur Änderung der Storageklasse.
-//
-// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
-//
-// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/storageclass/update/validate (the `VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostParams, body VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse(rsp)
 }
 
 // VmInterfaceGetApiV1MvmInterfaceGetWithResponse Vm Interface Get
@@ -15262,8 +15325,8 @@ func (c *ClientWithResponses) VmLocationGetApiV1MvmLocationGetWithResponse(ctx c
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /api/v1/mvm/os (the `VmOsGetApiV1MvmOsGet` operationId).
-func (c *ClientWithResponses) VmOsGetApiV1MvmOsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmOsGetApiV1MvmOsGetResponse, error) {
-	rsp, err := c.VmOsGetApiV1MvmOsGet(ctx, reqEditors...)
+func (c *ClientWithResponses) VmOsGetApiV1MvmOsGetWithResponse(ctx context.Context, params *VmOsGetApiV1MvmOsGetParams, reqEditors ...RequestEditorFn) (*VmOsGetApiV1MvmOsGetResponse, error) {
+	rsp, err := c.VmOsGetApiV1MvmOsGet(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15480,6 +15543,36 @@ func (c *ClientWithResponses) TenantLdapGetApiV1TenantLdapGetWithResponse(ctx co
 	return ParseTenantLdapGetApiV1TenantLdapGetResponse(rsp)
 }
 
+// TenantOperationsGetApiV1TenantOperationsGetWithResponse Tenant Operations Get
+//
+// Listet alle Operations eines Tenants.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /api/v1/tenant/operations (the `TenantOperationsGetApiV1TenantOperationsGet` operationId).
+func (c *ClientWithResponses) TenantOperationsGetApiV1TenantOperationsGetWithResponse(ctx context.Context, params *TenantOperationsGetApiV1TenantOperationsGetParams, reqEditors ...RequestEditorFn) (*TenantOperationsGetApiV1TenantOperationsGetResponse, error) {
+	rsp, err := c.TenantOperationsGetApiV1TenantOperationsGet(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTenantOperationsGetApiV1TenantOperationsGetResponse(rsp)
+}
+
+// UtilsHealthCheckApiV1UtilsHealthCheckGetWithResponse Utils Health Check
+//
+// Execute database lookup and AWX trigger to check health of participating systems.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /api/v1/utils/health-check/ (the `UtilsHealthCheckApiV1UtilsHealthCheckGet` operationId).
+func (c *ClientWithResponses) UtilsHealthCheckApiV1UtilsHealthCheckGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilsHealthCheckApiV1UtilsHealthCheckGetResponse, error) {
+	rsp, err := c.UtilsHealthCheckApiV1UtilsHealthCheckGet(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUtilsHealthCheckApiV1UtilsHealthCheckGetResponse(rsp)
+}
+
 // UtilsReadinessCheckApiV1UtilsReadinessCheckGetWithResponse Utils Readiness Check
 //
 // Returns a wrapper object for the known response body format(s).
@@ -15491,6 +15584,21 @@ func (c *ClientWithResponses) UtilsReadinessCheckApiV1UtilsReadinessCheckGetWith
 		return nil, err
 	}
 	return ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse(rsp)
+}
+
+// ReadRootCreatevmGetWithResponse Read Root
+//
+// Welcome page.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
+func (c *ClientWithResponses) ReadRootCreatevmGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ReadRootCreatevmGetResponse, error) {
+	rsp, err := c.ReadRootCreatevmGet(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseReadRootCreatevmGetResponse(rsp)
 }
 
 // ParseReadRootGetResponse parses an HTTP response from a ReadRootGetWithResponse call
@@ -15892,6 +16000,39 @@ func ParseTestTokenApiV1LoginTestTokenPostResponse(rsp *http.Response) (*TestTok
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseVmDatacenterGetApiV1MvmDatacenterGetResponse parses an HTTP response from a VmDatacenterGetApiV1MvmDatacenterGetWithResponse call
+func ParseVmDatacenterGetApiV1MvmDatacenterGetResponse(rsp *http.Response) (*VmDatacenterGetApiV1MvmDatacenterGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &VmDatacenterGetApiV1MvmDatacenterGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest VMInstanceGetDatacentersResponeModel
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
 
 	}
 
@@ -17218,72 +17359,6 @@ func ParseVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSn
 	return response, nil
 }
 
-// ParseVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse parses an HTTP response from a VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutWithResponse call
-func ParseVmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse(rsp *http.Response) (*VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &VmInstanceStorageclassPutApiV1MvmInstanceInstanceUuidStorageclassPutResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GenericRequestResponseModel
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse parses an HTTP response from a VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostWithResponse call
-func ParseVmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse(rsp *http.Response) (*VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &VmInstanceStorageclassUpdateValidateApiV1MvmInstanceInstanceUuidStorageclassUpdateValidatePostResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ValidationSuccessResponseModel
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	}
-
-	return response, nil
-}
-
 // ParseVmInterfaceGetApiV1MvmInterfaceGetResponse parses an HTTP response from a VmInterfaceGetApiV1MvmInterfaceGetWithResponse call
 func ParseVmInterfaceGetApiV1MvmInterfaceGetResponse(rsp *http.Response) (*VmInterfaceGetApiV1MvmInterfaceGetResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -17370,6 +17445,13 @@ func ParseVmOsGetApiV1MvmOsGetResponse(rsp *http.Response) (*VmOsGetApiV1MvmOsGe
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
 
 	}
 
@@ -17706,6 +17788,65 @@ func ParseTenantLdapGetApiV1TenantLdapGetResponse(rsp *http.Response) (*TenantLd
 	return response, nil
 }
 
+// ParseTenantOperationsGetApiV1TenantOperationsGetResponse parses an HTTP response from a TenantOperationsGetApiV1TenantOperationsGetWithResponse call
+func ParseTenantOperationsGetApiV1TenantOperationsGetResponse(rsp *http.Response) (*TenantOperationsGetApiV1TenantOperationsGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TenantOperationsGetApiV1TenantOperationsGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TenantGetOperationsResponseModel
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUtilsHealthCheckApiV1UtilsHealthCheckGetResponse parses an HTTP response from a UtilsHealthCheckApiV1UtilsHealthCheckGetWithResponse call
+func ParseUtilsHealthCheckApiV1UtilsHealthCheckGetResponse(rsp *http.Response) (*UtilsHealthCheckApiV1UtilsHealthCheckGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UtilsHealthCheckApiV1UtilsHealthCheckGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse parses an HTTP response from a UtilsReadinessCheckApiV1UtilsReadinessCheckGetWithResponse call
 func ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse(rsp *http.Response) (*UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -17727,6 +17868,22 @@ func ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse(rsp *http.Respo
 		}
 		response.JSON200 = &dest
 
+	}
+
+	return response, nil
+}
+
+// ParseReadRootCreatevmGetResponse parses an HTTP response from a ReadRootCreatevmGetWithResponse call
+func ParseReadRootCreatevmGetResponse(rsp *http.Response) (*ReadRootCreatevmGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ReadRootCreatevmGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil
