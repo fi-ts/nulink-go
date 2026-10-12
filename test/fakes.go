@@ -155,11 +155,11 @@ var validateOK = func(w http.ResponseWriter, _ *http.Request) {
 // requestType must be a valid upstream RequestTypeConfig value.
 func genericResponse(requestType, itemUUID string) *client.GenericRequestResponseModel {
 	return &client.GenericRequestResponseModel{
-		AutomationId:   1,
-		AutomationType: "vm_instance",
-		ItemUuid:       uuid.MustParse(itemUUID),
-		RequestStatus:  client.RequestStatusConfig("Requested"),
-		RequestType:    client.RequestTypeConfig(requestType),
+		AutomationId:    1,
+		AutomationType:  "vm_instance",
+		ItemUuid:        uuid.MustParse(itemUUID),
+		OperationStatus: "Requested",
+		OperationType:   requestType,
 	}
 }
 
