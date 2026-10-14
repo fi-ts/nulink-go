@@ -53,8 +53,22 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, defaultStageTypes())
 	})
 
-	mux.HandleFunc("GET /api/v1/mvm/vlan", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, defaultVlans())
+	// The datacenter_uuid query is required upstream; the fake filters the
+	// canned VLANs by it so callers exercise the real filter semantics.
+	mux.HandleFunc("GET /api/v1/mvm/vlan", func(w http.ResponseWriter, r *http.Request) {
+		datacenterUUID := r.URL.Query().Get("datacenter_uuid")
+		all := defaultVlans()
+		if datacenterUUID == "" {
+			writeJSON(w, all)
+			return
+		}
+		filtered := &client.VMInstanceGetVlansResponseModel{}
+		for _, vlan := range all.Vlans {
+			if vlan.DatacenterUuid.String() == datacenterUUID {
+				filtered.Vlans = append(filtered.Vlans, vlan)
+			}
+		}
+		writeJSON(w, filtered)
 	})
 
 	mux.HandleFunc("GET /api/v1/tenant/ldap", func(w http.ResponseWriter, _ *http.Request) {
@@ -157,9 +171,11 @@ func genericResponse(requestType, itemUUID string) *client.GenericRequestRespons
 	return &client.GenericRequestResponseModel{
 		AutomationId:    1,
 		AutomationType:  "vm_instance",
+		ItemType:        "vm_instance",
 		ItemUuid:        uuid.MustParse(itemUUID),
 		OperationStatus: "Requested",
 		OperationType:   requestType,
+		OperationUuid:   uuid.MustParse(itemUUID),
 	}
 }
 
@@ -225,36 +241,46 @@ func defaultVlans() *client.VMInstanceGetVlansResponseModel {
 	return &client.VMInstanceGetVlansResponseModel{
 		Vlans: []client.NucleusDBVlans{
 			{
-				VlanUuid:       uuidPtr("ee8e4fe8-ecda-45bd-467f-c84a9a17704e"),
-				VlanId:         2001,
-				PodTitle:       "POD01",
-				PodUuid:        uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
-				SubnetTitle:    "subnet-mgmt-vlan2001",
-				Subnet:         "100.64.1.0/24",
-				Subnetmask:     "255.255.255.0",
-				Gateway:        "100.64.1.1",
-				IpRangeStart:   "100.64.1.33",
-				IpRangeEnd:     "100.64.1.254",
-				UseDhcp:        false,
-				StageTypeTitle: "Produktion",
-				StageTypeUuid:  uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
-				Tenant:         "fac7f4b6-bd59-fef7-cd45-dcaddb43e523",
+				VlanUuid:        uuidPtr("ee8e4fe8-ecda-45bd-467f-c84a9a17704e"),
+				VlanId:          2001,
+				PodTitle:        "POD01",
+				PodUuid:         uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
+				SubnetTitle:     "subnet-mgmt-vlan2001",
+				Subnet:          "100.64.1.0/24",
+				Subnetmask:      "255.255.255.0",
+				Gateway:         "100.64.1.1",
+				IpRangeStart:    "100.64.1.33",
+				IpRangeEnd:      "100.64.1.254",
+				UseDhcp:         false,
+				StageTypeTitle:  "Produktion",
+				StageTypeUuid:   uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
+				Tenant:          "fac7f4b6-bd59-fef7-cd45-dcaddb43e523",
+				DatacenterUuid:  uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71"),
+				DatacenterTitle: "Nürnberg (RZ1)",
+				LocationUuid:    uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71"),
+				DomainUuid:      uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
+				DomainFqdn:      strPtr("corp.example.com"),
 			},
 			{
-				VlanUuid:       uuidPtr("d35e8a17-6292-aacd-7905-d228ef560f68"),
-				VlanId:         2008,
-				PodTitle:       "POD01",
-				PodUuid:        uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
-				SubnetTitle:    "subnet-svc-vlan2008",
-				Subnet:         "100.64.8.0/24",
-				Subnetmask:     "255.255.255.0",
-				Gateway:        "100.64.8.1",
-				IpRangeStart:   "100.64.8.33",
-				IpRangeEnd:     "100.64.8.254",
-				UseDhcp:        false,
-				StageTypeTitle: "Produktion",
-				StageTypeUuid:  uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
-				Tenant:         "fac7f4b6-bd59-fef7-cd45-dcaddb43e523",
+				VlanUuid:        uuidPtr("d35e8a17-6292-aacd-7905-d228ef560f68"),
+				VlanId:          2008,
+				PodTitle:        "POD01",
+				PodUuid:         uuidPtr("ef2465a1-0eb9-4bc4-0645-da84f1397482"),
+				SubnetTitle:     "subnet-svc-vlan2008",
+				Subnet:          "100.64.8.0/24",
+				Subnetmask:      "255.255.255.0",
+				Gateway:         "100.64.8.1",
+				IpRangeStart:    "100.64.8.33",
+				IpRangeEnd:      "100.64.8.254",
+				UseDhcp:         false,
+				StageTypeTitle:  "Produktion",
+				StageTypeUuid:   uuidPtr("410cda2a-5810-135c-f25c-48a8200ab112"),
+				Tenant:          "fac7f4b6-bd59-fef7-cd45-dcaddb43e523",
+				DatacenterUuid:  uuid.MustParse("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"),
+				DatacenterTitle: "Stuttgart (RZ1)",
+				LocationUuid:    uuid.MustParse("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"),
+				DomainUuid:      uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
+				DomainFqdn:      strPtr("corp.example.com"),
 			},
 		},
 	}
@@ -276,9 +302,13 @@ func defaultDomains() *client.TenantGetDomainsResponseModel {
 	return &client.TenantGetDomainsResponseModel{
 		Domains: []client.NucleusDBDomains{
 			{
-				DomainUuid: uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
-				DomainFqdn: "corp.example.com",
-				Tenant:     "ftap",
+				DomainUuid:  uuidPtr("53ab00bc-c863-78da-869f-f80063372c74"),
+				DomainFqdn:  "corp.example.com",
+				Tenant:      "ftap",
+				TenantTitle: "FITS Tenant",
+				Datacenters: &[]client.NucleusDBDatacenter{
+					{DatacenterUuid: uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), DatacenterTitle: "Nürnberg (RZ1)"},
+				},
 			},
 		},
 	}
@@ -299,7 +329,7 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		VmFqdn:        "vm-win01.example.com",
 		Status:        "active",
 		StageTypeUuid: uuid.MustParse("410cda2a-5810-135c-f25c-48a8200ab112"),
-		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), Ipaddress: "10.0.0.11", Macaddress: "AA:BB:CC:DD:EE:01"}},
+		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), VlanUuid: uuid.MustParse("ee8e4fe8-ecda-45bd-467f-c84a9a17704e"), Ipaddress: "10.0.0.11", Macaddress: "AA:BB:CC:DD:EE:01"}},
 		Encrypted:     false,
 		Disks:         &[]client.NucleusDBWindowsDisk{{AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb1"), Driveletter: "C", DiskType: "os"}, {AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb2"), Driveletter: "F", DiskType: "system"}, {AutoExtend: false, DiskSizeGb: 100, DiskUuid: uuid.MustParse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbb3"), Driveletter: "D", DiskType: "data"}},
 		LocationUuid:  uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"),
@@ -326,7 +356,7 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		VmFqdn:        "vm-lin01.example.com",
 		Status:        "active",
 		StageTypeUuid: uuid.MustParse("410cda2a-5810-135c-f25c-48a8200ab112"),
-		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("cccccccc-cccc-cccc-cccc-cccccccccccc"), Ipaddress: "10.0.0.21", Macaddress: "AA:BB:CC:DD:EE:02"}},
+		Interfaces:    &[]client.NucleusDBInterface{{InterfaceUuid: uuidPtr("cccccccc-cccc-cccc-cccc-cccccccccccc"), VlanUuid: uuid.MustParse("d35e8a17-6292-aacd-7905-d228ef560f68"), Ipaddress: "10.0.0.21", Macaddress: "AA:BB:CC:DD:EE:02"}},
 		Encrypted:     false,
 		Disks:         &[]client.NucleusDBLinuxDisk{{AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd1"), Mountpoint: "/", DiskType: "os"}, {AutoExtend: false, DiskSizeGb: 50, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd2"), Mountpoint: "/appdata", DiskType: "system"}, {AutoExtend: true, DiskSizeGb: 100, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd3"), Mountpoint: "/data", DiskType: "data"}, {AutoExtend: false, DiskSizeGb: 200, DiskUuid: uuid.MustParse("dddddddd-dddd-dddd-dddd-ddddddddddd4"), Mountpoint: "/backup", DiskType: "data"}},
 		LocationUuid:  uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"),
