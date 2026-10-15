@@ -10,11 +10,11 @@ Use `make generate-client` to regenerate.
 
 ## Fake server
 
-[`fake`](fake/fake.go) ships an in-process fake of the API for tests and local
+[`test`](test/fakes.go) ships an in-process fake of the API for tests and local
 development:
 
 ```go
-client, url, cleanup, err := fake.Start()
+client, url, cleanup, err := test.Start()
 defer cleanup()
 ```
 
