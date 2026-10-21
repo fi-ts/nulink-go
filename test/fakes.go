@@ -53,19 +53,24 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, defaultStageTypes())
 	})
 
-	// The datacenter_uuid query is required upstream; the fake filters the canned VLANs by it so callers exercise the real filter semantics.
 	mux.HandleFunc("GET /api/v1/mvm/vlan", func(w http.ResponseWriter, r *http.Request) {
-		datacenterUUID := r.URL.Query().Get("datacenter_uuid")
+		query := r.URL.Query()
+		datacenterUUID := query.Get("datacenter_uuid")
+		domainUUID := query.Get("domain_uuid")
 		all := defaultVlans()
-		if datacenterUUID == "" {
+		if datacenterUUID == "" && domainUUID == "" {
 			writeJSON(w, all)
 			return
 		}
 		filtered := &client.VMInstanceGetVlansResponseModel{}
 		for _, vlan := range all.Vlans {
-			if vlan.DatacenterUuid.String() == datacenterUUID {
-				filtered.Vlans = append(filtered.Vlans, vlan)
+			if datacenterUUID != "" && vlan.DatacenterUuid.String() != datacenterUUID {
+				continue
 			}
+			if domainUUID != "" && (vlan.DomainUuid == nil || vlan.DomainUuid.String() != domainUUID) {
+				continue
+			}
+			filtered.Vlans = append(filtered.Vlans, vlan)
 		}
 		writeJSON(w, filtered)
 	})
