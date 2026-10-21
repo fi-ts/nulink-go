@@ -293,7 +293,7 @@ type ContainerInstanceDeleteInputModel struct {
 // DiskLinuxInputModel defines model for DiskLinuxInputModel.
 type DiskLinuxInputModel struct {
 	AutoExtend *bool   `json:"auto_extend,omitempty"`
-	DiskSizeGb *int    `json:"disk_size_gb,omitempty"`
+	DiskSizeGb int     `json:"disk_size_gb"`
 	Label      string  `json:"label"`
 	Mountpoint *string `json:"mountpoint,omitempty"`
 }
@@ -301,7 +301,7 @@ type DiskLinuxInputModel struct {
 // DiskWindowsInputModel defines model for DiskWindowsInputModel.
 type DiskWindowsInputModel struct {
 	AutoExtend  *bool   `json:"auto_extend,omitempty"`
-	DiskSizeGb  *int    `json:"disk_size_gb,omitempty"`
+	DiskSizeGb  int     `json:"disk_size_gb"`
 	Driveletter *string `json:"driveletter,omitempty"`
 	Label       string  `json:"label"`
 }
@@ -379,12 +379,14 @@ type NucleusDBContacts struct {
 type NucleusDBDatacenter struct {
 	DatacenterTitle string             `json:"datacenter_title"`
 	DatacenterUuid  openapi_types.UUID `json:"datacenter_uuid"`
+	LocationUuid    openapi_types.UUID `json:"location_uuid"`
 }
 
 // NucleusDBDatacenters defines model for NucleusDBDatacenters.
 type NucleusDBDatacenters struct {
 	DatacenterTitle string              `json:"datacenter_title"`
 	DatacenterUuid  *openapi_types.UUID `json:"datacenter_uuid,omitempty"`
+	LocationUuid    openapi_types.UUID  `json:"location_uuid"`
 }
 
 // NucleusDBDomains defines model for NucleusDBDomains.
@@ -506,6 +508,7 @@ type NucleusDBOss struct {
 	OsType    string              `json:"os_type"`
 	OsUuid    *openapi_types.UUID `json:"os_uuid,omitempty"`
 	OsVersion string              `json:"os_version"`
+	Tenant    string              `json:"tenant"`
 }
 
 // NucleusDBSnapshot defines model for NucleusDBSnapshot.
@@ -739,8 +742,8 @@ type VMInstanceDeleteSnapshotInputModel struct {
 	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
 
-// VMInstanceGetDatacentersResponeModel defines model for VMInstanceGetDatacentersResponeModel.
-type VMInstanceGetDatacentersResponeModel struct {
+// VMInstanceGetDatacentersResponseModel defines model for VMInstanceGetDatacentersResponseModel.
+type VMInstanceGetDatacentersResponseModel struct {
 	Datacenters []NucleusDBDatacenters `json:"datacenters"`
 }
 
@@ -1252,6 +1255,7 @@ type VmLocationGetApiV1MvmLocationGetParams struct {
 
 // VmOsGetApiV1MvmOsGetParams defines parameters for VmOsGetApiV1MvmOsGet.
 type VmOsGetApiV1MvmOsGetParams struct {
+	Tenant         string `form:"tenant" json:"tenant"`
 	XOriginalToken string `json:"x-original-token"`
 }
 
@@ -1268,9 +1272,10 @@ type VmStagetypeGetApiV1MvmStagetypeGetParams struct {
 
 // VmVlanGetApiV1MvmVlanGetParams defines parameters for VmVlanGetApiV1MvmVlanGet.
 type VmVlanGetApiV1MvmVlanGetParams struct {
-	Tenant         string             `form:"tenant" json:"tenant"`
-	DatacenterUuid openapi_types.UUID `form:"datacenter_uuid" json:"datacenter_uuid"`
-	XOriginalToken string             `json:"x-original-token"`
+	Tenant         string              `form:"tenant" json:"tenant"`
+	DatacenterUuid openapi_types.UUID  `form:"datacenter_uuid" json:"datacenter_uuid"`
+	DomainUuid     *openapi_types.UUID `form:"domain_uuid,omitempty" json:"domain_uuid,omitempty"`
+	XOriginalToken string              `json:"x-original-token"`
 }
 
 // TenantContactGetApiV1TenantContactGetParams defines parameters for TenantContactGetApiV1TenantContactGet.
@@ -1302,8 +1307,8 @@ type TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidateP
 // TenantDomainGetApiV1TenantDomainGetParams defines parameters for TenantDomainGetApiV1TenantDomainGet.
 type TenantDomainGetApiV1TenantDomainGetParams struct {
 	Tenant         string              `form:"tenant" json:"tenant"`
+	DatacenterUuid openapi_types.UUID  `form:"datacenter_uuid" json:"datacenter_uuid"`
 	DomainUuid     *openapi_types.UUID `form:"domain_uuid,omitempty" json:"domain_uuid,omitempty"`
-	DatacenterUuid *openapi_types.UUID `form:"datacenter_uuid,omitempty" json:"datacenter_uuid,omitempty"`
 	XOriginalToken string              `json:"x-original-token"`
 }
 
@@ -2672,7 +2677,7 @@ type ClientInterface interface {
 
 	// VmVlanGetApiV1MvmVlanGet Vm Vlan Get
 	//
-	// Listet alle VLANs eines Tenants.
+	// Listet alle VLANs eines Tenants eines Datacenters filterbar nach Domain.
 	//
 	// Corresponds with GET /api/v1/mvm/vlan (the `VmVlanGetApiV1MvmVlanGet` operationId).
 	VmVlanGetApiV1MvmVlanGet(ctx context.Context, params *VmVlanGetApiV1MvmVlanGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4795,7 +4800,7 @@ func (c *Client) VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, params 
 
 // VmVlanGetApiV1MvmVlanGet Vm Vlan Get
 //
-// Listet alle VLANs eines Tenants.
+// Listet alle VLANs eines Tenants eines Datacenters filterbar nach Domain.
 //
 // Corresponds with GET /api/v1/mvm/vlan (the `VmVlanGetApiV1MvmVlanGet` operationId).
 func (c *Client) VmVlanGetApiV1MvmVlanGet(ctx context.Context, params *VmVlanGetApiV1MvmVlanGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -8455,6 +8460,29 @@ func NewVmOsGetApiV1MvmOsGetRequest(server string, params *VmOsGetApiV1MvmOsGetP
 		return nil, err
 	}
 
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "tenant", params.Tenant, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
@@ -8625,6 +8653,18 @@ func NewVmVlanGetApiV1MvmVlanGetRequest(server string, params *VmVlanGetApiV1Mvm
 			for _, qp := range strings.Split(queryFrag, "&") {
 				rawQueryFragments = append(rawQueryFragments, qp)
 			}
+		}
+
+		if params.DomainUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "domain_uuid", *params.DomainUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
 		}
 
 		if encoded := queryValues.Encode(); encoded != "" {
@@ -8979,21 +9019,17 @@ func NewTenantDomainGetApiV1TenantDomainGetRequest(server string, params *Tenant
 			}
 		}
 
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "datacenter_uuid", params.DatacenterUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
 		if params.DomainUuid != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "domain_uuid", *params.DomainUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
-				return nil, err
-			} else {
-				for _, qp := range strings.Split(queryFrag, "&") {
-					rawQueryFragments = append(rawQueryFragments, qp)
-				}
-			}
-
-		}
-
-		if params.DatacenterUuid != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "datacenter_uuid", *params.DatacenterUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -10267,7 +10303,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmVlanGetApiV1MvmVlanGetWithResponse Vm Vlan Get
 	//
-	// Listet alle VLANs eines Tenants.
+	// Listet alle VLANs eines Tenants eines Datacenters filterbar nach Domain.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -11015,13 +11051,13 @@ type VmDatacenterGetApiV1MvmDatacenterGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
-	JSON200 *VMInstanceGetDatacentersResponeModel
+	JSON200 *VMInstanceGetDatacentersResponseModel
 	// JSON422 the response for an HTTP 422 `application/json` response
 	JSON422 *HTTPValidationError
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) GetJSON200() *VMInstanceGetDatacentersResponeModel {
+func (r VmDatacenterGetApiV1MvmDatacenterGetResponse) GetJSON200() *VMInstanceGetDatacentersResponseModel {
 	return r.JSON200
 }
 
@@ -15365,7 +15401,7 @@ func (c *ClientWithResponses) VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx
 
 // VmVlanGetApiV1MvmVlanGetWithResponse Vm Vlan Get
 //
-// Listet alle VLANs eines Tenants.
+// Listet alle VLANs eines Tenants eines Datacenters filterbar nach Domain.
 //
 // Returns a wrapper object for the known response body format(s).
 //
@@ -16021,7 +16057,7 @@ func ParseVmDatacenterGetApiV1MvmDatacenterGetResponse(rsp *http.Response) (*VmD
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest VMInstanceGetDatacentersResponeModel
+		var dest VMInstanceGetDatacentersResponseModel
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

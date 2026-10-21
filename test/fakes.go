@@ -74,7 +74,6 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, defaultLDAPs())
 	})
 
-	// The datacenter_uuid query is optional upstream; the fake filters the canned domains by it so callers exercise the real filter semantics.
 	mux.HandleFunc("GET /api/v1/tenant/domain", func(w http.ResponseWriter, r *http.Request) {
 		datacenterUUID := r.URL.Query().Get("datacenter_uuid")
 		all := defaultDomains()
@@ -218,13 +217,11 @@ func vmList(vm any) *client.VMInstanceGetVMsResponseModel {
 	return out
 }
 
-// defaultDatacenters returns the canned datacenters served by GET /datacenter.
-// fco-api exposes an FCE datacenter as a location, so the UUIDs and titles match the datacenter fields of the canned VLANs.
-func defaultDatacenters() *client.VMInstanceGetDatacentersResponeModel {
-	return &client.VMInstanceGetDatacentersResponeModel{
+func defaultDatacenters() *client.VMInstanceGetDatacentersResponseModel {
+	return &client.VMInstanceGetDatacentersResponseModel{
 		Datacenters: []client.NucleusDBDatacenters{
-			{DatacenterUuid: uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), DatacenterTitle: "Nürnberg (RZ1)"},
-			{DatacenterUuid: uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"), DatacenterTitle: "Stuttgart (RZ1)"},
+			{DatacenterUuid: uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), DatacenterTitle: "Nürnberg (RZ1)", LocationUuid: uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71")},
+			{DatacenterUuid: uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"), DatacenterTitle: "Stuttgart (RZ1)", LocationUuid: uuid.MustParse("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5")},
 		},
 	}
 }
@@ -232,16 +229,16 @@ func defaultDatacenters() *client.VMInstanceGetDatacentersResponeModel {
 func defaultOSs() *client.VMInstanceGetOSSResponseModel {
 	return &client.VMInstanceGetOSSResponseModel{
 		Oss: []client.NucleusDBOss{
-			{OsTitle: "Linux Red Hat Enterprise 7", OsType: "linux", OsVersion: "7_RHEL", OsUuid: uuidPtr("0c1b9938-258a-1308-4e4d-988d0742de4f")},
-			{OsTitle: "Windows Server 2016 Standard", OsType: "windows", OsVersion: "2016_STD", OsUuid: uuidPtr("0475f7bd-f538-2b71-07f3-3439ad4b5000")},
-			{OsTitle: "Linux Red Hat Enterprise 8", OsType: "linux", OsVersion: "8_RHEL", OsUuid: uuidPtr("e3ebdbbe-a307-e99e-9c6b-4f35e1873c80")},
-			{OsTitle: "Windows Server 2019 Standard", OsType: "windows", OsVersion: "2019_STD", OsUuid: uuidPtr("10ab5f22-80af-5bee-8787-db6d8c6a0dd3")},
-			{OsTitle: "Windows Server 2022 Standard", OsType: "windows", OsVersion: "2022_STD", OsUuid: uuidPtr("61121fe8-d0f8-5098-66f4-56be969626d8")},
-			{OsTitle: "Linux Red Hat Enterprise 9", OsType: "linux", OsVersion: "9_RHEL", OsUuid: uuidPtr("29512413-f6c3-4837-ecfc-1f8072064ac7")},
-			{OsTitle: "Windows 11 Enterprise", OsType: "vdi", OsVersion: "11_ENT", OsUuid: uuidPtr("89038441-837e-2a79-1181-ed0ac1fc5e00")},
-			{OsTitle: "Windows Server 2025 Standard", OsType: "windows", OsVersion: "2025_STD", OsUuid: uuidPtr("6d66471b-a89f-25ef-5bf2-1eb4f4155676")},
-			{OsTitle: "Kali 2025.2 Appliance", OsType: "linux", OsVersion: "Kali_APPL", OsUuid: uuidPtr("3108baf3-bb86-8258-5afd-6146d8870e10")},
-			{OsTitle: "Kiteworks Appliance", OsType: "linux-appliance", OsVersion: "Kite_APPL", OsUuid: uuidPtr("f6718c16-9319-f494-35be-46f5a4538ab1")},
+			{OsTitle: "Linux Red Hat Enterprise 7", OsType: "linux", OsVersion: "7_RHEL", OsUuid: uuidPtr("0c1b9938-258a-1308-4e4d-988d0742de4f"), Tenant: "ftap"},
+			{OsTitle: "Windows Server 2016 Standard", OsType: "windows", OsVersion: "2016_STD", OsUuid: uuidPtr("0475f7bd-f538-2b71-07f3-3439ad4b5000"), Tenant: "ftap"},
+			{OsTitle: "Linux Red Hat Enterprise 8", OsType: "linux", OsVersion: "8_RHEL", OsUuid: uuidPtr("e3ebdbbe-a307-e99e-9c6b-4f35e1873c80"), Tenant: "ftap"},
+			{OsTitle: "Windows Server 2019 Standard", OsType: "windows", OsVersion: "2019_STD", OsUuid: uuidPtr("10ab5f22-80af-5bee-8787-db6d8c6a0dd3"), Tenant: "ftap"},
+			{OsTitle: "Windows Server 2022 Standard", OsType: "windows", OsVersion: "2022_STD", OsUuid: uuidPtr("61121fe8-d0f8-5098-66f4-56be969626d8"), Tenant: "ftap"},
+			{OsTitle: "Linux Red Hat Enterprise 9", OsType: "linux", OsVersion: "9_RHEL", OsUuid: uuidPtr("29512413-f6c3-4837-ecfc-1f8072064ac7"), Tenant: "ftap"},
+			{OsTitle: "Windows 11 Enterprise", OsType: "vdi", OsVersion: "11_ENT", OsUuid: uuidPtr("89038441-837e-2a79-1181-ed0ac1fc5e00"), Tenant: "ftap"},
+			{OsTitle: "Windows Server 2025 Standard", OsType: "windows", OsVersion: "2025_STD", OsUuid: uuidPtr("6d66471b-a89f-25ef-5bf2-1eb4f4155676"), Tenant: "ftap"},
+			{OsTitle: "Kali 2025.2 Appliance", OsType: "linux", OsVersion: "Kali_APPL", OsUuid: uuidPtr("3108baf3-bb86-8258-5afd-6146d8870e10"), Tenant: "ftap"},
+			{OsTitle: "Kiteworks Appliance", OsType: "linux-appliance", OsVersion: "Kite_APPL", OsUuid: uuidPtr("f6718c16-9319-f494-35be-46f5a4538ab1"), Tenant: "ftap"},
 		},
 	}
 }
@@ -327,7 +324,7 @@ func defaultDomains() *client.TenantGetDomainsResponseModel {
 				Tenant:      "ftap",
 				TenantTitle: "FITS Tenant",
 				Datacenters: &[]client.NucleusDBDatacenter{
-					{DatacenterUuid: uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), DatacenterTitle: "Nürnberg (RZ1)"},
+					{DatacenterUuid: uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), DatacenterTitle: "Nürnberg (RZ1)", LocationUuid: uuid.MustParse("8d0f3da7-2e4b-6275-9b3a-910b733acf71")},
 				},
 			},
 		},
@@ -339,10 +336,6 @@ const (
 	linuxVMUUID   = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
 )
 
-// defaultVMs returns the canned VM list served by GET /instance. Each VM
-// carries the full disk set the upstream 0.3.0 API returns: the OS disk
-// (provisioned by the backend), the fixed system disk (volume F on
-// Windows, /appdata on Linux) and one data disk.
 func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 	windows := client.NucleusDBWindowsVMs{
 		VmUuid:        uuidPtr(windowsVMUUID),
