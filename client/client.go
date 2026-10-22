@@ -600,10 +600,8 @@ type TenantContactCreateInputModel struct {
 	Firstname     string             `json:"firstname"`
 	Lastname      string             `json:"lastname"`
 	Mailaddress   string             `json:"mailaddress"`
-	OrderNumber   string             `json:"order_number"`
 	Phone         string             `json:"phone"`
 	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
 	Tenant        string             `json:"tenant"`
 	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
@@ -615,10 +613,8 @@ type TenantContactUpdateInputModel struct {
 	Firstname     string             `json:"firstname"`
 	Lastname      string             `json:"lastname"`
 	Mailaddress   string             `json:"mailaddress"`
-	OrderNumber   string             `json:"order_number"`
 	Phone         string             `json:"phone"`
 	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
 	Tenant        string             `json:"tenant"`
 	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
 }
@@ -767,8 +763,8 @@ type VMInstanceGetLinuxVMsResponseModel struct {
 	Instances []NucleusDBLinuxVMs `json:"instances"`
 }
 
-// VMInstanceGetLocationsResponeModel defines model for VMInstanceGetLocationsResponeModel.
-type VMInstanceGetLocationsResponeModel struct {
+// VMInstanceGetLocationsResponseModel defines model for VMInstanceGetLocationsResponseModel.
+type VMInstanceGetLocationsResponseModel struct {
 	Locations []NucleusDBLocations `json:"locations"`
 }
 
@@ -13067,13 +13063,13 @@ type VmLocationGetApiV1MvmLocationGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
-	JSON200 *VMInstanceGetLocationsResponeModel
+	JSON200 *VMInstanceGetLocationsResponseModel
 	// JSON422 the response for an HTTP 422 `application/json` response
 	JSON422 *HTTPValidationError
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmLocationGetApiV1MvmLocationGetResponse) GetJSON200() *VMInstanceGetLocationsResponeModel {
+func (r VmLocationGetApiV1MvmLocationGetResponse) GetJSON200() *VMInstanceGetLocationsResponseModel {
 	return r.JSON200
 }
 
@@ -17443,7 +17439,7 @@ func ParseVmLocationGetApiV1MvmLocationGetResponse(rsp *http.Response) (*VmLocat
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest VMInstanceGetLocationsResponeModel
+		var dest VMInstanceGetLocationsResponseModel
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
