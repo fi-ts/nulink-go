@@ -79,6 +79,20 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, defaultLDAPs())
 	})
 
+	mux.HandleFunc("GET /api/v1/tenant/contact", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, defaultContacts())
+	})
+
+	mux.HandleFunc("POST /api/v1/tenant/contact", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, genericResponse("create_contact", createdContactUUID))
+	})
+	mux.HandleFunc("POST /api/v1/tenant/contact/create/validate", validateOK)
+
+	mux.HandleFunc("PUT /api/v1/tenant/contact/{contact_uuid}/", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_contact", r.PathValue("contact_uuid")))
+	})
+	mux.HandleFunc("POST /api/v1/tenant/contact/{contact_uuid}/update/validate", validateOK)
+
 	mux.HandleFunc("GET /api/v1/tenant/domain", func(w http.ResponseWriter, r *http.Request) {
 		datacenterUUID := r.URL.Query().Get("datacenter_uuid")
 		all := defaultDomains()
@@ -320,6 +334,31 @@ func defaultLDAPs() *client.TenantGetLDAPsResponseModel {
 	}
 }
 
+func defaultContacts() *client.TenantGetContactsResponseModel {
+	return &client.TenantGetContactsResponseModel{
+		Contacts: []client.NucleusDBContacts{
+			{
+				ContactUuid: uuidPtr(createdContactUUID),
+				Firstname:   "Max",
+				Lastname:    "Mustermann",
+				Department:  "IT Operations",
+				Phone:       "+49 911 123456",
+				Mailaddress: "max.mustermann@example.com",
+				Tenant:      "ftap",
+			},
+			{
+				ContactUuid: uuidPtr("b7e2d9a4-1c3f-4e5a-8b6d-2f4a6c8e0d12"),
+				Firstname:   "Erika",
+				Lastname:    "Example",
+				Department:  "Finance",
+				Phone:       "+49 711 987654",
+				Mailaddress: "erika.example@example.com",
+				Tenant:      "ftap",
+			},
+		},
+	}
+}
+
 func defaultDomains() *client.TenantGetDomainsResponseModel {
 	return &client.TenantGetDomainsResponseModel{
 		Domains: []client.NucleusDBDomains{
@@ -337,8 +376,9 @@ func defaultDomains() *client.TenantGetDomainsResponseModel {
 }
 
 const (
-	windowsVMUUID = "9037fff6-0ef0-339a-443a-4f37a53cdf59"
-	linuxVMUUID   = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
+	windowsVMUUID      = "9037fff6-0ef0-339a-443a-4f37a53cdf59"
+	linuxVMUUID        = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
+	createdContactUUID = "43920c7c-6f51-f3cb-ec54-4c226556118f"
 )
 
 func defaultVMs() *client.VMInstanceGetVMsResponseModel {
