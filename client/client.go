@@ -237,6 +237,37 @@ func (e VMInstanceWindowsCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
+// ActorContext defines model for ActorContext.
+type ActorContext struct {
+	ActsOnBehalf bool                `json:"actsOnBehalf"`
+	Project      ActorContextProject `json:"project"`
+	Tenant       ActorContextTenant  `json:"tenant"`
+	User         ActorContextUser    `json:"user"`
+}
+
+// ActorContextProject defines model for ActorContextProject.
+type ActorContextProject struct {
+	Id     openapi_types.UUID `json:"id"`
+	Labels *map[string]string `json:"labels,omitempty"`
+	Name   string             `json:"name"`
+}
+
+// ActorContextTenant defines model for ActorContextTenant.
+type ActorContextTenant struct {
+	Id     string             `json:"id"`
+	Labels *map[string]string `json:"labels,omitempty"`
+	Name   string             `json:"name"`
+}
+
+// ActorContextUser defines model for ActorContextUser.
+type ActorContextUser struct {
+	Email     string `json:"email"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Name      string `json:"name"`
+	Subject   string `json:"subject"`
+}
+
 // BodyLoginAccessTokenApiV1LoginAccessTokenPost defines model for Body_login_access_token_api_v1_login_access_token_post.
 type BodyLoginAccessTokenApiV1LoginAccessTokenPost struct {
 	ClientId     *string `json:"client_id,omitempty"`
@@ -249,12 +280,12 @@ type BodyLoginAccessTokenApiV1LoginAccessTokenPost struct {
 
 // ContainerInstanceCreateInputModel defines model for ContainerInstanceCreateInputModel.
 type ContainerInstanceCreateInputModel struct {
+	ActorContext     ActorContext                                  `json:"actorContext"`
 	Availability     ContainerInstanceCreateInputModelAvailability `json:"availability"`
 	Backup           bool                                          `json:"backup"`
 	Billable         *bool                                         `json:"billable,omitempty"`
 	BillingStartDate *openapi_types.Date                           `json:"billing_start_date,omitempty"`
 	ContactUuid      openapi_types.UUID                            `json:"contact_uuid"`
-	Contract         *bool                                         `json:"contract,omitempty"`
 	Cpu              int                                           `json:"cpu"`
 	DatacenterUuid   openapi_types.UUID                            `json:"datacenter_uuid"`
 	Disks            []DiskLinuxInputModel                         `json:"disks"`
@@ -264,12 +295,8 @@ type ContainerInstanceCreateInputModel struct {
 	Name             *string                                       `json:"name,omitempty"`
 	OrderNumber      string                                        `json:"order_number"`
 	OsUuid           openapi_types.UUID                            `json:"os_uuid"`
-	ProjectLabels    *map[string]string                            `json:"project_labels,omitempty"`
-	ProjectUuid      openapi_types.UUID                            `json:"project_uuid"`
 	Ram              int                                           `json:"ram"`
 	Serviceclass     ContainerInstanceCreateInputModelServiceclass `json:"serviceclass"`
-	Tenant           string                                        `json:"tenant"`
-	TenantLabels     *map[string]string                            `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                            `json:"vlan_uuid"`
 }
 
@@ -281,13 +308,9 @@ type ContainerInstanceCreateInputModelServiceclass string
 
 // ContainerInstanceDeleteInputModel defines model for ContainerInstanceDeleteInputModel.
 type ContainerInstanceDeleteInputModel struct {
-	DeleteInstantly *bool              `json:"delete_instantly,omitempty"`
-	EntityLabels    *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber     string             `json:"order_number"`
-	ProjectLabels   *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid     openapi_types.UUID `json:"project_uuid"`
-	Tenant          string             `json:"tenant"`
-	TenantLabels    *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext    ActorContext `json:"actorContext"`
+	DeleteInstantly *bool        `json:"delete_instantly,omitempty"`
+	OrderNumber     string       `json:"order_number"`
 }
 
 // DiskLinuxInputModel defines model for DiskLinuxInputModel.
@@ -322,23 +345,25 @@ type HTTPValidationError struct {
 	Detail *[]ValidationError `json:"detail,omitempty"`
 }
 
+// InternalVMInstanceDeleteInstantlyInputModel defines model for InternalVMInstanceDeleteInstantlyInputModel.
+type InternalVMInstanceDeleteInstantlyInputModel struct {
+	ActorContext    ActorContext `json:"actorContext"`
+	DeleteInstantly *bool        `json:"delete_instantly,omitempty"`
+	OrderNumber     string       `json:"order_number"`
+}
+
 // KiteworksApplianceCreateInputModel defines model for KiteworksApplianceCreateInputModel.
 type KiteworksApplianceCreateInputModel struct {
+	ActorContext     ActorContext                                   `json:"actorContext"`
 	Availability     KiteworksApplianceCreateInputModelAvailability `json:"availability"`
 	Billable         *bool                                          `json:"billable,omitempty"`
 	BillingStartDate *openapi_types.Date                            `json:"billing_start_date,omitempty"`
 	ContactUuid      openapi_types.UUID                             `json:"contact_uuid"`
-	Contract         *bool                                          `json:"contract,omitempty"`
 	Encrypted        bool                                           `json:"encrypted"`
-	EntityLabels     *map[string]string                             `json:"entity_labels,omitempty"`
 	Name             *string                                        `json:"name,omitempty"`
 	OrderNumber      string                                         `json:"order_number"`
 	PodUuid          openapi_types.UUID                             `json:"pod_uuid"`
-	ProjectLabels    *map[string]string                             `json:"project_labels,omitempty"`
-	ProjectUuid      openapi_types.UUID                             `json:"project_uuid"`
 	Serviceclass     KiteworksApplianceCreateInputModelServiceclass `json:"serviceclass"`
-	Tenant           string                                         `json:"tenant"`
-	TenantLabels     *map[string]string                             `json:"tenant_labels,omitempty"`
 	TshirtSize       KiteworksApplianceCreateInputModelTshirtSize   `json:"tshirt_size"`
 	VlanUuid         openapi_types.UUID                             `json:"vlan_uuid"`
 }
@@ -354,14 +379,10 @@ type KiteworksApplianceCreateInputModelTshirtSize string
 
 // KiteworksApplianceDeleteInputModel defines model for KiteworksApplianceDeleteInputModel.
 type KiteworksApplianceDeleteInputModel struct {
+	ActorContext    ActorContext        `json:"actorContext"`
 	DeleteInstantly *bool               `json:"delete_instantly,omitempty"`
-	EntityLabels    *map[string]string  `json:"entity_labels,omitempty"`
 	ExecutionDate   *openapi_types.Date `json:"execution_date,omitempty"`
 	OrderNumber     string              `json:"order_number"`
-	ProjectLabels   *map[string]string  `json:"project_labels,omitempty"`
-	ProjectUuid     openapi_types.UUID  `json:"project_uuid"`
-	Tenant          string              `json:"tenant"`
-	TenantLabels    *map[string]string  `json:"tenant_labels,omitempty"`
 }
 
 // NucleusDBContacts defines model for NucleusDBContacts.
@@ -595,28 +616,22 @@ type NucleusDBWindowsVMs struct {
 
 // TenantContactCreateInputModel defines model for TenantContactCreateInputModel.
 type TenantContactCreateInputModel struct {
-	Department    string             `json:"department"`
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	Firstname     string             `json:"firstname"`
-	Lastname      string             `json:"lastname"`
-	Mailaddress   string             `json:"mailaddress"`
-	Phone         string             `json:"phone"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	Department   string       `json:"department"`
+	Firstname    string       `json:"firstname"`
+	Lastname     string       `json:"lastname"`
+	Mailaddress  string       `json:"mailaddress"`
+	Phone        string       `json:"phone"`
 }
 
 // TenantContactUpdateInputModel defines model for TenantContactUpdateInputModel.
 type TenantContactUpdateInputModel struct {
-	Department    string             `json:"department"`
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	Firstname     string             `json:"firstname"`
-	Lastname      string             `json:"lastname"`
-	Mailaddress   string             `json:"mailaddress"`
-	Phone         string             `json:"phone"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	Department   string       `json:"department"`
+	Firstname    string       `json:"firstname"`
+	Lastname     string       `json:"lastname"`
+	Mailaddress  string       `json:"mailaddress"`
+	Phone        string       `json:"phone"`
 }
 
 // TenantGetContactsResponseModel defines model for TenantGetContactsResponseModel.
@@ -647,95 +662,63 @@ type Token struct {
 
 // User defines model for User.
 type User struct {
-	Disabled    *bool  `json:"disabled,omitempty"`
-	Name        string `json:"name"`
-	Permissions string `json:"permissions"`
+	Disabled    bool     `json:"disabled"`
+	Name        string   `json:"name"`
+	Permissions []string `json:"permissions"`
 }
 
 // VMInstanceAddDiskLinuxInputModel defines model for VMInstanceAddDiskLinuxInputModel.
 type VMInstanceAddDiskLinuxInputModel struct {
-	Disk          DiskLinuxInputModel `json:"disk"`
-	EntityLabels  *map[string]string  `json:"entity_labels,omitempty"`
-	OrderNumber   string              `json:"order_number"`
-	ProjectLabels *map[string]string  `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID  `json:"project_uuid"`
-	Tenant        string              `json:"tenant"`
-	TenantLabels  *map[string]string  `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext        `json:"actorContext"`
+	Disk         DiskLinuxInputModel `json:"disk"`
+	OrderNumber  string              `json:"order_number"`
 }
 
 // VMInstanceAddDiskWindowsInputModel defines model for VMInstanceAddDiskWindowsInputModel.
 type VMInstanceAddDiskWindowsInputModel struct {
-	Disk          DiskWindowsInputModel `json:"disk"`
-	EntityLabels  *map[string]string    `json:"entity_labels,omitempty"`
-	OrderNumber   string                `json:"order_number"`
-	ProjectLabels *map[string]string    `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID    `json:"project_uuid"`
-	Tenant        string                `json:"tenant"`
-	TenantLabels  *map[string]string    `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext          `json:"actorContext"`
+	Disk         DiskWindowsInputModel `json:"disk"`
+	OrderNumber  string                `json:"order_number"`
 }
 
 // VMInstanceAddIPInputModel defines model for VMInstanceAddIPInputModel.
 type VMInstanceAddIPInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceChangeDiskInputModel defines model for VMInstanceChangeDiskInputModel.
 type VMInstanceChangeDiskInputModel struct {
-	AutoExtend    *bool              `json:"auto_extend,omitempty"`
-	DiskSizeGb    int                `json:"disk_size_gb"`
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	AutoExtend   *bool        `json:"auto_extend,omitempty"`
+	DiskSizeGb   int          `json:"disk_size_gb"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceDeleteDiskInputModel defines model for VMInstanceDeleteDiskInputModel.
 type VMInstanceDeleteDiskInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceDeleteIPInputModel defines model for VMInstanceDeleteIPInputModel.
 type VMInstanceDeleteIPInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceDeleteInputModel defines model for VMInstanceDeleteInputModel.
 type VMInstanceDeleteInputModel struct {
+	ActorContext    ActorContext        `json:"actorContext"`
 	DeleteInstantly *bool               `json:"delete_instantly,omitempty"`
-	EntityLabels    *map[string]string  `json:"entity_labels,omitempty"`
 	ExecutionDate   *openapi_types.Date `json:"execution_date,omitempty"`
 	OrderNumber     string              `json:"order_number"`
-	ProjectLabels   *map[string]string  `json:"project_labels,omitempty"`
-	ProjectUuid     openapi_types.UUID  `json:"project_uuid"`
-	Tenant          string              `json:"tenant"`
-	TenantLabels    *map[string]string  `json:"tenant_labels,omitempty"`
 }
 
 // VMInstanceDeleteSnapshotInputModel defines model for VMInstanceDeleteSnapshotInputModel.
 type VMInstanceDeleteSnapshotInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceGetDatacentersResponseModel defines model for VMInstanceGetDatacentersResponseModel.
@@ -800,12 +783,12 @@ type VMInstanceGetVlansResponseModel struct {
 
 // VMInstanceLinuxCreateInputModel defines model for VMInstanceLinuxCreateInputModel.
 type VMInstanceLinuxCreateInputModel struct {
+	ActorContext     ActorContext                                `json:"actorContext"`
 	Availability     VMInstanceLinuxCreateInputModelAvailability `json:"availability"`
 	Backup           bool                                        `json:"backup"`
 	Billable         *bool                                       `json:"billable,omitempty"`
 	BillingStartDate *openapi_types.Date                         `json:"billing_start_date,omitempty"`
 	ContactUuid      openapi_types.UUID                          `json:"contact_uuid"`
-	Contract         *bool                                       `json:"contract,omitempty"`
 	Cpu              int                                         `json:"cpu"`
 	DatacenterUuid   openapi_types.UUID                          `json:"datacenter_uuid"`
 	Disks            []DiskLinuxInputModel                       `json:"disks"`
@@ -815,12 +798,8 @@ type VMInstanceLinuxCreateInputModel struct {
 	Name             *string                                     `json:"name,omitempty"`
 	OrderNumber      string                                      `json:"order_number"`
 	OsUuid           openapi_types.UUID                          `json:"os_uuid"`
-	ProjectLabels    *map[string]string                          `json:"project_labels,omitempty"`
-	ProjectUuid      openapi_types.UUID                          `json:"project_uuid"`
 	Ram              int                                         `json:"ram"`
 	Serviceclass     VMInstanceLinuxCreateInputModelServiceclass `json:"serviceclass"`
-	Tenant           string                                      `json:"tenant"`
-	TenantLabels     *map[string]string                          `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                          `json:"vlan_uuid"`
 }
 
@@ -832,88 +811,57 @@ type VMInstanceLinuxCreateInputModelServiceclass string
 
 // VMInstanceReinstallInputModel defines model for VMInstanceReinstallInputModel.
 type VMInstanceReinstallInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceRestartInputModel defines model for VMInstanceRestartInputModel.
 type VMInstanceRestartInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
 }
 
 // VMInstanceSnapshotCreateInputModel defines model for VMInstanceSnapshotCreateInputModel.
 type VMInstanceSnapshotCreateInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	SnapshotName  string             `json:"snapshot_name"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	OrderNumber  string       `json:"order_number"`
+	SnapshotName string       `json:"snapshot_name"`
 }
 
 // VMInstanceUpdateContactInputModel defines model for VMInstanceUpdateContactInputModel.
 type VMInstanceUpdateContactInputModel struct {
-	ContactUuid   openapi_types.UUID `json:"contact_uuid"`
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext       `json:"actorContext"`
+	ContactUuid  openapi_types.UUID `json:"contact_uuid"`
+	OrderNumber  string             `json:"order_number"`
 }
 
 // VMInstanceUpdateIPInputModel defines model for VMInstanceUpdateIPInputModel.
 type VMInstanceUpdateIPInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	TargetVmUuid  openapi_types.UUID `json:"target_vm_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext       `json:"actorContext"`
+	OrderNumber  string             `json:"order_number"`
+	TargetVmUuid openapi_types.UUID `json:"target_vm_uuid"`
 }
 
 // VMInstanceUpdateLabelsInputModel defines model for VMInstanceUpdateLabelsInputModel.
 type VMInstanceUpdateLabelsInputModel struct {
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext       `json:"actorContext"`
+	EntityLabels *map[string]string `json:"entity_labels,omitempty"`
+	OrderNumber  string             `json:"order_number"`
 }
 
 // VMInstanceUpdatePerformanceClassInputModel defines model for VMInstanceUpdatePerformanceClassInputModel.
 type VMInstanceUpdatePerformanceClassInputModel struct {
-	Cpu           int                `json:"cpu"`
-	EntityLabels  *map[string]string `json:"entity_labels,omitempty"`
-	OrderNumber   string             `json:"order_number"`
-	ProjectLabels *map[string]string `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID `json:"project_uuid"`
-	Ram           int                `json:"ram"`
-	Tenant        string             `json:"tenant"`
-	TenantLabels  *map[string]string `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext `json:"actorContext"`
+	Cpu          int          `json:"cpu"`
+	OrderNumber  string       `json:"order_number"`
+	Ram          int          `json:"ram"`
 }
 
 // VMInstanceUpdateServiceClassInputModel defines model for VMInstanceUpdateServiceClassInputModel.
 type VMInstanceUpdateServiceClassInputModel struct {
-	EntityLabels  *map[string]string                                 `json:"entity_labels,omitempty"`
-	OrderNumber   string                                             `json:"order_number"`
-	ProjectLabels *map[string]string                                 `json:"project_labels,omitempty"`
-	ProjectUuid   openapi_types.UUID                                 `json:"project_uuid"`
-	Serviceclass  VMInstanceUpdateServiceClassInputModelServiceclass `json:"serviceclass"`
-	Tenant        string                                             `json:"tenant"`
-	TenantLabels  *map[string]string                                 `json:"tenant_labels,omitempty"`
+	ActorContext ActorContext                                       `json:"actorContext"`
+	OrderNumber  string                                             `json:"order_number"`
+	Serviceclass VMInstanceUpdateServiceClassInputModelServiceclass `json:"serviceclass"`
 }
 
 // VMInstanceUpdateServiceClassInputModelServiceclass defines model for VMInstanceUpdateServiceClassInputModel.Serviceclass.
@@ -921,12 +869,12 @@ type VMInstanceUpdateServiceClassInputModelServiceclass string
 
 // VMInstanceWindowsCreateInputModel defines model for VMInstanceWindowsCreateInputModel.
 type VMInstanceWindowsCreateInputModel struct {
+	ActorContext     ActorContext                                  `json:"actorContext"`
 	Availability     VMInstanceWindowsCreateInputModelAvailability `json:"availability"`
 	Backup           bool                                          `json:"backup"`
 	Billable         *bool                                         `json:"billable,omitempty"`
 	BillingStartDate *openapi_types.Date                           `json:"billing_start_date,omitempty"`
 	ContactUuid      openapi_types.UUID                            `json:"contact_uuid"`
-	Contract         *bool                                         `json:"contract,omitempty"`
 	Cpu              int                                           `json:"cpu"`
 	DatacenterUuid   openapi_types.UUID                            `json:"datacenter_uuid"`
 	Disks            []DiskWindowsInputModel                       `json:"disks"`
@@ -936,12 +884,8 @@ type VMInstanceWindowsCreateInputModel struct {
 	Name             *string                                       `json:"name,omitempty"`
 	OrderNumber      string                                        `json:"order_number"`
 	OsUuid           openapi_types.UUID                            `json:"os_uuid"`
-	ProjectLabels    *map[string]string                            `json:"project_labels,omitempty"`
-	ProjectUuid      openapi_types.UUID                            `json:"project_uuid"`
 	Ram              int                                           `json:"ram"`
 	Serviceclass     VMInstanceWindowsCreateInputModelServiceclass `json:"serviceclass"`
-	Tenant           string                                        `json:"tenant"`
-	TenantLabels     *map[string]string                            `json:"tenant_labels,omitempty"`
 	VlanUuid         openapi_types.UUID                            `json:"vlan_uuid"`
 }
 
@@ -976,294 +920,50 @@ type ValidationSuccessResponseModel struct {
 
 // ContainerInstanceGetApiV1ContainerInstanceGetParams defines parameters for ContainerInstanceGetApiV1ContainerInstanceGet.
 type ContainerInstanceGetApiV1ContainerInstanceGetParams struct {
-	Tenant         string              `form:"tenant" json:"tenant"`
-	InstanceUuid   *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
-}
-
-// ContainerInstancePostApiV1ContainerInstancePostParams defines parameters for ContainerInstancePostApiV1ContainerInstancePost.
-type ContainerInstancePostApiV1ContainerInstancePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams defines parameters for ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost.
-type ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams defines parameters for ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete.
-type ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams defines parameters for ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost.
-type ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
+	Tenant       string              `form:"tenant" json:"tenant"`
+	InstanceUuid *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
 }
 
 // KiteworksApplianceGetApiV1KiteworksApplianceGetParams defines parameters for KiteworksApplianceGetApiV1KiteworksApplianceGet.
 type KiteworksApplianceGetApiV1KiteworksApplianceGetParams struct {
-	Tenant         string              `form:"tenant" json:"tenant"`
-	InstanceUuid   *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
-}
-
-// KiteworksAppliancePostApiV1KiteworksAppliancePostParams defines parameters for KiteworksAppliancePostApiV1KiteworksAppliancePost.
-type KiteworksAppliancePostApiV1KiteworksAppliancePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams defines parameters for KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost.
-type KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams defines parameters for KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete.
-type KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams defines parameters for KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost.
-type KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
+	Tenant       string              `form:"tenant" json:"tenant"`
+	InstanceUuid *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
 }
 
 // VmDatacenterGetApiV1MvmDatacenterGetParams defines parameters for VmDatacenterGetApiV1MvmDatacenterGet.
 type VmDatacenterGetApiV1MvmDatacenterGetParams struct {
 	DatacenterUuid *openapi_types.UUID `form:"datacenter_uuid,omitempty" json:"datacenter_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
 }
 
 // VmDiskGetApiV1MvmDiskGetParams defines parameters for VmDiskGetApiV1MvmDiskGet.
 type VmDiskGetApiV1MvmDiskGetParams struct {
-	DiskUuid       *openapi_types.UUID `form:"disk_uuid,omitempty" json:"disk_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
+	DiskUuid *openapi_types.UUID `form:"disk_uuid,omitempty" json:"disk_uuid,omitempty"`
 }
 
 // VmInstanceGetApiV1MvmInstanceGetParams defines parameters for VmInstanceGetApiV1MvmInstanceGet.
 type VmInstanceGetApiV1MvmInstanceGetParams struct {
-	Tenant         string              `form:"tenant" json:"tenant"`
-	InstanceUuid   *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
-}
-
-// VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams defines parameters for VmInstanceLinuxPostApiV1MvmInstanceLinuxPost.
-type VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams defines parameters for VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost.
-type VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams defines parameters for VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost.
-type VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams defines parameters for VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost.
-type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams defines parameters for VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost.
-type VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams defines parameters for VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost.
-type VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams defines parameters for VmInstanceWindowsPostApiV1MvmInstanceWindowsPost.
-type VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams defines parameters for VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost.
-type VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams defines parameters for VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost.
-type VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams defines parameters for VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost.
-type VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams defines parameters for VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost.
-type VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams defines parameters for VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost.
-type VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams defines parameters for VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete.
-type VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams defines parameters for VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut.
-type VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams defines parameters for VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost.
-type VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams defines parameters for VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost.
-type VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams defines parameters for VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete.
-type VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams defines parameters for VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut.
-type VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams defines parameters for VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost.
-type VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams defines parameters for VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost.
-type VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams defines parameters for VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost.
-type VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams defines parameters for VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost.
-type VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams defines parameters for VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete.
-type VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams defines parameters for VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut.
-type VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams defines parameters for VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost.
-type VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams defines parameters for VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost.
-type VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams defines parameters for VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut.
-type VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams defines parameters for VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost.
-type VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams defines parameters for VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut.
-type VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams defines parameters for VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost.
-type VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams defines parameters for VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost.
-type VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams defines parameters for VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost.
-type VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams defines parameters for VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut.
-type VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams defines parameters for VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost.
-type VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams defines parameters for VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost.
-type VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams defines parameters for VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost.
-type VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams defines parameters for VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete.
-type VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams defines parameters for VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost.
-type VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
+	Tenant       string              `form:"tenant" json:"tenant"`
+	InstanceUuid *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
 }
 
 // VmInterfaceGetApiV1MvmInterfaceGetParams defines parameters for VmInterfaceGetApiV1MvmInterfaceGet.
 type VmInterfaceGetApiV1MvmInterfaceGetParams struct {
-	InterfaceUuid  *openapi_types.UUID `form:"interface_uuid,omitempty" json:"interface_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
+	InterfaceUuid *openapi_types.UUID `form:"interface_uuid,omitempty" json:"interface_uuid,omitempty"`
 }
 
 // VmLocationGetApiV1MvmLocationGetParams defines parameters for VmLocationGetApiV1MvmLocationGet.
 type VmLocationGetApiV1MvmLocationGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
+	Tenant string `form:"tenant" json:"tenant"`
 }
 
 // VmOsGetApiV1MvmOsGetParams defines parameters for VmOsGetApiV1MvmOsGet.
 type VmOsGetApiV1MvmOsGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
+	Tenant string `form:"tenant" json:"tenant"`
 }
 
 // VmSnapshotGetApiV1MvmSnapshotGetParams defines parameters for VmSnapshotGetApiV1MvmSnapshotGet.
 type VmSnapshotGetApiV1MvmSnapshotGetParams struct {
-	SnapshotUuid   *openapi_types.UUID `form:"snapshot_uuid,omitempty" json:"snapshot_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
-}
-
-// VmStagetypeGetApiV1MvmStagetypeGetParams defines parameters for VmStagetypeGetApiV1MvmStagetypeGet.
-type VmStagetypeGetApiV1MvmStagetypeGetParams struct {
-	XOriginalToken string `json:"x-original-token"`
+	SnapshotUuid *openapi_types.UUID `form:"snapshot_uuid,omitempty" json:"snapshot_uuid,omitempty"`
 }
 
 // VmVlanGetApiV1MvmVlanGetParams defines parameters for VmVlanGetApiV1MvmVlanGet.
@@ -1271,33 +971,11 @@ type VmVlanGetApiV1MvmVlanGetParams struct {
 	Tenant         string              `form:"tenant" json:"tenant"`
 	DatacenterUuid openapi_types.UUID  `form:"datacenter_uuid" json:"datacenter_uuid"`
 	DomainUuid     *openapi_types.UUID `form:"domain_uuid,omitempty" json:"domain_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
 }
 
 // TenantContactGetApiV1TenantContactGetParams defines parameters for TenantContactGetApiV1TenantContactGet.
 type TenantContactGetApiV1TenantContactGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// TenantContactPostApiV1TenantContactPostParams defines parameters for TenantContactPostApiV1TenantContactPost.
-type TenantContactPostApiV1TenantContactPostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams defines parameters for TenantContactCreateValidateApiV1TenantContactCreateValidatePost.
-type TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// TenantContactPutApiV1TenantContactContactUuidPutParams defines parameters for TenantContactPutApiV1TenantContactContactUuidPut.
-type TenantContactPutApiV1TenantContactContactUuidPutParams struct {
-	XOriginalToken string `json:"x-original-token"`
-}
-
-// TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams defines parameters for TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost.
-type TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams struct {
-	XOriginalToken string `json:"x-original-token"`
+	Tenant string `form:"tenant" json:"tenant"`
 }
 
 // TenantDomainGetApiV1TenantDomainGetParams defines parameters for TenantDomainGetApiV1TenantDomainGet.
@@ -1305,13 +983,11 @@ type TenantDomainGetApiV1TenantDomainGetParams struct {
 	Tenant         string              `form:"tenant" json:"tenant"`
 	DatacenterUuid openapi_types.UUID  `form:"datacenter_uuid" json:"datacenter_uuid"`
 	DomainUuid     *openapi_types.UUID `form:"domain_uuid,omitempty" json:"domain_uuid,omitempty"`
-	XOriginalToken string              `json:"x-original-token"`
 }
 
 // TenantLdapGetApiV1TenantLdapGetParams defines parameters for TenantLdapGetApiV1TenantLdapGet.
 type TenantLdapGetApiV1TenantLdapGetParams struct {
-	Tenant         string `form:"tenant" json:"tenant"`
-	XOriginalToken string `json:"x-original-token"`
+	Tenant string `form:"tenant" json:"tenant"`
 }
 
 // TenantOperationsGetApiV1TenantOperationsGetParams defines parameters for TenantOperationsGetApiV1TenantOperationsGet.
@@ -1319,7 +995,6 @@ type TenantOperationsGetApiV1TenantOperationsGetParams struct {
 	Tenant          string              `form:"tenant" json:"tenant"`
 	ItemUuid        *openapi_types.UUID `form:"item_uuid,omitempty" json:"item_uuid,omitempty"`
 	OperationStatus *string             `form:"operation_status,omitempty" json:"operation_status,omitempty"`
-	XOriginalToken  string              `json:"x-original-token"`
 }
 
 // ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody defines body for ContainerInstancePostApiV1ContainerInstancePost for application/json ContentType.
@@ -1333,6 +1008,9 @@ type ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestB
 
 // ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody defines body for ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost for application/json ContentType.
 type ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody = ContainerInstanceDeleteInputModel
+
+// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody defines body for InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete for application/json ContentType.
+type InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody = InternalVMInstanceDeleteInstantlyInputModel
 
 // KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody defines body for KiteworksAppliancePostApiV1KiteworksAppliancePost for application/json ContentType.
 type KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody = KiteworksApplianceCreateInputModel
@@ -1756,7 +1434,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-	ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstancePostApiV1ContainerInstancePost Container Instance Post
 	//
@@ -1765,7 +1443,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-	ContainerInstancePostApiV1ContainerInstancePost(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstancePostApiV1ContainerInstancePost(ctx context.Context, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody Container Instance Create Validate Post
 	//
@@ -1774,7 +1452,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost Container Instance Create Validate Post
 	//
@@ -1783,7 +1461,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx context.Context, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody Container Instance Delete
 	//
@@ -1793,7 +1471,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete Container Instance Delete
 	//
@@ -1803,7 +1481,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody Container Instance Delete Validate Post
 	//
@@ -1812,7 +1490,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost Container Instance Delete Validate Post
 	//
@@ -1821,7 +1499,25 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody Internal Instance Delete
+	//
+	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+	InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete Internal Instance Delete
+	//
+	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+	InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceGetApiV1KiteworksApplianceGet Kiteworks Appliance Get
 	//
@@ -1837,7 +1533,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-	KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksAppliancePostApiV1KiteworksAppliancePost Kiteworks Appliance Post
 	//
@@ -1846,7 +1542,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-	KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx context.Context, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody Kiteworks Appliance Create Validate
 	//
@@ -1855,7 +1551,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost Kiteworks Appliance Create Validate
 	//
@@ -1864,7 +1560,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx context.Context, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody Kiteworks Appliance Delete
 	//
@@ -1874,7 +1570,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete Kiteworks Appliance Delete
 	//
@@ -1884,7 +1580,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody Kiteworks Appliance Delete Validate Post
 	//
@@ -1893,7 +1589,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost Kiteworks Appliance Delete Validate Post
 	//
@@ -1902,7 +1598,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// LoginAccessTokenApiV1LoginAccessTokenPostWithBody Login Access Token
 	//
@@ -1957,7 +1653,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxPostApiV1MvmInstanceLinuxPost Vm Instance Linux Post
 	//
@@ -1966,7 +1662,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-	VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx context.Context, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody Vm Instance Linux Create Validate Post
 	//
@@ -1975,7 +1671,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost Vm Instance Linux Create Validate Post
 	//
@@ -1984,7 +1680,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody Vm Instance Linux Disk Post
 	//
@@ -1993,7 +1689,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost Vm Instance Linux Disk Post
 	//
@@ -2002,7 +1698,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
 	//
@@ -2011,7 +1707,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost Vm Instance Linux Disk Create Validate Post
 	//
@@ -2020,7 +1716,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody Vm Instance Linux Reinstall Post
 	//
@@ -2029,7 +1725,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost Vm Instance Linux Reinstall Post
 	//
@@ -2038,7 +1734,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody Vm Instance Linux Reinstall Validate Post
 	//
@@ -2047,7 +1743,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost Vm Instance Linux Reinstall Validate Post
 	//
@@ -2056,7 +1752,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody Vm Instance Windows Post
 	//
@@ -2065,7 +1761,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsPostApiV1MvmInstanceWindowsPost Vm Instance Windows Post
 	//
@@ -2074,7 +1770,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-	VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx context.Context, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody Vm Instance Windows Create Validate Post
 	//
@@ -2083,7 +1779,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost Vm Instance Windows Create Validate Post
 	//
@@ -2092,7 +1788,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody Vm Instance Windows Disk Post
 	//
@@ -2101,7 +1797,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost Vm Instance Windows Disk Post
 	//
@@ -2110,7 +1806,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody Vm Instance Windows Disk Create Validate Post
 	//
@@ -2119,7 +1815,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost Vm Instance Windows Disk Create Validate Post
 	//
@@ -2128,7 +1824,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody Vm Instance Windows Reinstall Post
 	//
@@ -2137,7 +1833,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost Vm Instance Windows Reinstall Post
 	//
@@ -2146,7 +1842,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody Vm Instance Windows Reinstall Validate Post
 	//
@@ -2155,7 +1851,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost Vm Instance Windows Reinstall Validate Post
 	//
@@ -2164,7 +1860,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody Vm Instance Delete
 	//
@@ -2174,7 +1870,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete Vm Instance Delete
 	//
@@ -2184,7 +1880,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody Vm Instance Contact Put
 	//
@@ -2193,7 +1889,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut Vm Instance Contact Put
 	//
@@ -2202,7 +1898,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody Vm Instance Contact Update Validate Post
 	//
@@ -2211,7 +1907,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost Vm Instance Contact Update Validate Post
 	//
@@ -2220,7 +1916,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody Vm Instance Delete Validate Post
 	//
@@ -2229,7 +1925,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost Vm Instance Delete Validate Post
 	//
@@ -2238,7 +1934,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody Vm Instance Disk Delete
 	//
@@ -2247,7 +1943,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete Vm Instance Disk Delete
 	//
@@ -2256,7 +1952,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody Vm Instance Disk Put
 	//
@@ -2265,7 +1961,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut Vm Instance Disk Put
 	//
@@ -2274,7 +1970,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody Vm Instance Disk Delete Validate Post
 	//
@@ -2283,7 +1979,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost Vm Instance Disk Delete Validate Post
 	//
@@ -2292,7 +1988,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody Vm Instance Disk Update Validate Post
 	//
@@ -2301,7 +1997,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost Vm Instance Disk Update Validate Post
 	//
@@ -2310,7 +2006,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody Vm Instance Ip Post
 	//
@@ -2319,7 +2015,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost Vm Instance Ip Post
 	//
@@ -2328,7 +2024,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody Vm Instance Ip Create Validate Post
 	//
@@ -2337,7 +2033,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost Vm Instance Ip Create Validate Post
 	//
@@ -2346,7 +2042,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody Vm Instance Ip Delete
 	//
@@ -2355,7 +2051,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete Vm Instance Ip Delete
 	//
@@ -2364,7 +2060,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody Vm Instance Ip Put
 	//
@@ -2373,7 +2069,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut Vm Instance Ip Put
 	//
@@ -2382,7 +2078,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody Vm Instance Ip Delete Validate Post
 	//
@@ -2391,7 +2087,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost Vm Instance Ip Delete Validate Post
 	//
@@ -2400,7 +2096,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody Vm Instance Ip Update Validate
 	//
@@ -2409,7 +2105,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost Vm Instance Ip Update Validate
 	//
@@ -2418,7 +2114,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody Vm Instance Labels Put
 	//
@@ -2427,7 +2123,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut Vm Instance Labels Put
 	//
@@ -2436,7 +2132,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody Vm Instance Labels Update Validate Post
 	//
@@ -2445,7 +2141,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost Vm Instance Labels Update Validate Post
 	//
@@ -2454,7 +2150,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody Vm Instance Performanceclass Put
 	//
@@ -2463,7 +2159,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut Vm Instance Performanceclass Put
 	//
@@ -2472,7 +2168,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody Vm Instance Performanceclass Update Validate Post
 	//
@@ -2481,7 +2177,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost Vm Instance Performanceclass Update Validate Post
 	//
@@ -2490,7 +2186,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody Vm Instance Restart Post
 	//
@@ -2499,7 +2195,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost Vm Instance Restart Post
 	//
@@ -2508,7 +2204,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody Vm Instance Restart Validate Post
 	//
@@ -2517,7 +2213,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost Vm Instance Restart Validate Post
 	//
@@ -2526,7 +2222,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody Vm Instance Serviceclass Put
 	//
@@ -2535,7 +2231,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut Vm Instance Serviceclass Put
 	//
@@ -2544,7 +2240,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody Vm Instance Serviceclass Update Validate Post
 	//
@@ -2553,7 +2249,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost Vm Instance Serviceclass Update Validate Post
 	//
@@ -2562,7 +2258,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody Vm Instance Snapshot Post
 	//
@@ -2571,7 +2267,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost Vm Instance Snapshot Post
 	//
@@ -2580,7 +2276,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody Vm Instance Snapshot Create Validate
 	//
@@ -2589,7 +2285,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost Vm Instance Snapshot Create Validate
 	//
@@ -2598,7 +2294,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody Vm Instance Snapshot Delete
 	//
@@ -2607,7 +2303,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete Vm Instance Snapshot Delete
 	//
@@ -2616,7 +2312,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody Vm Instance Snapshot Delete Validate
 	//
@@ -2625,7 +2321,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost Vm Instance Snapshot Delete Validate
 	//
@@ -2634,7 +2330,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInterfaceGetApiV1MvmInterfaceGet Vm Interface Get
 	//
@@ -2669,7 +2365,7 @@ type ClientInterface interface {
 	// Listet alle Stagetypes.
 	//
 	// Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
-	VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, params *VmStagetypeGetApiV1MvmStagetypeGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmVlanGetApiV1MvmVlanGet Vm Vlan Get
 	//
@@ -2692,7 +2388,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-	TenantContactPostApiV1TenantContactPostWithBody(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactPostApiV1TenantContactPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactPostApiV1TenantContactPost Tenant Contact Post
 	//
@@ -2701,7 +2397,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-	TenantContactPostApiV1TenantContactPost(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactPostApiV1TenantContactPost(ctx context.Context, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody Tenant Contact Create Validate
 	//
@@ -2710,7 +2406,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactCreateValidateApiV1TenantContactCreateValidatePost Tenant Contact Create Validate
 	//
@@ -2719,7 +2415,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-	TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx context.Context, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactPutApiV1TenantContactContactUuidPutWithBody Tenant Contact Put
 	//
@@ -2728,7 +2424,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-	TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactPutApiV1TenantContactContactUuidPut Tenant Contact Put
 	//
@@ -2737,7 +2433,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-	TenantContactPutApiV1TenantContactContactUuidPut(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactPutApiV1TenantContactContactUuidPut(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody Tenant Contact Update Validate Post
 	//
@@ -2746,7 +2442,7 @@ type ClientInterface interface {
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost Tenant Contact Update Validate Post
 	//
@@ -2755,7 +2451,7 @@ type ClientInterface interface {
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TenantDomainGetApiV1TenantDomainGet Tenant Domain Get
 	//
@@ -2789,13 +2485,6 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 	UtilsReadinessCheckApiV1UtilsReadinessCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// ReadRootCreatevmGet Read Root
-	//
-	// Welcome page.
-	//
-	// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
-	ReadRootCreatevmGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 // ReadRootGet Read Root
@@ -2839,8 +2528,8 @@ func (c *Client) ContainerInstanceGetApiV1ContainerInstanceGet(ctx context.Conte
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-func (c *Client) ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2858,8 +2547,8 @@ func (c *Client) ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx con
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-func (c *Client) ContainerInstancePostApiV1ContainerInstancePost(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstancePostApiV1ContainerInstancePostRequest(c.Server, params, body)
+func (c *Client) ContainerInstancePostApiV1ContainerInstancePost(ctx context.Context, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstancePostApiV1ContainerInstancePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2877,8 +2566,8 @@ func (c *Client) ContainerInstancePostApiV1ContainerInstancePost(ctx context.Con
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2896,8 +2585,8 @@ func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreate
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequest(c.Server, params, body)
+func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx context.Context, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2916,8 +2605,8 @@ func (c *Client) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreate
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2936,8 +2625,8 @@ func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequest(c.Server, instanceUuid, params, body)
+func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2955,8 +2644,8 @@ func (c *Client) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2974,8 +2663,46 @@ func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstan
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody Internal Instance Delete
+//
+// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+func (c *Client) InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete Internal Instance Delete
+//
+// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+func (c *Client) InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3010,8 +2737,8 @@ func (c *Client) KiteworksApplianceGetApiV1KiteworksApplianceGet(ctx context.Con
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3029,8 +2756,8 @@ func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx c
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequest(c.Server, params, body)
+func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx context.Context, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3048,8 +2775,8 @@ func (c *Client) KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx context.C
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3067,8 +2794,8 @@ func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateVa
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequest(c.Server, params, body)
+func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx context.Context, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3087,8 +2814,8 @@ func (c *Client) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateVa
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3107,8 +2834,8 @@ func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDele
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest(c.Server, instanceUuid, params, body)
+func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3126,8 +2853,8 @@ func (c *Client) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDele
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3145,8 +2872,8 @@ func (c *Client) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInst
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3270,8 +2997,8 @@ func (c *Client) VmInstanceGetApiV1MvmInstanceGet(ctx context.Context, params *V
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3289,8 +3016,8 @@ func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx contex
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequest(c.Server, params, body)
+func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx context.Context, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3308,8 +3035,8 @@ func (c *Client) VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx context.Contex
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3327,8 +3054,8 @@ func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateVal
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequest(c.Server, params, body)
+func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3346,8 +3073,8 @@ func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateVal
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3365,8 +3092,8 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3384,8 +3111,8 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3403,8 +3130,8 @@ func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInsta
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3422,8 +3149,8 @@ func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInsta
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3441,8 +3168,8 @@ func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidRe
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3460,8 +3187,8 @@ func (c *Client) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidRe
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3479,8 +3206,8 @@ func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstan
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3498,8 +3225,8 @@ func (c *Client) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstan
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3517,8 +3244,8 @@ func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx co
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequest(c.Server, params, body)
+func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx context.Context, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3536,8 +3263,8 @@ func (c *Client) VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx context.Co
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3555,8 +3282,8 @@ func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreat
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequest(c.Server, params, body)
+func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3574,8 +3301,8 @@ func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreat
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3593,8 +3320,8 @@ func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDis
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3612,8 +3339,8 @@ func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDis
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3631,8 +3358,8 @@ func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsI
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3650,8 +3377,8 @@ func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsI
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3669,8 +3396,8 @@ func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUu
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3688,8 +3415,8 @@ func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUu
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3707,8 +3434,8 @@ func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsIn
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3727,8 +3454,8 @@ func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsIn
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3747,8 +3474,8 @@ func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx 
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3766,8 +3493,8 @@ func (c *Client) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx context.
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3785,8 +3512,8 @@ func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithB
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3804,8 +3531,8 @@ func (c *Client) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx 
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3823,8 +3550,8 @@ func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuid
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3842,8 +3569,8 @@ func (c *Client) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuid
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3861,8 +3588,8 @@ func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteV
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3880,8 +3607,8 @@ func (c *Client) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteV
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(c.Server, instanceUuid, diskUuid, params, contentType, body)
+func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(c.Server, instanceUuid, diskUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3899,8 +3626,8 @@ func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDel
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequest(c.Server, instanceUuid, diskUuid, params, body)
+func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequest(c.Server, instanceUuid, diskUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3918,8 +3645,8 @@ func (c *Client) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDel
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(c.Server, instanceUuid, diskUuid, params, contentType, body)
+func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(c.Server, instanceUuid, diskUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3937,8 +3664,8 @@ func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWit
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequest(c.Server, instanceUuid, diskUuid, params, body)
+func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequest(c.Server, instanceUuid, diskUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3956,8 +3683,8 @@ func (c *Client) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ct
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, diskUuid, params, contentType, body)
+func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, diskUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3975,8 +3702,8 @@ func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDis
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequest(c.Server, instanceUuid, diskUuid, params, body)
+func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequest(c.Server, instanceUuid, diskUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3994,8 +3721,8 @@ func (c *Client) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDis
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(c.Server, instanceUuid, diskUuid, params, contentType, body)
+func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(c.Server, instanceUuid, diskUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4013,8 +3740,8 @@ func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDis
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequest(c.Server, instanceUuid, diskUuid, params, body)
+func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequest(c.Server, instanceUuid, diskUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4032,8 +3759,8 @@ func (c *Client) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDis
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4051,8 +3778,8 @@ func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx 
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4070,8 +3797,8 @@ func (c *Client) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx context.
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4089,8 +3816,8 @@ func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCre
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4108,8 +3835,8 @@ func (c *Client) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCre
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(c.Server, instanceUuid, interfaceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(c.Server, instanceUuid, interfaceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4127,8 +3854,8 @@ func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDe
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequest(c.Server, instanceUuid, interfaceUuid, params, body)
+func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequest(c.Server, instanceUuid, interfaceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4146,8 +3873,8 @@ func (c *Client) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDe
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(c.Server, instanceUuid, interfaceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(c.Server, instanceUuid, interfaceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4165,8 +3892,8 @@ func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWi
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequest(c.Server, instanceUuid, interfaceUuid, params, body)
+func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequest(c.Server, instanceUuid, interfaceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4184,8 +3911,8 @@ func (c *Client) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(c
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, interfaceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, interfaceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4203,8 +3930,8 @@ func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInt
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequest(c.Server, instanceUuid, interfaceUuid, params, body)
+func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequest(c.Server, instanceUuid, interfaceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4222,8 +3949,8 @@ func (c *Client) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInt
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(c.Server, instanceUuid, interfaceUuid, params, contentType, body)
+func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(c.Server, instanceUuid, interfaceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4241,8 +3968,8 @@ func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfa
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequest(c.Server, instanceUuid, interfaceUuid, params, body)
+func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequest(c.Server, instanceUuid, interfaceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4260,8 +3987,8 @@ func (c *Client) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfa
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4279,8 +4006,8 @@ func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBod
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4298,8 +4025,8 @@ func (c *Client) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx co
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4317,8 +4044,8 @@ func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidL
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4336,8 +4063,8 @@ func (c *Client) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidL
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4355,8 +4082,8 @@ func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerfor
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4374,8 +4101,8 @@ func (c *Client) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerfor
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4393,8 +4120,8 @@ func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceIns
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4412,8 +4139,8 @@ func (c *Client) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceIns
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4431,8 +4158,8 @@ func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWit
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4450,8 +4177,8 @@ func (c *Client) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ct
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4469,8 +4196,8 @@ func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestar
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4488,8 +4215,8 @@ func (c *Client) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestar
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4507,8 +4234,8 @@ func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServicecla
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4526,8 +4253,8 @@ func (c *Client) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServicecla
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4545,8 +4272,8 @@ func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanc
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4564,8 +4291,8 @@ func (c *Client) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanc
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4583,8 +4310,8 @@ func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostW
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4602,8 +4329,8 @@ func (c *Client) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(c.Server, instanceUuid, params, contentType, body)
+func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4621,8 +4348,8 @@ func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSna
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequest(c.Server, instanceUuid, params, body)
+func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4640,8 +4367,8 @@ func (c *Client) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSna
 // Takes any type of body and a specified content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(c.Server, instanceUuid, snapshotUuid, params, contentType, body)
+func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(c.Server, instanceUuid, snapshotUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4659,8 +4386,8 @@ func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSna
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequest(c.Server, instanceUuid, snapshotUuid, params, body)
+func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequest(c.Server, instanceUuid, snapshotUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4678,8 +4405,8 @@ func (c *Client) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSna
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, snapshotUuid, params, contentType, body)
+func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(c.Server, instanceUuid, snapshotUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4697,8 +4424,8 @@ func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSna
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest(c.Server, instanceUuid, snapshotUuid, params, body)
+func (c *Client) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest(c.Server, instanceUuid, snapshotUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4782,8 +4509,8 @@ func (c *Client) VmSnapshotGetApiV1MvmSnapshotGet(ctx context.Context, params *V
 // Listet alle Stagetypes.
 //
 // Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
-func (c *Client) VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, params *VmStagetypeGetApiV1MvmStagetypeGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmStagetypeGetApiV1MvmStagetypeGetRequest(c.Server, params)
+func (c *Client) VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmStagetypeGetApiV1MvmStagetypeGetRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -4835,8 +4562,8 @@ func (c *Client) TenantContactGetApiV1TenantContactGet(ctx context.Context, para
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-func (c *Client) TenantContactPostApiV1TenantContactPostWithBody(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactPostApiV1TenantContactPostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) TenantContactPostApiV1TenantContactPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactPostApiV1TenantContactPostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4854,8 +4581,8 @@ func (c *Client) TenantContactPostApiV1TenantContactPostWithBody(ctx context.Con
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-func (c *Client) TenantContactPostApiV1TenantContactPost(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactPostApiV1TenantContactPostRequest(c.Server, params, body)
+func (c *Client) TenantContactPostApiV1TenantContactPost(ctx context.Context, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactPostApiV1TenantContactPostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4873,8 +4600,8 @@ func (c *Client) TenantContactPostApiV1TenantContactPost(ctx context.Context, pa
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(c.Server, params, contentType, body)
+func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4892,8 +4619,8 @@ func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePost
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequest(c.Server, params, body)
+func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx context.Context, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4911,8 +4638,8 @@ func (c *Client) TenantContactCreateValidateApiV1TenantContactCreateValidatePost
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-func (c *Client) TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(c.Server, contactUuid, params, contentType, body)
+func (c *Client) TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(c.Server, contactUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4930,8 +4657,8 @@ func (c *Client) TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx co
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-func (c *Client) TenantContactPutApiV1TenantContactContactUuidPut(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactPutApiV1TenantContactContactUuidPutRequest(c.Server, contactUuid, params, body)
+func (c *Client) TenantContactPutApiV1TenantContactContactUuidPut(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactPutApiV1TenantContactContactUuidPutRequest(c.Server, contactUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4949,8 +4676,8 @@ func (c *Client) TenantContactPutApiV1TenantContactContactUuidPut(ctx context.Co
 // Takes any type of body and a specified content type.
 //
 // Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-func (c *Client) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(c.Server, contactUuid, params, contentType, body)
+func (c *Client) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(c.Server, contactUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4968,8 +4695,8 @@ func (c *Client) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpd
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-func (c *Client) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequest(c.Server, contactUuid, params, body)
+func (c *Client) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequest(c.Server, contactUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5053,23 +4780,6 @@ func (c *Client) UtilsHealthCheckApiV1UtilsHealthCheckGet(ctx context.Context, r
 // Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 func (c *Client) UtilsReadinessCheckApiV1UtilsReadinessCheckGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-// ReadRootCreatevmGet Read Root
-//
-// Welcome page.
-//
-// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
-func (c *Client) ReadRootCreatevmGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewReadRootCreatevmGetRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -5166,35 +4876,22 @@ func NewContainerInstanceGetApiV1ContainerInstanceGetRequest(server string, para
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewContainerInstancePostApiV1ContainerInstancePostRequest calls the generic ContainerInstancePostApiV1ContainerInstancePost builder with application/json body
-func NewContainerInstancePostApiV1ContainerInstancePostRequest(server string, params *ContainerInstancePostApiV1ContainerInstancePostParams, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody) (*http.Request, error) {
+func NewContainerInstancePostApiV1ContainerInstancePostRequest(server string, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody constructs an http.Request for the ContainerInstancePostApiV1ContainerInstancePost method, with any body, and a specified content type
-func NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(server string, params *ContainerInstancePostApiV1ContainerInstancePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -5219,35 +4916,22 @@ func NewContainerInstancePostApiV1ContainerInstancePostRequestWithBody(server st
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequest calls the generic ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost builder with application/json body
-func NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequest(server string, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequest(server string, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody constructs an http.Request for the ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost method, with any body, and a specified content type
-func NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(server string, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -5272,35 +4956,22 @@ func NewContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidateP
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequest calls the generic ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete builder with application/json body
-func NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody constructs an http.Request for the ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete method, with any body, and a specified content type
-func NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5332,35 +5003,22 @@ func NewContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteRequestWi
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequest calls the generic ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost builder with application/json body
-func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody constructs an http.Request for the ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost method, with any body, and a specified content type
-func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5392,18 +5050,52 @@ func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDel
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
+	return req, nil
+}
 
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
+// NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequest calls the generic InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete builder with application/json body
+func NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, body InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
 	}
+	bodyReader = bytes.NewReader(buf)
+	return NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequestWithBody(server, instanceUuid, "application/json", bodyReader)
+}
+
+// NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequestWithBody constructs an http.Request for the InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete method, with any body, and a specified content type
+func NewInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "instance_uuid", instanceUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/internal/instance/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -5467,35 +5159,22 @@ func NewKiteworksApplianceGetApiV1KiteworksApplianceGetRequest(server string, pa
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequest calls the generic KiteworksAppliancePostApiV1KiteworksAppliancePost builder with application/json body
-func NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequest(server string, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody) (*http.Request, error) {
+func NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequest(server string, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody constructs an http.Request for the KiteworksAppliancePostApiV1KiteworksAppliancePost method, with any body, and a specified content type
-func NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(server string, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -5520,35 +5199,22 @@ func NewKiteworksAppliancePostApiV1KiteworksAppliancePostRequestWithBody(server 
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequest calls the generic KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost builder with application/json body
-func NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequest(server string, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequest(server string, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody constructs an http.Request for the KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost method, with any body, and a specified content type
-func NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(server string, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -5573,35 +5239,22 @@ func NewKiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePos
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest calls the generic KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete builder with application/json body
-func NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody constructs an http.Request for the KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete method, with any body, and a specified content type
-func NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5633,35 +5286,22 @@ func NewKiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteRequest
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequest calls the generic KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost builder with application/json body
-func NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody constructs an http.Request for the KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost method, with any body, and a specified content type
-func NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5692,19 +5332,6 @@ func NewKiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidD
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
 
 	return req, nil
 }
@@ -5827,19 +5454,6 @@ func NewVmDatacenterGetApiV1MvmDatacenterGetRequest(server string, params *VmDat
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -5892,19 +5506,6 @@ func NewVmDiskGetApiV1MvmDiskGetRequest(server string, params *VmDiskGetApiV1Mvm
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
-	}
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
 	}
 
 	return req, nil
@@ -5969,35 +5570,22 @@ func NewVmInstanceGetApiV1MvmInstanceGetRequest(server string, params *VmInstanc
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequest calls the generic VmInstanceLinuxPostApiV1MvmInstanceLinuxPost builder with application/json body
-func NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequest(server string, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequest(server string, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody constructs an http.Request for the VmInstanceLinuxPostApiV1MvmInstanceLinuxPost method, with any body, and a specified content type
-func NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(server string, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -6022,35 +5610,22 @@ func NewVmInstanceLinuxPostApiV1MvmInstanceLinuxPostRequestWithBody(server strin
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequest calls the generic VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost builder with application/json body
-func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequest(server string, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequest(server string, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(server string, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -6075,35 +5650,22 @@ func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest calls the generic VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost builder with application/json body
-func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody constructs an http.Request for the VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost method, with any body, and a specified content type
-func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6135,35 +5697,22 @@ func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestW
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest calls the generic VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost builder with application/json body
-func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6195,35 +5744,22 @@ func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDi
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequest calls the generic VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost builder with application/json body
-func NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody constructs an http.Request for the VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost method, with any body, and a specified content type
-func NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6255,35 +5791,22 @@ func NewVmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPo
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequest calls the generic VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost builder with application/json body
-func NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody constructs an http.Request for the VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost method, with any body, and a specified content type
-func NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6315,35 +5838,22 @@ func NewVmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidRei
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequest calls the generic VmInstanceWindowsPostApiV1MvmInstanceWindowsPost builder with application/json body
-func NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequest(server string, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequest(server string, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody constructs an http.Request for the VmInstanceWindowsPostApiV1MvmInstanceWindowsPost method, with any body, and a specified content type
-func NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(server string, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -6368,35 +5878,22 @@ func NewVmInstanceWindowsPostApiV1MvmInstanceWindowsPostRequestWithBody(server s
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequest calls the generic VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost builder with application/json body
-func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequest(server string, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequest(server string, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(server string, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -6421,35 +5918,22 @@ func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidate
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest calls the generic VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost builder with application/json body
-func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody constructs an http.Request for the VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost method, with any body, and a specified content type
-func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6481,35 +5965,22 @@ func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequ
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest calls the generic VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost builder with application/json body
-func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6541,35 +6012,22 @@ func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUu
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequest calls the generic VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost builder with application/json body
-func NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody constructs an http.Request for the VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost method, with any body, and a specified content type
-func NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6601,35 +6059,22 @@ func NewVmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinsta
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequest calls the generic VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost builder with application/json body
-func NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody constructs an http.Request for the VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost method, with any body, and a specified content type
-func NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6661,35 +6106,22 @@ func NewVmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUui
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequest calls the generic VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete builder with application/json body
-func NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody constructs an http.Request for the VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete method, with any body, and a specified content type
-func NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6721,35 +6153,22 @@ func NewVmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteRequestWithBody(server
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequest calls the generic VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut builder with application/json body
-func NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody constructs an http.Request for the VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut method, with any body, and a specified content type
-func NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6781,35 +6200,22 @@ func NewVmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutRequestWithBod
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequest calls the generic VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost builder with application/json body
-func NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6841,35 +6247,22 @@ func NewVmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUp
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequest calls the generic VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost builder with application/json body
-func NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody constructs an http.Request for the VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost method, with any body, and a specified content type
-func NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6901,35 +6294,22 @@ func NewVmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePo
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequest calls the generic VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete builder with application/json body
-func NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(server, instanceUuid, diskUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(server, instanceUuid, diskUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody constructs an http.Request for the VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete method, with any body, and a specified content type
-func NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6968,35 +6348,22 @@ func NewVmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteReques
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequest calls the generic VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut builder with application/json body
-func NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(server, instanceUuid, diskUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(server, instanceUuid, diskUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody constructs an http.Request for the VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut method, with any body, and a specified content type
-func NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7035,35 +6402,22 @@ func NewVmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutRequestWithB
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequest calls the generic VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost builder with application/json body
-func NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(server, instanceUuid, diskUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(server, instanceUuid, diskUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody constructs an http.Request for the VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost method, with any body, and a specified content type
-func NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7102,35 +6456,22 @@ func NewVmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuid
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequest calls the generic VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost builder with application/json body
-func NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(server, instanceUuid, diskUuid, params, "application/json", bodyReader)
+	return NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(server, instanceUuid, diskUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7169,35 +6510,22 @@ func NewVmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuid
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequest calls the generic VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost builder with application/json body
-func NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody constructs an http.Request for the VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost method, with any body, and a specified content type
-func NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7229,35 +6557,22 @@ func NewVmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostRequestWithBody(server
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequest calls the generic VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost builder with application/json body
-func NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7289,35 +6604,22 @@ func NewVmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValida
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequest calls the generic VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete builder with application/json body
-func NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(server, instanceUuid, interfaceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(server, instanceUuid, interfaceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody constructs an http.Request for the VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete method, with any body, and a specified content type
-func NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7356,35 +6658,22 @@ func NewVmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteReque
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequest calls the generic VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut builder with application/json body
-func NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(server, instanceUuid, interfaceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(server, instanceUuid, interfaceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody constructs an http.Request for the VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut method, with any body, and a specified content type
-func NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7423,35 +6712,22 @@ func NewVmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutRequestWith
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequest calls the generic VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost builder with application/json body
-func NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, interfaceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(server, instanceUuid, interfaceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody constructs an http.Request for the VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost method, with any body, and a specified content type
-func NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7490,35 +6766,22 @@ func NewVmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUui
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequest calls the generic VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost builder with application/json body
-func NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(server, instanceUuid, interfaceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(server, instanceUuid, interfaceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7557,35 +6820,22 @@ func NewVmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpd
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequest calls the generic VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut builder with application/json body
-func NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody constructs an http.Request for the VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut method, with any body, and a specified content type
-func NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7617,35 +6867,22 @@ func NewVmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutRequestWithBody(
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequest calls the generic VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost builder with application/json body
-func NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7677,35 +6914,22 @@ func NewVmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpda
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequest calls the generic VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut builder with application/json body
-func NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequest(server string, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequest(server string, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody constructs an http.Request for the VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut method, with any body, and a specified content type
-func NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7737,35 +6961,22 @@ func NewVmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclas
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequest calls the generic VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost builder with application/json body
-func NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7797,35 +7008,22 @@ func NewVmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuid
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequest calls the generic VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost builder with application/json body
-func NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody constructs an http.Request for the VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost method, with any body, and a specified content type
-func NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7857,35 +7055,22 @@ func NewVmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostRequestWithB
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequest calls the generic VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost builder with application/json body
-func NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody constructs an http.Request for the VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost method, with any body, and a specified content type
-func NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7917,35 +7102,22 @@ func NewVmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidate
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequest calls the generic VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut builder with application/json body
-func NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody constructs an http.Request for the VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut method, with any body, and a specified content type
-func NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -7977,35 +7149,22 @@ func NewVmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutRequ
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequest calls the generic VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost builder with application/json body
-func NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody constructs an http.Request for the VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost method, with any body, and a specified content type
-func NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8037,35 +7196,22 @@ func NewVmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServ
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequest calls the generic VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost builder with application/json body
-func NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody constructs an http.Request for the VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost method, with any body, and a specified content type
-func NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8097,35 +7243,22 @@ func NewVmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostRequestWit
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequest calls the generic VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost builder with application/json body
-func NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(server, instanceUuid, params, "application/json", bodyReader)
+	return NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8157,35 +7290,22 @@ func NewVmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCrea
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequest calls the generic VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete builder with application/json body
-func NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequest(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(server, instanceUuid, snapshotUuid, params, "application/json", bodyReader)
+	return NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(server, instanceUuid, snapshotUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody constructs an http.Request for the VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete method, with any body, and a specified content type
-func NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteRequestWithBody(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8224,35 +7344,22 @@ func NewVmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuid
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest calls the generic VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost builder with application/json body
-func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
+func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequest(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(server, instanceUuid, snapshotUuid, params, "application/json", bodyReader)
+	return NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(server, instanceUuid, snapshotUuid, "application/json", bodyReader)
 }
 
 // NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody constructs an http.Request for the VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost method, with any body, and a specified content type
-func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8290,19 +7397,6 @@ func NewVmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnap
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
 
 	return req, nil
 }
@@ -8358,19 +7452,6 @@ func NewVmInterfaceGetApiV1MvmInterfaceGetRequest(server string, params *VmInter
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -8421,19 +7502,6 @@ func NewVmLocationGetApiV1MvmLocationGetRequest(server string, params *VmLocatio
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -8482,19 +7550,6 @@ func NewVmOsGetApiV1MvmOsGetRequest(server string, params *VmOsGetApiV1MvmOsGetP
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
-	}
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
 	}
 
 	return req, nil
@@ -8551,24 +7606,11 @@ func NewVmSnapshotGetApiV1MvmSnapshotGetRequest(server string, params *VmSnapsho
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewVmStagetypeGetApiV1MvmStagetypeGetRequest constructs an http.Request for the VmStagetypeGetApiV1MvmStagetypeGet method
-func NewVmStagetypeGetApiV1MvmStagetypeGetRequest(server string, params *VmStagetypeGetApiV1MvmStagetypeGetParams) (*http.Request, error) {
+func NewVmStagetypeGetApiV1MvmStagetypeGetRequest(server string) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -8589,19 +7631,6 @@ func NewVmStagetypeGetApiV1MvmStagetypeGetRequest(server string, params *VmStage
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
-	}
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
 	}
 
 	return req, nil
@@ -8674,19 +7703,6 @@ func NewVmVlanGetApiV1MvmVlanGetRequest(server string, params *VmVlanGetApiV1Mvm
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -8737,35 +7753,22 @@ func NewTenantContactGetApiV1TenantContactGetRequest(server string, params *Tena
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewTenantContactPostApiV1TenantContactPostRequest calls the generic TenantContactPostApiV1TenantContactPost builder with application/json body
-func NewTenantContactPostApiV1TenantContactPostRequest(server string, params *TenantContactPostApiV1TenantContactPostParams, body TenantContactPostApiV1TenantContactPostJSONRequestBody) (*http.Request, error) {
+func NewTenantContactPostApiV1TenantContactPostRequest(server string, body TenantContactPostApiV1TenantContactPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewTenantContactPostApiV1TenantContactPostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewTenantContactPostApiV1TenantContactPostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewTenantContactPostApiV1TenantContactPostRequestWithBody constructs an http.Request for the TenantContactPostApiV1TenantContactPost method, with any body, and a specified content type
-func NewTenantContactPostApiV1TenantContactPostRequestWithBody(server string, params *TenantContactPostApiV1TenantContactPostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewTenantContactPostApiV1TenantContactPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -8790,35 +7793,22 @@ func NewTenantContactPostApiV1TenantContactPostRequestWithBody(server string, pa
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequest calls the generic TenantContactCreateValidateApiV1TenantContactCreateValidatePost builder with application/json body
-func NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequest(server string, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequest(server string, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(server, params, "application/json", bodyReader)
+	return NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(server, "application/json", bodyReader)
 }
 
 // NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody constructs an http.Request for the TenantContactCreateValidateApiV1TenantContactCreateValidatePost method, with any body, and a specified content type
-func NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(server string, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -8843,35 +7833,22 @@ func NewTenantContactCreateValidateApiV1TenantContactCreateValidatePostRequestWi
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewTenantContactPutApiV1TenantContactContactUuidPutRequest calls the generic TenantContactPutApiV1TenantContactContactUuidPut builder with application/json body
-func NewTenantContactPutApiV1TenantContactContactUuidPutRequest(server string, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody) (*http.Request, error) {
+func NewTenantContactPutApiV1TenantContactContactUuidPutRequest(server string, contactUuid openapi_types.UUID, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(server, contactUuid, params, "application/json", bodyReader)
+	return NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(server, contactUuid, "application/json", bodyReader)
 }
 
 // NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody constructs an http.Request for the TenantContactPutApiV1TenantContactContactUuidPut method, with any body, and a specified content type
-func NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(server string, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(server string, contactUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8903,35 +7880,22 @@ func NewTenantContactPutApiV1TenantContactContactUuidPutRequestWithBody(server s
 
 	req.Header.Add("Content-Type", contentType)
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
 // NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequest calls the generic TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost builder with application/json body
-func NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequest(server string, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
+func NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequest(server string, contactUuid openapi_types.UUID, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(server, contactUuid, params, "application/json", bodyReader)
+	return NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(server, contactUuid, "application/json", bodyReader)
 }
 
 // NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody constructs an http.Request for the TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost method, with any body, and a specified content type
-func NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(server string, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostRequestWithBody(server string, contactUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -8962,19 +7926,6 @@ func NewTenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValida
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
 
 	return req, nil
 }
@@ -9046,19 +7997,6 @@ func NewTenantDomainGetApiV1TenantDomainGetRequest(server string, params *Tenant
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -9107,19 +8045,6 @@ func NewTenantLdapGetApiV1TenantLdapGetRequest(server string, params *TenantLdap
 	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
 	if err != nil {
 		return nil, err
-	}
-
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
 	}
 
 	return req, nil
@@ -9196,19 +8121,6 @@ func NewTenantOperationsGetApiV1TenantOperationsGetRequest(server string, params
 		return nil, err
 	}
 
-	if params != nil {
-
-		var headerParam0 string
-
-		headerParam0, err = runtime.StyleParamWithOptions("simple", false, "x-original-token", params.XOriginalToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationHeader, Type: "string", Format: ""})
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("x-original-token", headerParam0)
-
-	}
-
 	return req, nil
 }
 
@@ -9249,33 +8161,6 @@ func NewUtilsReadinessCheckApiV1UtilsReadinessCheckGetRequest(server string) (*h
 	}
 
 	operationPath := fmt.Sprintf("/api/v1/utils/readiness-check/")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewReadRootCreatevmGetRequest constructs an http.Request for the ReadRootCreatevmGet method
-func NewReadRootCreatevmGetRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/createvm")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -9362,7 +8247,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-	ContainerInstancePostApiV1ContainerInstancePostWithBodyWithResponse(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error)
+	ContainerInstancePostApiV1ContainerInstancePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error)
 
 	// ContainerInstancePostApiV1ContainerInstancePostWithResponse Container Instance Post
 	//
@@ -9371,7 +8256,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-	ContainerInstancePostApiV1ContainerInstancePostWithResponse(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error)
+	ContainerInstancePostApiV1ContainerInstancePostWithResponse(ctx context.Context, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error)
 
 	// ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBodyWithResponse Container Instance Create Validate Post
 	//
@@ -9380,7 +8265,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBodyWithResponse(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error)
+	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error)
 
 	// ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithResponse Container Instance Create Validate Post
 	//
@@ -9389,7 +8274,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithResponse(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error)
+	ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithResponse(ctx context.Context, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error)
 
 	// ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBodyWithResponse Container Instance Delete
 	//
@@ -9399,7 +8284,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error)
+	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error)
 
 	// ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithResponse Container Instance Delete
 	//
@@ -9409,7 +8294,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error)
+	ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error)
 
 	// ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse Container Instance Delete Validate Post
 	//
@@ -9418,7 +8303,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error)
+	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error)
 
 	// ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse Container Instance Delete Validate Post
 	//
@@ -9427,7 +8312,25 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error)
+	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error)
+
+	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse Internal Instance Delete
+	//
+	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+	InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse, error)
+
+	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithResponse Internal Instance Delete
+	//
+	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+	InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse, error)
 
 	// KiteworksApplianceGetApiV1KiteworksApplianceGetWithResponse Kiteworks Appliance Get
 	//
@@ -9445,7 +8348,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-	KiteworksAppliancePostApiV1KiteworksAppliancePostWithBodyWithResponse(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error)
+	KiteworksAppliancePostApiV1KiteworksAppliancePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error)
 
 	// KiteworksAppliancePostApiV1KiteworksAppliancePostWithResponse Kiteworks Appliance Post
 	//
@@ -9454,7 +8357,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-	KiteworksAppliancePostApiV1KiteworksAppliancePostWithResponse(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error)
+	KiteworksAppliancePostApiV1KiteworksAppliancePostWithResponse(ctx context.Context, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error)
 
 	// KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBodyWithResponse Kiteworks Appliance Create Validate
 	//
@@ -9463,7 +8366,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBodyWithResponse(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error)
+	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error)
 
 	// KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithResponse Kiteworks Appliance Create Validate
 	//
@@ -9472,7 +8375,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithResponse(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error)
+	KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithResponse(ctx context.Context, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error)
 
 	// KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBodyWithResponse Kiteworks Appliance Delete
 	//
@@ -9482,7 +8385,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error)
+	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error)
 
 	// KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithResponse Kiteworks Appliance Delete
 	//
@@ -9492,7 +8395,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error)
+	KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error)
 
 	// KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBodyWithResponse Kiteworks Appliance Delete Validate Post
 	//
@@ -9501,7 +8404,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error)
+	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error)
 
 	// KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithResponse Kiteworks Appliance Delete Validate Post
 	//
@@ -9510,7 +8413,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error)
+	KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error)
 
 	// LoginAccessTokenApiV1LoginAccessTokenPostWithBodyWithResponse Login Access Token
 	//
@@ -9573,7 +8476,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBodyWithResponse(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error)
+	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error)
 
 	// VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithResponse Vm Instance Linux Post
 	//
@@ -9582,7 +8485,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithResponse(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error)
+	VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithResponse(ctx context.Context, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error)
 
 	// VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBodyWithResponse Vm Instance Linux Create Validate Post
 	//
@@ -9591,7 +8494,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBodyWithResponse(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error)
+	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error)
 
 	// VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse Vm Instance Linux Create Validate Post
 	//
@@ -9600,7 +8503,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error)
+	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error)
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse Vm Instance Linux Disk Post
 	//
@@ -9609,7 +8512,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
+	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse Vm Instance Linux Disk Post
 	//
@@ -9618,7 +8521,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
+	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
 	//
@@ -9627,7 +8530,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
 	//
@@ -9636,7 +8539,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Linux Reinstall Post
 	//
@@ -9645,7 +8548,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error)
+	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithResponse Vm Instance Linux Reinstall Post
 	//
@@ -9654,7 +8557,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error)
+	VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error)
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Linux Reinstall Validate Post
 	//
@@ -9663,7 +8566,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error)
+	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error)
 
 	// VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse Vm Instance Linux Reinstall Validate Post
 	//
@@ -9672,7 +8575,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error)
+	VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error)
 
 	// VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBodyWithResponse Vm Instance Windows Post
 	//
@@ -9681,7 +8584,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBodyWithResponse(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error)
+	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error)
 
 	// VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithResponse Vm Instance Windows Post
 	//
@@ -9690,7 +8593,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithResponse(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error)
+	VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithResponse(ctx context.Context, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error)
 
 	// VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBodyWithResponse Vm Instance Windows Create Validate Post
 	//
@@ -9699,7 +8602,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBodyWithResponse(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error)
+	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error)
 
 	// VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse Vm Instance Windows Create Validate Post
 	//
@@ -9708,7 +8611,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error)
+	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error)
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse Vm Instance Windows Disk Post
 	//
@@ -9717,7 +8620,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
+	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse Vm Instance Windows Disk Post
 	//
@@ -9726,7 +8629,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
+	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
 
 	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Windows Disk Create Validate Post
 	//
@@ -9735,7 +8638,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
+	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
 
 	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Windows Disk Create Validate Post
 	//
@@ -9744,7 +8647,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
+	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Windows Reinstall Post
 	//
@@ -9753,7 +8656,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error)
+	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithResponse Vm Instance Windows Reinstall Post
 	//
@@ -9762,7 +8665,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error)
+	VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error)
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Windows Reinstall Validate Post
 	//
@@ -9771,7 +8674,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error)
+	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error)
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse Vm Instance Windows Reinstall Validate Post
 	//
@@ -9780,7 +8683,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error)
+	VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error)
 
 	// VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBodyWithResponse Vm Instance Delete
 	//
@@ -9790,7 +8693,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error)
+	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error)
 
 	// VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithResponse Vm Instance Delete
 	//
@@ -9800,7 +8703,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error)
+	VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error)
 
 	// VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBodyWithResponse Vm Instance Contact Put
 	//
@@ -9809,7 +8712,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error)
+	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error)
 
 	// VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithResponse Vm Instance Contact Put
 	//
@@ -9818,7 +8721,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error)
+	VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error)
 
 	// VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBodyWithResponse Vm Instance Contact Update Validate Post
 	//
@@ -9827,7 +8730,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error)
+	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error)
 
 	// VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithResponse Vm Instance Contact Update Validate Post
 	//
@@ -9836,7 +8739,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error)
+	VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error)
 
 	// VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse Vm Instance Delete Validate Post
 	//
@@ -9845,7 +8748,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error)
+	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithResponse Vm Instance Delete Validate Post
 	//
@@ -9854,7 +8757,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error)
+	VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBodyWithResponse Vm Instance Disk Delete
 	//
@@ -9863,7 +8766,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error)
+	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error)
 
 	// VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithResponse Vm Instance Disk Delete
 	//
@@ -9872,7 +8775,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error)
+	VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error)
 
 	// VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBodyWithResponse Vm Instance Disk Put
 	//
@@ -9881,7 +8784,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error)
+	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error)
 
 	// VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithResponse Vm Instance Disk Put
 	//
@@ -9890,7 +8793,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error)
+	VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error)
 
 	// VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBodyWithResponse Vm Instance Disk Delete Validate Post
 	//
@@ -9899,7 +8802,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error)
+	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithResponse Vm Instance Disk Delete Validate Post
 	//
@@ -9908,7 +8811,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error)
+	VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBodyWithResponse Vm Instance Disk Update Validate Post
 	//
@@ -9917,7 +8820,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error)
+	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error)
 
 	// VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithResponse Vm Instance Disk Update Validate Post
 	//
@@ -9926,7 +8829,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error)
+	VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error)
 
 	// VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBodyWithResponse Vm Instance Ip Post
 	//
@@ -9935,7 +8838,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error)
+	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error)
 
 	// VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithResponse Vm Instance Ip Post
 	//
@@ -9944,7 +8847,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error)
+	VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error)
 
 	// VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBodyWithResponse Vm Instance Ip Create Validate Post
 	//
@@ -9953,7 +8856,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error)
+	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error)
 
 	// VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithResponse Vm Instance Ip Create Validate Post
 	//
@@ -9962,7 +8865,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error)
+	VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error)
 
 	// VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBodyWithResponse Vm Instance Ip Delete
 	//
@@ -9971,7 +8874,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error)
+	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error)
 
 	// VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithResponse Vm Instance Ip Delete
 	//
@@ -9980,7 +8883,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error)
+	VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error)
 
 	// VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBodyWithResponse Vm Instance Ip Put
 	//
@@ -9989,7 +8892,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error)
+	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error)
 
 	// VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithResponse Vm Instance Ip Put
 	//
@@ -9998,7 +8901,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error)
+	VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error)
 
 	// VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBodyWithResponse Vm Instance Ip Delete Validate Post
 	//
@@ -10007,7 +8910,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error)
+	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithResponse Vm Instance Ip Delete Validate Post
 	//
@@ -10016,7 +8919,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error)
+	VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBodyWithResponse Vm Instance Ip Update Validate
 	//
@@ -10025,7 +8928,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error)
+	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error)
 
 	// VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithResponse Vm Instance Ip Update Validate
 	//
@@ -10034,7 +8937,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error)
+	VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error)
 
 	// VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBodyWithResponse Vm Instance Labels Put
 	//
@@ -10043,7 +8946,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error)
+	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error)
 
 	// VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithResponse Vm Instance Labels Put
 	//
@@ -10052,7 +8955,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error)
+	VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error)
 
 	// VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBodyWithResponse Vm Instance Labels Update Validate Post
 	//
@@ -10061,7 +8964,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error)
+	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error)
 
 	// VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithResponse Vm Instance Labels Update Validate Post
 	//
@@ -10070,7 +8973,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error)
+	VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error)
 
 	// VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBodyWithResponse Vm Instance Performanceclass Put
 	//
@@ -10079,7 +8982,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error)
+	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error)
 
 	// VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithResponse Vm Instance Performanceclass Put
 	//
@@ -10088,7 +8991,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error)
+	VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error)
 
 	// VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBodyWithResponse Vm Instance Performanceclass Update Validate Post
 	//
@@ -10097,7 +9000,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error)
+	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error)
 
 	// VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithResponse Vm Instance Performanceclass Update Validate Post
 	//
@@ -10106,7 +9009,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error)
+	VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error)
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse Vm Instance Restart Post
 	//
@@ -10115,7 +9018,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error)
+	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error)
 
 	// VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse Vm Instance Restart Post
 	//
@@ -10124,7 +9027,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error)
+	VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error)
 
 	// VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBodyWithResponse Vm Instance Restart Validate Post
 	//
@@ -10133,7 +9036,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error)
+	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error)
 
 	// VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithResponse Vm Instance Restart Validate Post
 	//
@@ -10142,7 +9045,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error)
+	VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error)
 
 	// VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBodyWithResponse Vm Instance Serviceclass Put
 	//
@@ -10151,7 +9054,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error)
+	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error)
 
 	// VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithResponse Vm Instance Serviceclass Put
 	//
@@ -10160,7 +9063,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error)
+	VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error)
 
 	// VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBodyWithResponse Vm Instance Serviceclass Update Validate Post
 	//
@@ -10169,7 +9072,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error)
+	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error)
 
 	// VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithResponse Vm Instance Serviceclass Update Validate Post
 	//
@@ -10178,7 +9081,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error)
+	VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error)
 
 	// VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBodyWithResponse Vm Instance Snapshot Post
 	//
@@ -10187,7 +9090,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error)
+	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error)
 
 	// VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithResponse Vm Instance Snapshot Post
 	//
@@ -10196,7 +9099,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error)
+	VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error)
 
 	// VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBodyWithResponse Vm Instance Snapshot Create Validate
 	//
@@ -10205,7 +9108,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error)
+	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error)
 
 	// VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithResponse Vm Instance Snapshot Create Validate
 	//
@@ -10214,7 +9117,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error)
+	VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error)
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse Vm Instance Snapshot Delete
 	//
@@ -10223,7 +9126,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error)
+	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error)
 
 	// VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse Vm Instance Snapshot Delete
 	//
@@ -10232,7 +9135,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error)
+	VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error)
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse Vm Instance Snapshot Delete Validate
 	//
@@ -10241,7 +9144,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error)
+	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error)
 
 	// VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse Vm Instance Snapshot Delete Validate
 	//
@@ -10250,7 +9153,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error)
+	VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error)
 
 	// VmInterfaceGetApiV1MvmInterfaceGetWithResponse Vm Interface Get
 	//
@@ -10295,7 +9198,7 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
-	VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx context.Context, params *VmStagetypeGetApiV1MvmStagetypeGetParams, reqEditors ...RequestEditorFn) (*VmStagetypeGetApiV1MvmStagetypeGetResponse, error)
+	VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmStagetypeGetApiV1MvmStagetypeGetResponse, error)
 
 	// VmVlanGetApiV1MvmVlanGetWithResponse Vm Vlan Get
 	//
@@ -10322,7 +9225,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-	TenantContactPostApiV1TenantContactPostWithBodyWithResponse(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error)
+	TenantContactPostApiV1TenantContactPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error)
 
 	// TenantContactPostApiV1TenantContactPostWithResponse Tenant Contact Post
 	//
@@ -10331,7 +9234,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-	TenantContactPostApiV1TenantContactPostWithResponse(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error)
+	TenantContactPostApiV1TenantContactPostWithResponse(ctx context.Context, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error)
 
 	// TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBodyWithResponse Tenant Contact Create Validate
 	//
@@ -10340,7 +9243,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBodyWithResponse(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error)
+	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error)
 
 	// TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithResponse Tenant Contact Create Validate
 	//
@@ -10349,7 +9252,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithResponse(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error)
+	TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithResponse(ctx context.Context, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error)
 
 	// TenantContactPutApiV1TenantContactContactUuidPutWithBodyWithResponse Tenant Contact Put
 	//
@@ -10358,7 +9261,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-	TenantContactPutApiV1TenantContactContactUuidPutWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error)
+	TenantContactPutApiV1TenantContactContactUuidPutWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error)
 
 	// TenantContactPutApiV1TenantContactContactUuidPutWithResponse Tenant Contact Put
 	//
@@ -10367,7 +9270,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-	TenantContactPutApiV1TenantContactContactUuidPutWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error)
+	TenantContactPutApiV1TenantContactContactUuidPutWithResponse(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error)
 
 	// TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBodyWithResponse Tenant Contact Update Validate Post
 	//
@@ -10376,7 +9279,7 @@ type ClientWithResponsesInterface interface {
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error)
+	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error)
 
 	// TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithResponse Tenant Contact Update Validate Post
 	//
@@ -10385,7 +9288,7 @@ type ClientWithResponsesInterface interface {
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error)
+	TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithResponse(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error)
 
 	// TenantDomainGetApiV1TenantDomainGetWithResponse Tenant Domain Get
 	//
@@ -10429,15 +9332,6 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /api/v1/utils/readiness-check/ (the `UtilsReadinessCheckApiV1UtilsReadinessCheckGet` operationId).
 	UtilsReadinessCheckApiV1UtilsReadinessCheckGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse, error)
-
-	// ReadRootCreatevmGetWithResponse Read Root
-	//
-	// Welcome page.
-	//
-	// Returns a wrapper object for the known response body format(s).
-	//
-	// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
-	ReadRootCreatevmGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ReadRootCreatevmGetResponse, error)
 }
 
 type ReadRootGetResponse struct {
@@ -10708,6 +9602,54 @@ func (r ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDel
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GenericRequestResponseModel
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *HTTPValidationError
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) GetJSON200() *GenericRequestResponseModel {
+	return r.JSON200
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) GetJSON422() *HTTPValidationError {
+	return r.JSON422
+}
+
+// GetBody returns the raw response body bytes
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -13208,18 +12150,11 @@ type VmStagetypeGetApiV1MvmStagetypeGetResponse struct {
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *VMInstanceGetStageTypesResponseModel
-	// JSON422 the response for an HTTP 422 `application/json` response
-	JSON422 *HTTPValidationError
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r VmStagetypeGetApiV1MvmStagetypeGetResponse) GetJSON200() *VMInstanceGetStageTypesResponseModel {
 	return r.JSON200
-}
-
-// GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmStagetypeGetApiV1MvmStagetypeGetResponse) GetJSON422() *HTTPValidationError {
-	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
@@ -13765,40 +12700,6 @@ func (r UtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse) ContentType() st
 	return ""
 }
 
-type ReadRootCreatevmGetResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// GetBody returns the raw response body bytes
-func (r ReadRootCreatevmGetResponse) GetBody() []byte {
-	return r.Body
-}
-
-// Status returns HTTPResponse.Status
-func (r ReadRootCreatevmGetResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r ReadRootCreatevmGetResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r ReadRootCreatevmGetResponse) ContentType() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Header.Get("Content-Type")
-	}
-	return ""
-}
-
 // ReadRootGetWithResponse Read Root
 //
 // Welcome page.
@@ -13836,8 +12737,8 @@ func (c *ClientWithResponses) ContainerInstanceGetApiV1ContainerInstanceGetWithR
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWithBodyWithResponse(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error) {
-	rsp, err := c.ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error) {
+	rsp, err := c.ContainerInstancePostApiV1ContainerInstancePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13851,8 +12752,8 @@ func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWit
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance (the `ContainerInstancePostApiV1ContainerInstancePost` operationId).
-func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWithResponse(ctx context.Context, params *ContainerInstancePostApiV1ContainerInstancePostParams, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error) {
-	rsp, err := c.ContainerInstancePostApiV1ContainerInstancePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWithResponse(ctx context.Context, body ContainerInstancePostApiV1ContainerInstancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstancePostApiV1ContainerInstancePostResponse, error) {
+	rsp, err := c.ContainerInstancePostApiV1ContainerInstancePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13866,8 +12767,8 @@ func (c *ClientWithResponses) ContainerInstancePostApiV1ContainerInstancePostWit
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBodyWithResponse(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error) {
-	rsp, err := c.ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error) {
+	rsp, err := c.ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13881,8 +12782,8 @@ func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerI
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance/create/validate (the `ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost` operationId).
-func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithResponse(ctx context.Context, params *ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostParams, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error) {
-	rsp, err := c.ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostWithResponse(ctx context.Context, body ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePostResponse, error) {
+	rsp, err := c.ContainerInstanceCreateValidatePostApiV1ContainerInstanceCreateValidatePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13897,8 +12798,8 @@ func (c *ClientWithResponses) ContainerInstanceCreateValidatePostApiV1ContainerI
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13913,8 +12814,8 @@ func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInsta
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/container/instance/{instance_uuid} (the `ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteParams, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDelete(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13928,8 +12829,8 @@ func (c *ClientWithResponses) ContainerInstanceDeleteApiV1ContainerInstanceInsta
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13943,12 +12844,42 @@ func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerI
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostParams, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
 	return ParseContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse(rsp)
+}
+
+// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse Internal Instance Delete
+//
+// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+func (c *ClientWithResponses) InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse(rsp)
+}
+
+// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithResponse Internal Instance Delete
+//
+// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /api/v1/internal/instance/{instance_uuid} (the `InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete` operationId).
+func (c *ClientWithResponses) InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete(ctx, instanceUuid, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse(rsp)
 }
 
 // KiteworksApplianceGetApiV1KiteworksApplianceGetWithResponse Kiteworks Appliance Get
@@ -13973,8 +12904,8 @@ func (c *ClientWithResponses) KiteworksApplianceGetApiV1KiteworksApplianceGetWit
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostWithBodyWithResponse(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error) {
-	rsp, err := c.KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error) {
+	rsp, err := c.KiteworksAppliancePostApiV1KiteworksAppliancePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -13988,8 +12919,8 @@ func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostW
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance (the `KiteworksAppliancePostApiV1KiteworksAppliancePost` operationId).
-func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostWithResponse(ctx context.Context, params *KiteworksAppliancePostApiV1KiteworksAppliancePostParams, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error) {
-	rsp, err := c.KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostWithResponse(ctx context.Context, body KiteworksAppliancePostApiV1KiteworksAppliancePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksAppliancePostApiV1KiteworksAppliancePostResponse, error) {
+	rsp, err := c.KiteworksAppliancePostApiV1KiteworksAppliancePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14003,8 +12934,8 @@ func (c *ClientWithResponses) KiteworksAppliancePostApiV1KiteworksAppliancePostW
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBodyWithResponse(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error) {
-	rsp, err := c.KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error) {
+	rsp, err := c.KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14018,8 +12949,8 @@ func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksAppl
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/create/validate (the `KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost` operationId).
-func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithResponse(ctx context.Context, params *KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostParams, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error) {
-	rsp, err := c.KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostWithResponse(ctx context.Context, body KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePostResponse, error) {
+	rsp, err := c.KiteworksApplianceCreateValidateApiV1KiteworksApplianceCreateValidatePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14034,8 +12965,8 @@ func (c *ClientWithResponses) KiteworksApplianceCreateValidateApiV1KiteworksAppl
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14050,8 +12981,8 @@ func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceIns
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/kiteworks/appliance/{instance_uuid} (the `KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteParams, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.KiteworksApplianceDeleteApiV1KiteworksApplianceInstanceUuidDelete(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14065,8 +12996,8 @@ func (c *ClientWithResponses) KiteworksApplianceDeleteApiV1KiteworksApplianceIns
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14080,8 +13011,8 @@ func (c *ClientWithResponses) KiteworksApplianceDeleteValidatePostApiV1Kiteworks
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/kiteworks/appliance/{instance_uuid}/delete/validate (the `KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostParams, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.KiteworksApplianceDeleteValidatePostApiV1KiteworksApplianceInstanceUuidDeleteValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14185,8 +13116,8 @@ func (c *ClientWithResponses) VmInstanceGetApiV1MvmInstanceGetWithResponse(ctx c
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBodyWithResponse(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14200,8 +13131,8 @@ func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithBo
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux (the `VmInstanceLinuxPostApiV1MvmInstanceLinuxPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithResponse(ctx context.Context, params *VmInstanceLinuxPostApiV1MvmInstanceLinuxPostParams, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithResponse(ctx context.Context, body VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxPostApiV1MvmInstanceLinuxPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxPostApiV1MvmInstanceLinuxPost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14215,8 +13146,8 @@ func (c *ClientWithResponses) VmInstanceLinuxPostApiV1MvmInstanceLinuxPostWithRe
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBodyWithResponse(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14230,8 +13161,8 @@ func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceL
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse(ctx context.Context, params *VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostParams, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14245,8 +13176,8 @@ func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceL
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14260,8 +13191,8 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstan
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostParams, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14275,8 +13206,8 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstan
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14290,8 +13221,8 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInsta
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostParams, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14305,8 +13236,8 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInsta
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14320,8 +13251,8 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxI
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall (the `VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostParams, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14335,8 +13266,8 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxI
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14350,8 +13281,8 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstan
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate (the `VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostParams, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxReinstallValidatePostApiV1MvmInstanceLinuxInstanceUuidReinstallValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14365,8 +13296,8 @@ func (c *ClientWithResponses) VmInstanceLinuxReinstallValidatePostApiV1MvmInstan
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBodyWithResponse(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14380,8 +13311,8 @@ func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWi
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows (the `VmInstanceWindowsPostApiV1MvmInstanceWindowsPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithResponse(ctx context.Context, params *VmInstanceWindowsPostApiV1MvmInstanceWindowsPostParams, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWithResponse(ctx context.Context, body VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsPostApiV1MvmInstanceWindowsPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsPostApiV1MvmInstanceWindowsPost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14395,8 +13326,8 @@ func (c *ClientWithResponses) VmInstanceWindowsPostApiV1MvmInstanceWindowsPostWi
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBodyWithResponse(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14410,8 +13341,8 @@ func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanc
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse(ctx context.Context, params *VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostParams, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14425,8 +13356,8 @@ func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanc
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14440,8 +13371,8 @@ func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostParams, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14455,8 +13386,8 @@ func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14470,8 +13401,8 @@ func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmIns
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostParams, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14485,8 +13416,8 @@ func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmIns
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14500,8 +13431,8 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWind
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall (the `VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostParams, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14515,8 +13446,8 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWind
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14530,8 +13461,8 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInst
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate (the `VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostParams, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14546,8 +13477,8 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInst
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14562,8 +13493,8 @@ func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid} (the `VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteParams, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteApiV1MvmInstanceInstanceUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14577,8 +13508,8 @@ func (c *ClientWithResponses) VmInstanceDeleteApiV1MvmInstanceInstanceUuidDelete
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error) {
-	rsp, err := c.VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error) {
+	rsp, err := c.VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14592,8 +13523,8 @@ func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidCo
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/contact (the `VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut` operationId).
-func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutParams, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error) {
-	rsp, err := c.VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPutResponse, error) {
+	rsp, err := c.VmInstanceContactPutApiV1MvmInstanceInstanceUuidContactPut(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14607,8 +13538,8 @@ func (c *ClientWithResponses) VmInstanceContactPutApiV1MvmInstanceInstanceUuidCo
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14622,8 +13553,8 @@ func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanc
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate (the `VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostParams, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceContactUpdateValidatePostApiV1MvmInstanceInstanceUuidContactUpdateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14637,8 +13568,8 @@ func (c *ClientWithResponses) VmInstanceContactUpdateValidatePostApiV1MvmInstanc
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14652,8 +13583,8 @@ func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstan
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/delete/validate (the `VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostParams, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDeleteValidatePostApiV1MvmInstanceInstanceUuidDeleteValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14667,8 +13598,8 @@ func (c *ClientWithResponses) VmInstanceDeleteValidatePostApiV1MvmInstanceInstan
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx, instanceUuid, diskUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithBody(ctx, instanceUuid, diskUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14682,8 +13613,8 @@ func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDi
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteParams, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx, instanceUuid, diskUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDiskDiskUuidDelete(ctx, instanceUuid, diskUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14697,8 +13628,8 @@ func (c *ClientWithResponses) VmInstanceDiskDeleteApiV1MvmInstanceInstanceUuidDi
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error) {
-	rsp, err := c.VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx, instanceUuid, diskUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error) {
+	rsp, err := c.VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithBody(ctx, instanceUuid, diskUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14712,8 +13643,8 @@ func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskD
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid} (the `VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut` operationId).
-func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutParams, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error) {
-	rsp, err := c.VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx, instanceUuid, diskUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPutResponse, error) {
+	rsp, err := c.VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskDiskUuidPut(ctx, instanceUuid, diskUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14727,8 +13658,8 @@ func (c *ClientWithResponses) VmInstanceDiskPutApiV1MvmInstanceInstanceUuidDiskD
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx, instanceUuid, diskUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithBody(ctx, instanceUuid, diskUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14742,8 +13673,8 @@ func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate (the `VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostParams, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx, instanceUuid, diskUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDiskDeleteValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidDeleteValidatePost(ctx, instanceUuid, diskUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14757,8 +13688,8 @@ func (c *ClientWithResponses) VmInstanceDiskDeleteValidatePostApiV1MvmInstanceIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx, instanceUuid, diskUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithBody(ctx, instanceUuid, diskUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14772,8 +13703,8 @@ func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate (the `VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, params *VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostParams, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx, instanceUuid, diskUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, diskUuid openapi_types.UUID, body VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceDiskUpdateValidatePostApiV1MvmInstanceInstanceUuidDiskDiskUuidUpdateValidatePost(ctx, instanceUuid, diskUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14787,8 +13718,8 @@ func (c *ClientWithResponses) VmInstanceDiskUpdateValidatePostApiV1MvmInstanceIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error) {
-	rsp, err := c.VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error) {
+	rsp, err := c.VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14802,8 +13733,8 @@ func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip (the `VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost` operationId).
-func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostParams, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error) {
-	rsp, err := c.VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPostResponse, error) {
+	rsp, err := c.VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14817,8 +13748,8 @@ func (c *ClientWithResponses) VmInstanceIpPostApiV1MvmInstanceInstanceUuidIpPost
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14832,8 +13763,8 @@ func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInst
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate (the `VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostParams, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpCreateValidatePostApiV1MvmInstanceInstanceUuidIpCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14847,8 +13778,8 @@ func (c *ClientWithResponses) VmInstanceIpCreateValidatePostApiV1MvmInstanceInst
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx, instanceUuid, interfaceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithBody(ctx, instanceUuid, interfaceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14862,8 +13793,8 @@ func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteParams, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx, instanceUuid, interfaceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpInterfaceUuidDelete(ctx, instanceUuid, interfaceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14877,8 +13808,8 @@ func (c *ClientWithResponses) VmInstanceIpDeleteApiV1MvmInstanceInstanceUuidIpIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error) {
-	rsp, err := c.VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx, instanceUuid, interfaceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error) {
+	rsp, err := c.VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithBody(ctx, instanceUuid, interfaceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14892,8 +13823,8 @@ func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInter
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid} (the `VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut` operationId).
-func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutParams, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error) {
-	rsp, err := c.VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx, instanceUuid, interfaceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPutResponse, error) {
+	rsp, err := c.VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInterfaceUuidPut(ctx, instanceUuid, interfaceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14907,8 +13838,8 @@ func (c *ClientWithResponses) VmInstanceIpPutApiV1MvmInstanceInstanceUuidIpInter
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx, instanceUuid, interfaceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithBody(ctx, instanceUuid, interfaceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14922,8 +13853,8 @@ func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInst
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/delete/validate (the `VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostParams, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx, instanceUuid, interfaceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpDeleteValidatePostApiV1MvmInstanceInstanceUuidIpInterfaceUuidDeleteValidatePost(ctx, instanceUuid, interfaceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14937,8 +13868,8 @@ func (c *ClientWithResponses) VmInstanceIpDeleteValidatePostApiV1MvmInstanceInst
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx, instanceUuid, interfaceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithBody(ctx, instanceUuid, interfaceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14952,8 +13883,8 @@ func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstance
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate (the `VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, params *VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostParams, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx, instanceUuid, interfaceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, interfaceUuid openapi_types.UUID, body VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceIpUpdateValidateApiV1MvmInstanceInstanceUuidIpInterfaceUuidUpdateValidatePost(ctx, instanceUuid, interfaceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14967,8 +13898,8 @@ func (c *ClientWithResponses) VmInstanceIpUpdateValidateApiV1MvmInstanceInstance
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error) {
-	rsp, err := c.VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error) {
+	rsp, err := c.VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14982,8 +13913,8 @@ func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLab
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/labels (the `VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut` operationId).
-func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutParams, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error) {
-	rsp, err := c.VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPutResponse, error) {
+	rsp, err := c.VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLabelsPut(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -14997,8 +13928,8 @@ func (c *ClientWithResponses) VmInstanceLabelsPutApiV1MvmInstanceInstanceUuidLab
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15012,8 +13943,8 @@ func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstance
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate (the `VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostParams, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLabelsUpdateValidatePostApiV1MvmInstanceInstanceUuidLabelsUpdateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15027,8 +13958,8 @@ func (c *ClientWithResponses) VmInstanceLabelsUpdateValidatePostApiV1MvmInstance
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error) {
-	rsp, err := c.VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error) {
+	rsp, err := c.VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15042,8 +13973,8 @@ func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInsta
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass (the `VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut` operationId).
-func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutParams, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error) {
-	rsp, err := c.VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPutResponse, error) {
+	rsp, err := c.VmInstancePerformanceclassPutApiV1MvmInstanceInstanceUuidPerformanceclassPut(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15057,8 +13988,8 @@ func (c *ClientWithResponses) VmInstancePerformanceclassPutApiV1MvmInstanceInsta
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15072,8 +14003,8 @@ func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1M
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate (the `VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostParams, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstancePerformanceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidPerformanceclassUpdateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15087,8 +14018,8 @@ func (c *ClientWithResponses) VmInstancePerformanceclassUpdateValidatePostApiV1M
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error) {
-	rsp, err := c.VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error) {
+	rsp, err := c.VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15102,8 +14033,8 @@ func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidR
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart (the `VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost` operationId).
-func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostParams, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error) {
-	rsp, err := c.VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPostResponse, error) {
+	rsp, err := c.VmInstanceRestartPostApiV1MvmInstanceInstanceUuidRestartPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15117,8 +14048,8 @@ func (c *ClientWithResponses) VmInstanceRestartPostApiV1MvmInstanceInstanceUuidR
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error) {
-	rsp, err := c.VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error) {
+	rsp, err := c.VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15132,8 +14063,8 @@ func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInsta
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/restart/validate (the `VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostParams, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error) {
-	rsp, err := c.VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePostResponse, error) {
+	rsp, err := c.VmInstanceRestartValidatePostApiV1MvmInstanceInstanceUuidRestartValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15147,8 +14078,8 @@ func (c *ClientWithResponses) VmInstanceRestartValidatePostApiV1MvmInstanceInsta
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error) {
-	rsp, err := c.VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error) {
+	rsp, err := c.VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15162,8 +14093,8 @@ func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceU
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass (the `VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut` operationId).
-func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutParams, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error) {
-	rsp, err := c.VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPutResponse, error) {
+	rsp, err := c.VmInstanceServiceclassPutApiV1MvmInstanceInstanceUuidServiceclassPut(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15177,8 +14108,8 @@ func (c *ClientWithResponses) VmInstanceServiceclassPutApiV1MvmInstanceInstanceU
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15192,8 +14123,8 @@ func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate (the `VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostParams, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceServiceclassUpdateValidatePostApiV1MvmInstanceInstanceUuidServiceclassUpdateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15207,8 +14138,8 @@ func (c *ClientWithResponses) VmInstanceServiceclassUpdateValidatePostApiV1MvmIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15222,8 +14153,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuid
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot (the `VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostParams, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuidSnapshotPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15237,8 +14168,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotPostApiV1MvmInstanceInstanceUuid
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx, instanceUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15252,8 +14183,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/create/validate (the `VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, params *VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostParams, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx, instanceUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotCreateValidateApiV1MvmInstanceInstanceUuidSnapshotCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15267,8 +14198,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotCreateValidateApiV1MvmInstanceIn
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx, instanceUuid, snapshotUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithBody(ctx, instanceUuid, snapshotUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15282,8 +14213,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUu
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid} (the `VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteParams, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error) {
-	rsp, err := c.VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx, instanceUuid, snapshotUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteResponse, error) {
+	rsp, err := c.VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDelete(ctx, instanceUuid, snapshotUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15297,8 +14228,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteApiV1MvmInstanceInstanceUu
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx, instanceUuid, snapshotUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithBody(ctx, instanceUuid, snapshotUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15312,8 +14243,8 @@ func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceIn
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}/delete/validate (the `VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, params *VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostParams, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error) {
-	rsp, err := c.VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx, instanceUuid, snapshotUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, snapshotUuid openapi_types.UUID, body VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePostResponse, error) {
+	rsp, err := c.VmInstanceSnapshotDeleteValidateApiV1MvmInstanceInstanceUuidSnapshotSnapshotUuidDeleteValidatePost(ctx, instanceUuid, snapshotUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15387,8 +14318,8 @@ func (c *ClientWithResponses) VmSnapshotGetApiV1MvmSnapshotGetWithResponse(ctx c
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
-func (c *ClientWithResponses) VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx context.Context, params *VmStagetypeGetApiV1MvmStagetypeGetParams, reqEditors ...RequestEditorFn) (*VmStagetypeGetApiV1MvmStagetypeGetResponse, error) {
-	rsp, err := c.VmStagetypeGetApiV1MvmStagetypeGet(ctx, params, reqEditors...)
+func (c *ClientWithResponses) VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmStagetypeGetApiV1MvmStagetypeGetResponse, error) {
+	rsp, err := c.VmStagetypeGetApiV1MvmStagetypeGet(ctx, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15432,8 +14363,8 @@ func (c *ClientWithResponses) TenantContactGetApiV1TenantContactGetWithResponse(
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithBodyWithResponse(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error) {
-	rsp, err := c.TenantContactPostApiV1TenantContactPostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error) {
+	rsp, err := c.TenantContactPostApiV1TenantContactPostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15447,8 +14378,8 @@ func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithBodyWit
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact (the `TenantContactPostApiV1TenantContactPost` operationId).
-func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithResponse(ctx context.Context, params *TenantContactPostApiV1TenantContactPostParams, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error) {
-	rsp, err := c.TenantContactPostApiV1TenantContactPost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithResponse(ctx context.Context, body TenantContactPostApiV1TenantContactPostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPostApiV1TenantContactPostResponse, error) {
+	rsp, err := c.TenantContactPostApiV1TenantContactPost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15462,8 +14393,8 @@ func (c *ClientWithResponses) TenantContactPostApiV1TenantContactPostWithRespons
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBodyWithResponse(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error) {
-	rsp, err := c.TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error) {
+	rsp, err := c.TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15477,8 +14408,8 @@ func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreat
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact/create/validate (the `TenantContactCreateValidateApiV1TenantContactCreateValidatePost` operationId).
-func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithResponse(ctx context.Context, params *TenantContactCreateValidateApiV1TenantContactCreateValidatePostParams, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error) {
-	rsp, err := c.TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx, params, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreateValidatePostWithResponse(ctx context.Context, body TenantContactCreateValidateApiV1TenantContactCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactCreateValidateApiV1TenantContactCreateValidatePostResponse, error) {
+	rsp, err := c.TenantContactCreateValidateApiV1TenantContactCreateValidatePost(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15492,8 +14423,8 @@ func (c *ClientWithResponses) TenantContactCreateValidateApiV1TenantContactCreat
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error) {
-	rsp, err := c.TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx, contactUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error) {
+	rsp, err := c.TenantContactPutApiV1TenantContactContactUuidPutWithBody(ctx, contactUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15507,8 +14438,8 @@ func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWi
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PUT /api/v1/tenant/contact/{contact_uuid}/ (the `TenantContactPutApiV1TenantContactContactUuidPut` operationId).
-func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactPutApiV1TenantContactContactUuidPutParams, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error) {
-	rsp, err := c.TenantContactPutApiV1TenantContactContactUuidPut(ctx, contactUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWithResponse(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactPutApiV1TenantContactContactUuidPutJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactPutApiV1TenantContactContactUuidPutResponse, error) {
+	rsp, err := c.TenantContactPutApiV1TenantContactContactUuidPut(ctx, contactUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15522,8 +14453,8 @@ func (c *ClientWithResponses) TenantContactPutApiV1TenantContactContactUuidPutWi
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx, contactUuid, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBodyWithResponse(ctx context.Context, contactUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithBody(ctx, contactUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15537,8 +14468,8 @@ func (c *ClientWithResponses) TenantContactUpdateValidatePostApiV1TenantContactC
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with POST /api/v1/tenant/contact/{contact_uuid}/update/validate (the `TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost` operationId).
-func (c *ClientWithResponses) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithResponse(ctx context.Context, contactUuid openapi_types.UUID, params *TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostParams, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error) {
-	rsp, err := c.TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx, contactUuid, params, body, reqEditors...)
+func (c *ClientWithResponses) TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostWithResponse(ctx context.Context, contactUuid openapi_types.UUID, body TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePostResponse, error) {
+	rsp, err := c.TenantContactUpdateValidatePostApiV1TenantContactContactUuidUpdateValidatePost(ctx, contactUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -15616,21 +14547,6 @@ func (c *ClientWithResponses) UtilsReadinessCheckApiV1UtilsReadinessCheckGetWith
 		return nil, err
 	}
 	return ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse(rsp)
-}
-
-// ReadRootCreatevmGetWithResponse Read Root
-//
-// Welcome page.
-//
-// Returns a wrapper object for the known response body format(s).
-//
-// Corresponds with GET /createvm (the `ReadRootCreatevmGet` operationId).
-func (c *ClientWithResponses) ReadRootCreatevmGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ReadRootCreatevmGetResponse, error) {
-	rsp, err := c.ReadRootCreatevmGet(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseReadRootCreatevmGetResponse(rsp)
 }
 
 // ParseReadRootGetResponse parses an HTTP response from a ReadRootGetWithResponse call
@@ -15797,6 +14713,39 @@ func ParseContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidD
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ValidationSuccessResponseModel
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse parses an HTTP response from a InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithResponse call
+func ParseInternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse(rsp *http.Response) (*InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GenericRequestResponseModel
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17544,13 +16493,6 @@ func ParseVmStagetypeGetApiV1MvmStagetypeGetResponse(rsp *http.Response) (*VmSta
 		}
 		response.JSON200 = &dest
 
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest HTTPValidationError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
 	}
 
 	return response, nil
@@ -17900,22 +16842,6 @@ func ParseUtilsReadinessCheckApiV1UtilsReadinessCheckGetResponse(rsp *http.Respo
 		}
 		response.JSON200 = &dest
 
-	}
-
-	return response, nil
-}
-
-// ParseReadRootCreatevmGetResponse parses an HTTP response from a ReadRootCreatevmGetWithResponse call
-func ParseReadRootCreatevmGetResponse(rsp *http.Response) (*ReadRootCreatevmGetResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ReadRootCreatevmGetResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
 	}
 
 	return response, nil
