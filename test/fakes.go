@@ -152,13 +152,13 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, genericResponse("delete_vm", r.PathValue("instance_uuid")))
 	})
 
-	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_disk", r.PathValue("instance_uuid")))
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, genericResponse("update_vm_create_disk", createdDiskUUID))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_disk", r.PathValue("instance_uuid")))
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, genericResponse("update_vm_create_disk", createdDiskUUID))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate", validateOK)
 
@@ -172,8 +172,8 @@ func registerVMHandlers(mux *http.ServeMux) {
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_ip", r.PathValue("instance_uuid")))
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, genericResponse("update_vm_create_ip", createdInterfaceUUID))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate", validateOK)
 
@@ -376,9 +376,11 @@ func defaultDomains() *client.TenantGetDomainsResponseModel {
 }
 
 const (
-	windowsVMUUID      = "9037fff6-0ef0-339a-443a-4f37a53cdf59"
-	linuxVMUUID        = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
-	createdContactUUID = "43920c7c-6f51-f3cb-ec54-4c226556118f"
+	windowsVMUUID        = "9037fff6-0ef0-339a-443a-4f37a53cdf59"
+	linuxVMUUID          = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
+	createdContactUUID   = "43920c7c-6f51-f3cb-ec54-4c226556118f"
+	createdInterfaceUUID = "11111111-2222-3333-4444-555555555555"
+	createdDiskUUID      = "11111111-2222-3333-4444-666666666666"
 )
 
 func defaultVMs() *client.VMInstanceGetVMsResponseModel {
