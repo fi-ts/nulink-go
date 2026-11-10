@@ -41,6 +41,10 @@ func Start() (*client.Client, string, func(), error) {
 }
 
 func registerVMHandlers(mux *http.ServeMux) {
+	mux.HandleFunc("GET /api/v1/utils/health-check/", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, true)
+	})
+
 	mux.HandleFunc("GET /api/v1/mvm/datacenter", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultDatacenters())
 	})
