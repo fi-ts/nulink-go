@@ -171,6 +171,30 @@ func (e VMInstanceLinuxCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
+// Defines values for VMInstanceUpdateServiceClassInputModelAvailability.
+const (
+	VMInstanceUpdateServiceClassInputModelAvailabilityV0 VMInstanceUpdateServiceClassInputModelAvailability = "v0"
+	VMInstanceUpdateServiceClassInputModelAvailabilityV1 VMInstanceUpdateServiceClassInputModelAvailability = "v1"
+	VMInstanceUpdateServiceClassInputModelAvailabilityV2 VMInstanceUpdateServiceClassInputModelAvailability = "v2"
+	VMInstanceUpdateServiceClassInputModelAvailabilityV3 VMInstanceUpdateServiceClassInputModelAvailability = "v3"
+)
+
+// Valid indicates whether the value is a known member of the VMInstanceUpdateServiceClassInputModelAvailability enum.
+func (e VMInstanceUpdateServiceClassInputModelAvailability) Valid() bool {
+	switch e {
+	case VMInstanceUpdateServiceClassInputModelAvailabilityV0:
+		return true
+	case VMInstanceUpdateServiceClassInputModelAvailabilityV1:
+		return true
+	case VMInstanceUpdateServiceClassInputModelAvailabilityV2:
+		return true
+	case VMInstanceUpdateServiceClassInputModelAvailabilityV3:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VMInstanceUpdateServiceClassInputModelServiceclass.
 const (
 	VMInstanceUpdateServiceClassInputModelServiceclassSz1 VMInstanceUpdateServiceClassInputModelServiceclass = "sz1"
@@ -350,6 +374,12 @@ type InternalVMInstanceDeleteInstantlyInputModel struct {
 	ActorContext    ActorContext `json:"actorContext"`
 	DeleteInstantly *bool        `json:"delete_instantly,omitempty"`
 	OrderNumber     string       `json:"order_number"`
+}
+
+// InternalVMInstanceDiskAutogrowInputModel defines model for InternalVMInstanceDiskAutogrowInputModel.
+type InternalVMInstanceDiskAutogrowInputModel struct {
+	Driveletterormountpoint string `json:"driveletterormountpoint"`
+	Servername              string `json:"servername"`
 }
 
 // KiteworksApplianceCreateInputModel defines model for KiteworksApplianceCreateInputModel.
@@ -669,16 +699,16 @@ type User struct {
 
 // VMInstanceAddDiskLinuxInputModel defines model for VMInstanceAddDiskLinuxInputModel.
 type VMInstanceAddDiskLinuxInputModel struct {
-	ActorContext ActorContext        `json:"actorContext"`
-	Disk         DiskLinuxInputModel `json:"disk"`
-	OrderNumber  string              `json:"order_number"`
+	ActorContext ActorContext          `json:"actorContext"`
+	Disks        []DiskLinuxInputModel `json:"disks"`
+	OrderNumber  string                `json:"order_number"`
 }
 
 // VMInstanceAddDiskWindowsInputModel defines model for VMInstanceAddDiskWindowsInputModel.
 type VMInstanceAddDiskWindowsInputModel struct {
-	ActorContext ActorContext          `json:"actorContext"`
-	Disk         DiskWindowsInputModel `json:"disk"`
-	OrderNumber  string                `json:"order_number"`
+	ActorContext ActorContext            `json:"actorContext"`
+	Disks        []DiskWindowsInputModel `json:"disks"`
+	OrderNumber  string                  `json:"order_number"`
 }
 
 // VMInstanceAddIPInputModel defines model for VMInstanceAddIPInputModel.
@@ -860,9 +890,13 @@ type VMInstanceUpdatePerformanceClassInputModel struct {
 // VMInstanceUpdateServiceClassInputModel defines model for VMInstanceUpdateServiceClassInputModel.
 type VMInstanceUpdateServiceClassInputModel struct {
 	ActorContext ActorContext                                       `json:"actorContext"`
+	Availability VMInstanceUpdateServiceClassInputModelAvailability `json:"availability"`
 	OrderNumber  string                                             `json:"order_number"`
 	Serviceclass VMInstanceUpdateServiceClassInputModelServiceclass `json:"serviceclass"`
 }
+
+// VMInstanceUpdateServiceClassInputModelAvailability defines model for VMInstanceUpdateServiceClassInputModel.Availability.
+type VMInstanceUpdateServiceClassInputModelAvailability string
 
 // VMInstanceUpdateServiceClassInputModelServiceclass defines model for VMInstanceUpdateServiceClassInputModel.Serviceclass.
 type VMInstanceUpdateServiceClassInputModelServiceclass string
@@ -1008,6 +1042,9 @@ type ContainerInstanceDeleteApiV1ContainerInstanceInstanceUuidDeleteJSONRequestB
 
 // ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody defines body for ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost for application/json ContentType.
 type ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody = ContainerInstanceDeleteInputModel
+
+// InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody defines body for InternalDiskAutogrowApiV1InternalAutogrowPost for application/json ContentType.
+type InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody = InternalVMInstanceDiskAutogrowInputModel
 
 // InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody defines body for InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDelete for application/json ContentType.
 type InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteJSONRequestBody = InternalVMInstanceDeleteInstantlyInputModel
@@ -1501,6 +1538,26 @@ type ClientInterface interface {
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
 	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// InternalDiskAutogrowApiV1InternalAutogrowPostWithBody Internal Disk Autogrow
+	//
+	// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+	// Exklusiver API-Endpoint für die FI.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+	InternalDiskAutogrowApiV1InternalAutogrowPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// InternalDiskAutogrowApiV1InternalAutogrowPost Internal Disk Autogrow
+	//
+	// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+	// Exklusiver API-Endpoint für die FI.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+	InternalDiskAutogrowApiV1InternalAutogrowPost(ctx context.Context, body InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody Internal Instance Delete
 	//
 	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
@@ -1684,7 +1741,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody Vm Instance Linux Disk Post
 	//
-	// Bestellung einer Linux Datendisk.
+	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -1693,7 +1750,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost Vm Instance Linux Disk Post
 	//
-	// Bestellung einer Linux Datendisk.
+	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -1702,7 +1759,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
 	//
-	// Validiert einen Request zur Bestellung einer Linux Datendisk.
+	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -1711,7 +1768,7 @@ type ClientInterface interface {
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost Vm Instance Linux Disk Create Validate Post
 	//
-	// Validiert einen Request zur Bestellung einer Linux Datendisk.
+	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -1792,7 +1849,7 @@ type ClientInterface interface {
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody Vm Instance Windows Disk Post
 	//
-	// Bestellung einer Windows Datendisk.
+	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -1801,7 +1858,7 @@ type ClientInterface interface {
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost Vm Instance Windows Disk Post
 	//
-	// Bestellung einer Windows Datendisk.
+	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -2675,6 +2732,46 @@ func (c *Client) ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstan
 	return c.Client.Do(req)
 }
 
+// InternalDiskAutogrowApiV1InternalAutogrowPostWithBody Internal Disk Autogrow
+//
+// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+// Exklusiver API-Endpoint für die FI.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+func (c *Client) InternalDiskAutogrowApiV1InternalAutogrowPostWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewInternalDiskAutogrowApiV1InternalAutogrowPostRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// InternalDiskAutogrowApiV1InternalAutogrowPost Internal Disk Autogrow
+//
+// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+// Exklusiver API-Endpoint für die FI.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+func (c *Client) InternalDiskAutogrowApiV1InternalAutogrowPost(ctx context.Context, body InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewInternalDiskAutogrowApiV1InternalAutogrowPostRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBody Internal Instance Delete
 //
 // Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
@@ -3068,7 +3165,7 @@ func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateVal
 
 // VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody Vm Instance Linux Disk Post
 //
-// Bestellung einer Linux Datendisk.
+// Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
@@ -3087,7 +3184,7 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 
 // VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost Vm Instance Linux Disk Post
 //
-// Bestellung einer Linux Datendisk.
+// Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -3106,7 +3203,7 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 
 // VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
 //
-// Validiert einen Request zur Bestellung einer Linux Datendisk.
+// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
@@ -3125,7 +3222,7 @@ func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInsta
 
 // VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost Vm Instance Linux Disk Create Validate Post
 //
-// Validiert einen Request zur Bestellung einer Linux Datendisk.
+// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -3296,7 +3393,7 @@ func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreat
 
 // VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody Vm Instance Windows Disk Post
 //
-// Bestellung einer Windows Datendisk.
+// Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
@@ -3315,7 +3412,7 @@ func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDis
 
 // VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost Vm Instance Windows Disk Post
 //
-// Bestellung einer Windows Datendisk.
+// Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -5034,6 +5131,46 @@ func NewContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDel
 	}
 
 	operationPath := fmt.Sprintf("/api/v1/container/instance/%s/delete/validate", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewInternalDiskAutogrowApiV1InternalAutogrowPostRequest calls the generic InternalDiskAutogrowApiV1InternalAutogrowPost builder with application/json body
+func NewInternalDiskAutogrowApiV1InternalAutogrowPostRequest(server string, body InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewInternalDiskAutogrowApiV1InternalAutogrowPostRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewInternalDiskAutogrowApiV1InternalAutogrowPostRequestWithBody constructs an http.Request for the InternalDiskAutogrowApiV1InternalAutogrowPost method, with any body, and a specified content type
+func NewInternalDiskAutogrowApiV1InternalAutogrowPostRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/internal/autogrow")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -8314,6 +8451,26 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /api/v1/container/instance/{instance_uuid}/delete/validate (the `ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePost` operationId).
 	ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse, error)
 
+	// InternalDiskAutogrowApiV1InternalAutogrowPostWithBodyWithResponse Internal Disk Autogrow
+	//
+	// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+	// Exklusiver API-Endpoint für die FI.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+	InternalDiskAutogrowApiV1InternalAutogrowPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*InternalDiskAutogrowApiV1InternalAutogrowPostResponse, error)
+
+	// InternalDiskAutogrowApiV1InternalAutogrowPostWithResponse Internal Disk Autogrow
+	//
+	// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+	// Exklusiver API-Endpoint für die FI.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+	InternalDiskAutogrowApiV1InternalAutogrowPostWithResponse(ctx context.Context, body InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody, reqEditors ...RequestEditorFn) (*InternalDiskAutogrowApiV1InternalAutogrowPostResponse, error)
+
 	// InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse Internal Instance Delete
 	//
 	// Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
@@ -8507,7 +8664,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse Vm Instance Linux Disk Post
 	//
-	// Bestellung einer Linux Datendisk.
+	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8516,7 +8673,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse Vm Instance Linux Disk Post
 	//
-	// Bestellung einer Linux Datendisk.
+	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8525,7 +8682,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
 	//
-	// Validiert einen Request zur Bestellung einer Linux Datendisk.
+	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8534,7 +8691,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
 	//
-	// Validiert einen Request zur Bestellung einer Linux Datendisk.
+	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8615,7 +8772,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse Vm Instance Windows Disk Post
 	//
-	// Bestellung einer Windows Datendisk.
+	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8624,7 +8781,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse Vm Instance Windows Disk Post
 	//
-	// Bestellung einer Windows Datendisk.
+	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -9602,6 +9759,54 @@ func (r ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDel
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r ContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type InternalDiskAutogrowApiV1InternalAutogrowPostResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *GenericRequestResponseModel
+	// JSON422 the response for an HTTP 422 `application/json` response
+	JSON422 *HTTPValidationError
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) GetJSON200() *GenericRequestResponseModel {
+	return r.JSON200
+}
+
+// GetJSON422 returns the response for an HTTP 422 `application/json` response
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) GetJSON422() *HTTPValidationError {
+	return r.JSON422
+}
+
+// GetBody returns the raw response body bytes
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r InternalDiskAutogrowApiV1InternalAutogrowPostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -12852,6 +13057,38 @@ func (c *ClientWithResponses) ContainerInstanceDeleteValidatePostApiV1ContainerI
 	return ParseContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidDeleteValidatePostResponse(rsp)
 }
 
+// InternalDiskAutogrowApiV1InternalAutogrowPostWithBodyWithResponse Internal Disk Autogrow
+//
+// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+// Exklusiver API-Endpoint für die FI.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+func (c *ClientWithResponses) InternalDiskAutogrowApiV1InternalAutogrowPostWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*InternalDiskAutogrowApiV1InternalAutogrowPostResponse, error) {
+	rsp, err := c.InternalDiskAutogrowApiV1InternalAutogrowPostWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseInternalDiskAutogrowApiV1InternalAutogrowPostResponse(rsp)
+}
+
+// InternalDiskAutogrowApiV1InternalAutogrowPostWithResponse Internal Disk Autogrow
+//
+// Triggert den Autogrow eines Driveletter oder Mountpoints eines Hosts.
+// Exklusiver API-Endpoint für die FI.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /api/v1/internal/autogrow (the `InternalDiskAutogrowApiV1InternalAutogrowPost` operationId).
+func (c *ClientWithResponses) InternalDiskAutogrowApiV1InternalAutogrowPostWithResponse(ctx context.Context, body InternalDiskAutogrowApiV1InternalAutogrowPostJSONRequestBody, reqEditors ...RequestEditorFn) (*InternalDiskAutogrowApiV1InternalAutogrowPostResponse, error) {
+	rsp, err := c.InternalDiskAutogrowApiV1InternalAutogrowPost(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseInternalDiskAutogrowApiV1InternalAutogrowPostResponse(rsp)
+}
+
 // InternalInstanceDeleteApiV1InternalInstanceInstanceUuidDeleteWithBodyWithResponse Internal Instance Delete
 //
 // Sofortige Löschung einer virtuellen Maschinen Instanz für interne Zwecke.
@@ -13171,7 +13408,7 @@ func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceL
 
 // VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse Vm Instance Linux Disk Post
 //
-// Bestellung einer Linux Datendisk.
+// Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13186,7 +13423,7 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstan
 
 // VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse Vm Instance Linux Disk Post
 //
-// Bestellung einer Linux Datendisk.
+// Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13201,7 +13438,7 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstan
 
 // VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
 //
-// Validiert einen Request zur Bestellung einer Linux Datendisk.
+// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13216,7 +13453,7 @@ func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInsta
 
 // VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
 //
-// Validiert einen Request zur Bestellung einer Linux Datendisk.
+// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13351,7 +13588,7 @@ func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanc
 
 // VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse Vm Instance Windows Disk Post
 //
-// Bestellung einer Windows Datendisk.
+// Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13366,7 +13603,7 @@ func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsIn
 
 // VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse Vm Instance Windows Disk Post
 //
-// Bestellung einer Windows Datendisk.
+// Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -14713,6 +14950,39 @@ func ParseContainerInstanceDeleteValidatePostApiV1ContainerInstanceInstanceUuidD
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ValidationSuccessResponseModel
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseInternalDiskAutogrowApiV1InternalAutogrowPostResponse parses an HTTP response from a InternalDiskAutogrowApiV1InternalAutogrowPostWithResponse call
+func ParseInternalDiskAutogrowApiV1InternalAutogrowPostResponse(rsp *http.Response) (*InternalDiskAutogrowApiV1InternalAutogrowPostResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &InternalDiskAutogrowApiV1InternalAutogrowPostResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GenericRequestResponseModel
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
