@@ -1,3 +1,3 @@
 package spec
 
-//go:generate go tool oapi-codegen -config cfg.yaml openapi_v0.8.5.json
+//go:generate go tool oapi-codegen -config cfg.yaml openapi_v0.8.7.json
