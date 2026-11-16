@@ -390,6 +390,7 @@ type KiteworksApplianceCreateInputModel struct {
 	BillingStartDate *openapi_types.Date                            `json:"billing_start_date,omitempty"`
 	ContactUuid      openapi_types.UUID                             `json:"contact_uuid"`
 	Encrypted        bool                                           `json:"encrypted"`
+	EntityLabels     *map[string]string                             `json:"entity_labels,omitempty"`
 	Name             *string                                        `json:"name,omitempty"`
 	OrderNumber      string                                         `json:"order_number"`
 	PodUuid          openapi_types.UUID                             `json:"pod_uuid"`
@@ -977,6 +978,7 @@ type VmDiskGetApiV1MvmDiskGetParams struct {
 // VmInstanceGetApiV1MvmInstanceGetParams defines parameters for VmInstanceGetApiV1MvmInstanceGet.
 type VmInstanceGetApiV1MvmInstanceGetParams struct {
 	Tenant       string              `form:"tenant" json:"tenant"`
+	ProjectUuid  *openapi_types.UUID `form:"project_uuid,omitempty" json:"project_uuid,omitempty"`
 	InstanceUuid *openapi_types.UUID `form:"instance_uuid,omitempty" json:"instance_uuid,omitempty"`
 }
 
@@ -1699,6 +1701,7 @@ type ClientInterface interface {
 	// VmInstanceGetApiV1MvmInstanceGet Vm Instance Get
 	//
 	// Listet alle virtuellen Maschinen Instanzen incl. aller Entitäten.
+	// Optional filterbar pro project_uuid oder instance_uuid.
 	//
 	// Corresponds with GET /api/v1/mvm/instance (the `VmInstanceGetApiV1MvmInstanceGet` operationId).
 	VmInstanceGetApiV1MvmInstanceGet(ctx context.Context, params *VmInstanceGetApiV1MvmInstanceGetParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3073,6 +3076,7 @@ func (c *Client) VmDiskGetApiV1MvmDiskGet(ctx context.Context, params *VmDiskGet
 // VmInstanceGetApiV1MvmInstanceGet Vm Instance Get
 //
 // Listet alle virtuellen Maschinen Instanzen incl. aller Entitäten.
+// Optional filterbar pro project_uuid oder instance_uuid.
 //
 // Corresponds with GET /api/v1/mvm/instance (the `VmInstanceGetApiV1MvmInstanceGet` operationId).
 func (c *Client) VmInstanceGetApiV1MvmInstanceGet(ctx context.Context, params *VmInstanceGetApiV1MvmInstanceGetParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -5682,6 +5686,18 @@ func NewVmInstanceGetApiV1MvmInstanceGetRequest(server string, params *VmInstanc
 			for _, qp := range strings.Split(queryFrag, "&") {
 				rawQueryFragments = append(rawQueryFragments, qp)
 			}
+		}
+
+		if params.ProjectUuid != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "project_uuid", *params.ProjectUuid, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
 		}
 
 		if params.InstanceUuid != nil {
@@ -8620,6 +8636,7 @@ type ClientWithResponsesInterface interface {
 	// VmInstanceGetApiV1MvmInstanceGetWithResponse Vm Instance Get
 	//
 	// Listet alle virtuellen Maschinen Instanzen incl. aller Entitäten.
+	// Optional filterbar pro project_uuid oder instance_uuid.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
@@ -13334,6 +13351,7 @@ func (c *ClientWithResponses) VmDiskGetApiV1MvmDiskGetWithResponse(ctx context.C
 // VmInstanceGetApiV1MvmInstanceGetWithResponse Vm Instance Get
 //
 // Listet alle virtuellen Maschinen Instanzen incl. aller Entitäten.
+// Optional filterbar pro project_uuid oder instance_uuid.
 //
 // Returns a wrapper object for the known response body format(s).
 //
