@@ -41,6 +41,10 @@ func Start() (*client.Client, string, func(), error) {
 }
 
 func registerVMHandlers(mux *http.ServeMux) {
+	mux.HandleFunc("GET /api/v1/mvm/location", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, defaultLocations())
+	})
+
 	mux.HandleFunc("GET /api/v1/mvm/datacenter", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, defaultDatacenters())
 	})
@@ -84,12 +88,12 @@ func registerVMHandlers(mux *http.ServeMux) {
 	})
 
 	mux.HandleFunc("POST /api/v1/tenant/contact", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_contact", createdContactUUID))
+		writeJSON(w, genericResponse("create_contact", entity("contact", "create", createdContactUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/tenant/contact/create/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/tenant/contact/{contact_uuid}/", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_contact", r.PathValue("contact_uuid")))
+		writeJSON(w, genericResponse("update_contact", entity("contact", "update", r.PathValue("contact_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/tenant/contact/{contact_uuid}/update/validate", validateOK)
 
@@ -115,85 +119,138 @@ func registerVMHandlers(mux *http.ServeMux) {
 		writeJSON(w, filtered)
 	})
 
-	// Optional instance_uuid query narrows the result to a single VM;
-	// unknown UUIDs get a 404.
+	// Optional instance_uuid and project_uuid queries narrow the result;
+	// an unknown instance_uuid gets a 404.
 	mux.HandleFunc("GET /api/v1/mvm/instance", func(w http.ResponseWriter, r *http.Request) {
 		instanceUUID := r.URL.Query().Get("instance_uuid")
-		if instanceUUID == "" {
-			writeJSON(w, defaultVMs())
-			return
-		}
-		for i := range defaultVMs().Instances {
+		projectUUID := r.URL.Query().Get("project_uuid")
+
+		out := &client.VMInstanceGetVMsResponseModel{}
+		for _, item := range defaultVMs().Instances {
 			// Try Windows first: the union helpers unmarshal any record into
 			// either struct; domain_uuid marks windows records.
-			if w_, err := defaultVMs().Instances[i].AsNucleusDBWindowsVMs(); err == nil && w_.DomainUuid != nil && w_.VmUuid != nil && w_.VmUuid.String() == instanceUUID {
-				writeJSON(w, vmList(w_))
-				return
+			var vmUUID, vmProject string
+			if win, err := item.AsNucleusDBWindowsVMs(); err == nil && win.DomainUuid != nil {
+				vmUUID, vmProject = win.VmUuid.String(), win.ProjectUuid.String()
+			} else if lin, err := item.AsNucleusDBLinuxVMs(); err == nil {
+				vmUUID, vmProject = lin.VmUuid.String(), lin.ProjectUuid.String()
+			} else {
+				continue
 			}
-			if l, err := defaultVMs().Instances[i].AsNucleusDBLinuxVMs(); err == nil && l.VmUuid != nil && l.VmUuid.String() == instanceUUID {
-				writeJSON(w, vmList(l))
-				return
+			if instanceUUID != "" && vmUUID != instanceUUID {
+				continue
 			}
+			if projectUUID != "" && vmProject != projectUUID {
+				continue
+			}
+			out.Instances = append(out.Instances, item)
 		}
-		http.Error(w, "vm instance not found", http.StatusNotFound)
+		if instanceUUID != "" && len(out.Instances) == 0 {
+			http.Error(w, "vm instance not found", http.StatusNotFound)
+			return
+		}
+		writeJSON(w, out)
 	})
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_vm_application_server", linuxVMUUID))
+		writeJSON(w, genericResponse("create_vm_application_server", entity("vm_instance", "create", linuxVMUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux/create/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_vm_application_server", windowsVMUUID))
+		writeJSON(w, genericResponse("create_vm_application_server", entity("vm_instance", "create", windowsVMUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/create/validate", validateOK)
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("delete_vm", r.PathValue("instance_uuid")))
+		writeJSON(w, genericResponse("delete_vm", entity("vm_instance", "delete", r.PathValue("instance_uuid"))))
 	})
 
-	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_disk", createdDiskUUID))
+	// Add disks: one created disk entity per requested disk.
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disks", func(w http.ResponseWriter, r *http.Request) {
+		var body client.VMInstanceAddDiskLinuxInputModel
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+			return
+		}
+		writeJSON(w, createdDisksResponse(len(body.Disks)))
 	})
-	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate", validateOK)
 
-	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_disk", createdDiskUUID))
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disks", func(w http.ResponseWriter, r *http.Request) {
+		var body client.VMInstanceAddDiskWindowsInputModel
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+			return
+		}
+		writeJSON(w, createdDisksResponse(len(body.Disks)))
 	})
-	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate", validateOK)
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_disk", r.PathValue("disk_uuid")))
+		writeJSON(w, genericResponse("update_vm_update_disk", entity("vm_disk", "update", r.PathValue("disk_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate", validateOK)
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_delete_disk", r.PathValue("disk_uuid")))
+		writeJSON(w, genericResponse("update_vm_delete_disk", entity("vm_disk", "delete", r.PathValue("disk_uuid"))))
 	})
-	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/delete/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_ip", createdInterfaceUUID))
+		writeJSON(w, genericResponse("update_vm_create_ip", entity("vm_interface", "create", createdInterfaceUUID)))
 	})
-	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip/create/validate", validateOK)
 
+	// Move an IP address to another VM.
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_ip", r.PathValue("interface_uuid")))
+		writeJSON(w, genericResponse("update_vm_update_ip", entity("vm_interface", "update", r.PathValue("interface_uuid"))))
 	})
-	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}/update/validate", validateOK)
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_delete_ip", r.PathValue("interface_uuid")))
+		writeJSON(w, genericResponse("update_vm_delete_ip", entity("vm_interface", "delete", r.PathValue("interface_uuid"))))
 	})
 
-	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_performanceclass", r.PathValue("instance_uuid")))
-	})
-	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_serviceclass", r.PathValue("instance_uuid")))
-	})
+	// Update: contact, labels and performance class (cpu/ram).
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/contact", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_contact", r.PathValue("instance_uuid")))
+		writeJSON(w, genericResponse("update_vm_update_contact", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate", validateOK)
+
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/labels", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_update_labels", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate", validateOK)
+
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_performanceclass", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate", validateOK)
+
+	// Deprecated UpdateServiceClass.
+	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_serviceclass", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate", validateOK)
+
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/restart", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_restart", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_reinstall", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate", validateOK)
+
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_reinstall", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+	})
+	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate", validateOK)
+
+	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/snapshot", func(w http.ResponseWriter, _ *http.Request) {
+		writeJSON(w, genericResponse("update_vm_create_snapshot", entity("vm_snapshot", "create", createdSnapshotUUID)))
+	})
+
+	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, genericResponse("update_vm_delete_snapshot", entity("vm_snapshot", "delete", r.PathValue("snapshot_uuid"))))
 	})
 }
 
@@ -201,39 +258,47 @@ var validateOK = func(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, &client.ValidationSuccessResponseModel{Success: true})
 }
 
-// genericResponse builds a canned response for a mutation endpoint;
-// requestType must be a valid upstream RequestTypeConfig value.
-func genericResponse(requestType, itemUUID string) *client.GenericRequestResponseModel {
-	return &client.GenericRequestResponseModel{
-		AutomationId:    1,
-		AutomationType:  "vm_instance",
-		ItemType:        "vm_instance",
-		ItemUuid:        uuid.MustParse(itemUUID),
-		OperationStatus: "Requested",
-		OperationType:   requestType,
-		OperationUuid:   uuid.MustParse(itemUUID),
+// entity builds a response entity reference.
+func entity(entityType, crudOperation, entityUUID string) client.Entity {
+	return client.Entity{
+		CrudOperation: crudOperation,
+		Type:          entityType,
+		Uuid:          uuid.MustParse(entityUUID),
 	}
 }
 
-func vmList(vm any) *client.VMInstanceGetVMsResponseModel {
-	out := &client.VMInstanceGetVMsResponseModel{}
-	switch v := vm.(type) {
-	case client.NucleusDBLinuxVMs:
-		item := client.VMInstanceGetVMsResponseModel_Instances_Item{}
-		if err := item.FromNucleusDBLinuxVMs(v); err != nil {
-			panic(err)
-		}
-		out.Instances = []client.VMInstanceGetVMsResponseModel_Instances_Item{item}
-	case client.NucleusDBWindowsVMs:
-		item := client.VMInstanceGetVMsResponseModel_Instances_Item{}
-		if err := item.FromNucleusDBWindowsVMs(v); err != nil {
-			panic(err)
-		}
-		out.Instances = []client.VMInstanceGetVMsResponseModel_Instances_Item{item}
-	default:
-		panic(fmt.Sprintf("unsupported vm type %T", vm))
+// createdDisksResponse reports one freshly created disk entity per requested disk.
+func createdDisksResponse(n int) *client.GenericRequestResponseModel {
+	entities := make([]client.Entity, 0, n)
+	for i := 0; i < n; i++ {
+		entities = append(entities, entity("vm_disk", "create", uuid.NewString()))
 	}
-	return out
+	return genericResponse("update_vm_create_disk", entities...)
+}
+
+// genericResponse builds a canned response for a mutation endpoint;
+// requestType must be a valid upstream RequestTypeConfig value.
+func genericResponse(requestType string, entities ...client.Entity) *client.GenericRequestResponseModel {
+	if entities == nil {
+		entities = []client.Entity{}
+	}
+	return &client.GenericRequestResponseModel{
+		AutomationId:    1,
+		AutomationType:  "vm_instance",
+		Entities:        entities,
+		OperationStatus: "Requested",
+		OperationType:   requestType,
+		OperationUuid:   uuid.New(),
+	}
+}
+
+func defaultLocations() *client.VMInstanceGetLocationsResponseModel {
+	return &client.VMInstanceGetLocationsResponseModel{
+		Locations: []client.NucleusDBLocations{
+			{LocationUuid: uuidPtr("8d0f3da7-2e4b-6275-9b3a-910b733acf71"), LocationTitle: "Nürnberg", Tenant: "ftap"},
+			{LocationUuid: uuidPtr("c5f0b5d0-77b8-10b1-63dd-7f6a624e00b5"), LocationTitle: "Stuttgart", Tenant: "ftap"},
+		},
+	}
 }
 
 func defaultDatacenters() *client.VMInstanceGetDatacentersResponseModel {
@@ -380,7 +445,7 @@ const (
 	linuxVMUUID          = "6d9306ed-7bb2-c8b3-2f9c-ac1a70cf489c"
 	createdContactUUID   = "43920c7c-6f51-f3cb-ec54-4c226556118f"
 	createdInterfaceUUID = "11111111-2222-3333-4444-555555555555"
-	createdDiskUUID      = "11111111-2222-3333-4444-666666666666"
+	createdSnapshotUUID  = "11111111-2222-3333-4444-777777777777"
 )
 
 func defaultVMs() *client.VMInstanceGetVMsResponseModel {
@@ -438,6 +503,7 @@ func defaultVMs() *client.VMInstanceGetVMsResponseModel {
 		OsType:        "linux",
 		OrderNumber:   "12345",
 		Labels:        mapPtr(map[string]interface{}{"accounting_key": "AK-LIN-1"}),
+		Snapshots:     &[]client.NucleusDBSnapshot{{Name: "before-upgrade", SnapshotUuid: uuid.MustParse("ffffffff-ffff-ffff-ffff-fffffffffff1")}},
 		Billable:      true,
 	}
 
