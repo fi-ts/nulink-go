@@ -353,12 +353,18 @@ type DiskWindowsInputModel struct {
 	Label       string  `json:"label"`
 }
 
+// Entity defines model for Entity.
+type Entity struct {
+	CrudOperation string             `json:"crud_operation"`
+	Type          string             `json:"type"`
+	Uuid          openapi_types.UUID `json:"uuid"`
+}
+
 // GenericRequestResponseModel defines model for GenericRequestResponseModel.
 type GenericRequestResponseModel struct {
 	AutomationId    int                `json:"automation_id"`
 	AutomationType  string             `json:"automation_type"`
-	ItemType        string             `json:"item_type"`
-	ItemUuid        openapi_types.UUID `json:"item_uuid"`
+	Entities        []Entity           `json:"entities"`
 	OperationStatus string             `json:"operation_status"`
 	OperationType   string             `json:"operation_type"`
 	OperationUuid   openapi_types.UUID `json:"operation_uuid"`
@@ -807,6 +813,12 @@ type VMInstanceGetVMsResponseModel_Instances_Item struct {
 	union json.RawMessage
 }
 
+// VMInstanceGetValidationsResponseModel defines model for VMInstanceGetValidationsResponseModel.
+type VMInstanceGetValidationsResponseModel struct {
+	ApiVersion  string      `json:"api_version"`
+	Validations interface{} `json:"validations"`
+}
+
 // VMInstanceGetVlansResponseModel defines model for VMInstanceGetVlansResponseModel.
 type VMInstanceGetVlansResponseModel struct {
 	Vlans []NucleusDBVlans `json:"vlans"`
@@ -842,8 +854,11 @@ type VMInstanceLinuxCreateInputModelServiceclass string
 
 // VMInstanceReinstallInputModel defines model for VMInstanceReinstallInputModel.
 type VMInstanceReinstallInputModel struct {
-	ActorContext ActorContext `json:"actorContext"`
-	OrderNumber  string       `json:"order_number"`
+	ActorContext ActorContext        `json:"actorContext"`
+	Backup       *bool               `json:"backup,omitempty"`
+	Encrypted    *bool               `json:"encrypted,omitempty"`
+	OrderNumber  string              `json:"order_number"`
+	OsUuid       *openapi_types.UUID `json:"os_uuid,omitempty"`
 }
 
 // VMInstanceRestartInputModel defines model for VMInstanceRestartInputModel.
@@ -1072,11 +1087,11 @@ type VmInstanceLinuxPostApiV1MvmInstanceLinuxPostJSONRequestBody = VMInstanceLin
 // VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody defines body for VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost for application/json ContentType.
 type VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody = VMInstanceLinuxCreateInputModel
 
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody defines body for VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost for application/json ContentType.
-type VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody = VMInstanceAddDiskLinuxInputModel
+// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody defines body for VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost for application/json ContentType.
+type VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody = VMInstanceAddDiskLinuxInputModel
 
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody defines body for VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost for application/json ContentType.
-type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody = VMInstanceAddDiskLinuxInputModel
+// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody defines body for VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost for application/json ContentType.
+type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody = VMInstanceAddDiskLinuxInputModel
 
 // VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody defines body for VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPost for application/json ContentType.
 type VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostJSONRequestBody = VMInstanceReinstallInputModel
@@ -1090,11 +1105,11 @@ type VmInstanceWindowsPostApiV1MvmInstanceWindowsPostJSONRequestBody = VMInstanc
 // VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody defines body for VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost for application/json ContentType.
 type VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody = VMInstanceWindowsCreateInputModel
 
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody defines body for VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost for application/json ContentType.
-type VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody = VMInstanceAddDiskWindowsInputModel
+// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody defines body for VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost for application/json ContentType.
+type VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody = VMInstanceAddDiskWindowsInputModel
 
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody defines body for VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost for application/json ContentType.
-type VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody = VMInstanceAddDiskWindowsInputModel
+// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody defines body for VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost for application/json ContentType.
+type VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody = VMInstanceAddDiskWindowsInputModel
 
 // VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody defines body for VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPost for application/json ContentType.
 type VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostJSONRequestBody = VMInstanceReinstallInputModel
@@ -1742,41 +1757,41 @@ type ClientInterface interface {
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
 	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody Vm Instance Linux Disk Post
+	// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBody Vm Instance Linux Disks Post
 	//
 	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+	VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost Vm Instance Linux Disk Post
+	// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost Vm Instance Linux Disks Post
 	//
 	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+	VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
+	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost Vm Instance Linux Disk Create Validate Post
+	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost Vm Instance Linux Disk Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBody Vm Instance Linux Reinstall Post
 	//
@@ -1850,41 +1865,41 @@ type ClientInterface interface {
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
 	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody Vm Instance Windows Disk Post
+	// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBody Vm Instance Windows Disks Post
 	//
 	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes any type of body and a specified content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+	VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost Vm Instance Windows Disk Post
+	// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost Vm Instance Windows Disks Post
 	//
 	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes a body of the `application/json` content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+	VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody Vm Instance Windows Disk Create Validate Post
+	// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBody Vm Instance Windows Disks Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer Linux Datendisk.
 	//
 	// Takes any type of body and a specified content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost Vm Instance Windows Disk Create Validate Post
+	// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost Vm Instance Windows Disks Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer Linux Datendisk.
 	//
 	// Takes a body of the `application/json` content type.
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBody Vm Instance Windows Reinstall Post
 	//
@@ -1906,7 +1921,7 @@ type ClientInterface interface {
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody Vm Instance Windows Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Windows Instanz Reinstall Request.
 	//
 	// Takes any type of body and a specified content type.
 	//
@@ -1915,7 +1930,7 @@ type ClientInterface interface {
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost Vm Instance Windows Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Windows Instanz Reinstall Request.
 	//
 	// Takes a body of the `application/json` content type.
 	//
@@ -2426,6 +2441,13 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
 	VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// VmValidationsGetApiV1MvmValidationsGet Vm Validations Get
+	//
+	// Listet alle Business-Logik Validierungen.
+	//
+	// Corresponds with GET /api/v1/mvm/validations (the `VmValidationsGetApiV1MvmValidationsGet` operationId).
+	VmValidationsGetApiV1MvmValidationsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// VmVlanGetApiV1MvmVlanGet Vm Vlan Get
 	//
@@ -3167,15 +3189,15 @@ func (c *Client) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateVal
 	return c.Client.Do(req)
 }
 
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody Vm Instance Linux Disk Post
+// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBody Vm Instance Linux Disks Post
 //
 // Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, contentType, body)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+func (c *Client) VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3186,15 +3208,15 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 	return c.Client.Do(req)
 }
 
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost Vm Instance Linux Disk Post
+// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost Vm Instance Linux Disks Post
 //
 // Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(c.Server, instanceUuid, body)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+func (c *Client) VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3205,15 +3227,15 @@ func (c *Client) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPos
 	return c.Client.Do(req)
 }
 
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
+// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBody Vm Instance Linux Disk Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3224,15 +3246,15 @@ func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInsta
 	return c.Client.Do(req)
 }
 
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost Vm Instance Linux Disk Create Validate Post
+// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost Vm Instance Linux Disk Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, body)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+func (c *Client) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3395,15 +3417,15 @@ func (c *Client) VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreat
 	return c.Client.Do(req)
 }
 
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody Vm Instance Windows Disk Post
+// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBody Vm Instance Windows Disks Post
 //
 // Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes any type of body and a specified content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(c.Server, instanceUuid, contentType, body)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+func (c *Client) VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3414,15 +3436,15 @@ func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDis
 	return c.Client.Do(req)
 }
 
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost Vm Instance Windows Disk Post
+// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost Vm Instance Windows Disks Post
 //
 // Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes a body of the `application/json` content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(c.Server, instanceUuid, body)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+func (c *Client) VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3433,15 +3455,15 @@ func (c *Client) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDis
 	return c.Client.Do(req)
 }
 
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody Vm Instance Windows Disk Create Validate Post
+// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBody Vm Instance Windows Disks Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer Linux Datendisk.
 //
 // Takes any type of body and a specified content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+func (c *Client) VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBody(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequestWithBody(c.Server, instanceUuid, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3452,15 +3474,15 @@ func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsI
 	return c.Client.Do(req)
 }
 
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost Vm Instance Windows Disk Create Validate Post
+// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost Vm Instance Windows Disks Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer Linux Datendisk.
 //
 // Takes a body of the `application/json` content type.
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *Client) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(c.Server, instanceUuid, body)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+func (c *Client) VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequest(c.Server, instanceUuid, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3511,7 +3533,7 @@ func (c *Client) VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUu
 
 // VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBody Vm Instance Windows Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Windows Instanz Reinstall Request.
 //
 // Takes any type of body and a specified content type.
 //
@@ -3530,7 +3552,7 @@ func (c *Client) VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsIn
 
 // VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePost Vm Instance Windows Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Windows Instanz Reinstall Request.
 //
 // Takes a body of the `application/json` content type.
 //
@@ -4612,6 +4634,23 @@ func (c *Client) VmSnapshotGetApiV1MvmSnapshotGet(ctx context.Context, params *V
 // Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
 func (c *Client) VmStagetypeGetApiV1MvmStagetypeGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewVmStagetypeGetApiV1MvmStagetypeGetRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// VmValidationsGetApiV1MvmValidationsGet Vm Validations Get
+//
+// Listet alle Business-Logik Validierungen.
+//
+// Corresponds with GET /api/v1/mvm/validations (the `VmValidationsGetApiV1MvmValidationsGet` operationId).
+func (c *Client) VmValidationsGetApiV1MvmValidationsGet(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVmValidationsGetApiV1MvmValidationsGetRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -5806,19 +5845,19 @@ func NewVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost
 	return req, nil
 }
 
-// NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest calls the generic VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost builder with application/json body
-func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
+// NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequest calls the generic VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost builder with application/json body
+func NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
+	return NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
-// NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody constructs an http.Request for the VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost method, with any body, and a specified content type
-func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequestWithBody constructs an http.Request for the VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost method, with any body, and a specified content type
+func NewVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5833,7 +5872,7 @@ func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestW
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/linux/%s/disk", pathParam0)
+	operationPath := fmt.Sprintf("/api/v1/mvm/instance/linux/%s/disks", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -5853,19 +5892,19 @@ func NewVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRequestW
 	return req, nil
 }
 
-// NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest calls the generic VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost builder with application/json body
-func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
+// NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequest calls the generic VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost builder with application/json body
+func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
+	return NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
-// NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost method, with any body, and a specified content type
+func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -5880,7 +5919,7 @@ func NewVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDi
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/linux/%s/disk/create/validate", pathParam0)
+	operationPath := fmt.Sprintf("/api/v1/mvm/instance/linux/%s/disks/create/validate", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -6074,19 +6113,19 @@ func NewVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidate
 	return req, nil
 }
 
-// NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest calls the generic VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost builder with application/json body
-func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody) (*http.Request, error) {
+// NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequest calls the generic VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost builder with application/json body
+func NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
+	return NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
-// NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody constructs an http.Request for the VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost method, with any body, and a specified content type
-func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequestWithBody constructs an http.Request for the VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost method, with any body, and a specified content type
+func NewVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6101,7 +6140,7 @@ func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequ
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/windows/%s/disk", pathParam0)
+	operationPath := fmt.Sprintf("/api/v1/mvm/instance/windows/%s/disks", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -6121,19 +6160,19 @@ func NewVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRequ
 	return req, nil
 }
 
-// NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest calls the generic VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost builder with application/json body
-func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody) (*http.Request, error) {
+// NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequest calls the generic VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost builder with application/json body
+func NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequest(server string, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
+	return NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequestWithBody(server, instanceUuid, "application/json", bodyReader)
 }
 
-// NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost method, with any body, and a specified content type
-func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequestWithBody constructs an http.Request for the VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost method, with any body, and a specified content type
+func NewVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostRequestWithBody(server string, instanceUuid openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -6148,7 +6187,7 @@ func NewVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUu
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/api/v1/mvm/instance/windows/%s/disk/create/validate", pathParam0)
+	operationPath := fmt.Sprintf("/api/v1/mvm/instance/windows/%s/disks/create/validate", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -7789,6 +7828,33 @@ func NewVmStagetypeGetApiV1MvmStagetypeGetRequest(server string) (*http.Request,
 	return req, nil
 }
 
+// NewVmValidationsGetApiV1MvmValidationsGetRequest constructs an http.Request for the VmValidationsGetApiV1MvmValidationsGet method
+func NewVmValidationsGetApiV1MvmValidationsGetRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/v1/mvm/validations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewVmVlanGetApiV1MvmVlanGetRequest constructs an http.Request for the VmVlanGetApiV1MvmVlanGet method
 func NewVmVlanGetApiV1MvmVlanGetRequest(server string, params *VmVlanGetApiV1MvmVlanGetParams) (*http.Request, error) {
 	var err error
@@ -8679,41 +8745,41 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /api/v1/mvm/instance/linux/create/validate (the `VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost` operationId).
 	VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostWithResponse(ctx context.Context, body VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse, error)
 
-	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse Vm Instance Linux Disk Post
+	// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBodyWithResponse Vm Instance Linux Disks Post
 	//
 	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+	VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse, error)
 
-	// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse Vm Instance Linux Disk Post
+	// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithResponse Vm Instance Linux Disks Post
 	//
 	// Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-	VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+	VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse, error)
 
-	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
+	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse, error)
 
-	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
+	// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse, error)
 
 	// VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Linux Reinstall Post
 	//
@@ -8787,41 +8853,41 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with POST /api/v1/mvm/instance/windows/create/validate (the `VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePost` operationId).
 	VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostWithResponse(ctx context.Context, body VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse, error)
 
-	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse Vm Instance Windows Disk Post
+	// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBodyWithResponse Vm Instance Windows Disks Post
 	//
 	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+	VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse, error)
 
-	// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse Vm Instance Windows Disk Post
+	// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithResponse Vm Instance Windows Disks Post
 	//
 	// Bestellung einer oder mehrerer Windows Datendisks.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-	VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+	VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse, error)
 
-	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Windows Disk Create Validate Post
+	// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBodyWithResponse Vm Instance Windows Disks Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer Linux Datendisk.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse, error)
 
-	// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Windows Disk Create Validate Post
+	// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithResponse Vm Instance Windows Disks Create Validate Post
 	//
 	// Validiert einen Request zur Bestellung einer Linux Datendisk.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
-	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-	VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error)
+	// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+	VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse, error)
 
 	// VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Windows Reinstall Post
 	//
@@ -8843,7 +8909,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Windows Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Windows Instanz Reinstall Request.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -8852,7 +8918,7 @@ type ClientWithResponsesInterface interface {
 
 	// VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse Vm Instance Windows Reinstall Validate Post
 	//
-	// Validiert einen Windows oder Linux Instanz Reinstall Request.
+	// Validiert einen Windows Instanz Reinstall Request.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
@@ -9373,6 +9439,15 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /api/v1/mvm/stagetype (the `VmStagetypeGetApiV1MvmStagetypeGet` operationId).
 	VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmStagetypeGetApiV1MvmStagetypeGetResponse, error)
+
+	// VmValidationsGetApiV1MvmValidationsGetWithResponse Vm Validations Get
+	//
+	// Listet alle Business-Logik Validierungen.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /api/v1/mvm/validations (the `VmValidationsGetApiV1MvmValidationsGet` operationId).
+	VmValidationsGetApiV1MvmValidationsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmValidationsGetApiV1MvmValidationsGetResponse, error)
 
 	// VmVlanGetApiV1MvmVlanGetWithResponse Vm Vlan Get
 	//
@@ -10447,7 +10522,7 @@ func (r VmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePost
 	return ""
 }
 
-type VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse struct {
+type VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
@@ -10457,22 +10532,22 @@ type VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse st
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) GetJSON200() *GenericRequestResponseModel {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) GetJSON200() *GenericRequestResponseModel {
 	return r.JSON200
 }
 
 // GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) GetJSON422() *HTTPValidationError {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) GetJSON422() *HTTPValidationError {
 	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) GetBody() []byte {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) GetBody() []byte {
 	return r.Body
 }
 
 // Status returns HTTPResponse.Status
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) Status() string {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -10480,7 +10555,7 @@ func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) StatusCode() int {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10488,14 +10563,14 @@ func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse
 }
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse) ContentType() string {
+func (r VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
 	return ""
 }
 
-type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse struct {
+type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
@@ -10505,22 +10580,22 @@ type VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskC
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) GetJSON200() *ValidationSuccessResponseModel {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) GetJSON200() *ValidationSuccessResponseModel {
 	return r.JSON200
 }
 
 // GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) GetJSON422() *HTTPValidationError {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) GetJSON422() *HTTPValidationError {
 	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) GetBody() []byte {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) GetBody() []byte {
 	return r.Body
 }
 
 // Status returns HTTPResponse.Status
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) Status() string {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -10528,7 +10603,7 @@ func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDi
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) StatusCode() int {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10536,7 +10611,7 @@ func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDi
 }
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse) ContentType() string {
+func (r VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -10735,7 +10810,7 @@ func (r VmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidate
 	return ""
 }
 
-type VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse struct {
+type VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
@@ -10745,22 +10820,22 @@ type VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRespons
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) GetJSON200() *GenericRequestResponseModel {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) GetJSON200() *GenericRequestResponseModel {
 	return r.JSON200
 }
 
 // GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) GetJSON422() *HTTPValidationError {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) GetJSON422() *HTTPValidationError {
 	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) GetBody() []byte {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) GetBody() []byte {
 	return r.Body
 }
 
 // Status returns HTTPResponse.Status
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) Status() string {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -10768,7 +10843,7 @@ func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResp
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) StatusCode() int {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10776,14 +10851,14 @@ func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResp
 }
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse) ContentType() string {
+func (r VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
 	return ""
 }
 
-type VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse struct {
+type VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
@@ -10793,22 +10868,22 @@ type VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidD
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) GetJSON200() *ValidationSuccessResponseModel {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) GetJSON200() *ValidationSuccessResponseModel {
 	return r.JSON200
 }
 
 // GetJSON422 returns the response for an HTTP 422 `application/json` response
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) GetJSON422() *HTTPValidationError {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) GetJSON422() *HTTPValidationError {
 	return r.JSON422
 }
 
 // GetBody returns the raw response body bytes
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) GetBody() []byte {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) GetBody() []byte {
 	return r.Body
 }
 
 // Status returns HTTPResponse.Status
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) Status() string {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -10816,7 +10891,7 @@ func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUu
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) StatusCode() int {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10824,7 +10899,7 @@ func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUu
 }
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse) ContentType() string {
+func (r VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -12408,6 +12483,47 @@ func (r VmStagetypeGetApiV1MvmStagetypeGetResponse) ContentType() string {
 	return ""
 }
 
+type VmValidationsGetApiV1MvmValidationsGetResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *VMInstanceGetValidationsResponseModel
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r VmValidationsGetApiV1MvmValidationsGetResponse) GetJSON200() *VMInstanceGetValidationsResponseModel {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r VmValidationsGetApiV1MvmValidationsGetResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r VmValidationsGetApiV1MvmValidationsGetResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r VmValidationsGetApiV1MvmValidationsGetResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r VmValidationsGetApiV1MvmValidationsGetResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type VmVlanGetApiV1MvmVlanGetResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -13424,64 +13540,64 @@ func (c *ClientWithResponses) VmInstanceLinuxCreateValidatePostApiV1MvmInstanceL
 	return ParseVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePostResponse(rsp)
 }
 
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse Vm Instance Linux Disk Post
+// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBodyWithResponse Vm Instance Linux Disks Post
 //
 // Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+func (c *ClientWithResponses) VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse(rsp)
+	return ParseVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse(rsp)
 }
 
-// VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse Vm Instance Linux Disk Post
+// VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithResponse Vm Instance Linux Disks Post
 //
 // Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk (the `VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPost(ctx, instanceUuid, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks (the `VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost` operationId).
+func (c *ClientWithResponses) VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse(rsp)
+	return ParseVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse(rsp)
 }
 
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
+// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBodyWithResponse Vm Instance Linux Disk Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse(rsp)
+	return ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse(rsp)
 }
 
-// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
+// VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithResponse Vm Instance Linux Disk Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer oder mehrerer Linux Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disk/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/linux/{instance_uuid}/disks/create/validate (the `VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost` operationId).
+func (c *ClientWithResponses) VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse(rsp)
+	return ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse(rsp)
 }
 
 // VmInstanceLinuxReinstallPostApiV1MvmInstanceLinuxInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Linux Reinstall Post
@@ -13604,64 +13720,64 @@ func (c *ClientWithResponses) VmInstanceWindowsCreateValidatePostApiV1MvmInstanc
 	return ParseVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValidatePostResponse(rsp)
 }
 
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse Vm Instance Windows Disk Post
+// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBodyWithResponse Vm Instance Windows Disks Post
 //
 // Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+func (c *ClientWithResponses) VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse(rsp)
+	return ParseVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse(rsp)
 }
 
-// VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse Vm Instance Windows Disk Post
+// VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithResponse Vm Instance Windows Disks Post
 //
 // Bestellung einer oder mehrerer Windows Datendisks.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk (the `VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPost(ctx, instanceUuid, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks (the `VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost` operationId).
+func (c *ClientWithResponses) VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse(rsp)
+	return ParseVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse(rsp)
 }
 
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse Vm Instance Windows Disk Create Validate Post
+// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBodyWithResponse Vm Instance Windows Disks Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer Linux Datendisk.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+func (c *ClientWithResponses) VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBodyWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithBody(ctx, instanceUuid, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse(rsp)
+	return ParseVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse(rsp)
 }
 
-// VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse Vm Instance Windows Disk Create Validate Post
+// VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithResponse Vm Instance Windows Disks Create Validate Post
 //
 // Validiert einen Request zur Bestellung einer Linux Datendisk.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
-// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disk/create/validate (the `VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost` operationId).
-func (c *ClientWithResponses) VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
-	rsp, err := c.VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
+// Corresponds with POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate (the `VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost` operationId).
+func (c *ClientWithResponses) VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithResponse(ctx context.Context, instanceUuid openapi_types.UUID, body VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostJSONRequestBody, reqEditors ...RequestEditorFn) (*VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse, error) {
+	rsp, err := c.VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePost(ctx, instanceUuid, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse(rsp)
+	return ParseVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse(rsp)
 }
 
 // VmInstanceWindowsReinstallPostApiV1MvmInstanceWindowsInstanceUuidReinstallPostWithBodyWithResponse Vm Instance Windows Reinstall Post
@@ -13696,7 +13812,7 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallPostApiV1MvmInstanceWind
 
 // VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithBodyWithResponse Vm Instance Windows Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Windows Instanz Reinstall Request.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
@@ -13711,7 +13827,7 @@ func (c *ClientWithResponses) VmInstanceWindowsReinstallValidatePostApiV1MvmInst
 
 // VmInstanceWindowsReinstallValidatePostApiV1MvmInstanceWindowsInstanceUuidReinstallValidatePostWithResponse Vm Instance Windows Reinstall Validate Post
 //
-// Validiert einen Windows oder Linux Instanz Reinstall Request.
+// Validiert einen Windows Instanz Reinstall Request.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
@@ -14581,6 +14697,21 @@ func (c *ClientWithResponses) VmStagetypeGetApiV1MvmStagetypeGetWithResponse(ctx
 	return ParseVmStagetypeGetApiV1MvmStagetypeGetResponse(rsp)
 }
 
+// VmValidationsGetApiV1MvmValidationsGetWithResponse Vm Validations Get
+//
+// Listet alle Business-Logik Validierungen.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /api/v1/mvm/validations (the `VmValidationsGetApiV1MvmValidationsGet` operationId).
+func (c *ClientWithResponses) VmValidationsGetApiV1MvmValidationsGetWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VmValidationsGetApiV1MvmValidationsGetResponse, error) {
+	rsp, err := c.VmValidationsGetApiV1MvmValidationsGet(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseVmValidationsGetApiV1MvmValidationsGetResponse(rsp)
+}
+
 // VmVlanGetApiV1MvmVlanGetWithResponse Vm Vlan Get
 //
 // Listet alle VLANs eines Tenants eines Datacenters filterbar nach Domain.
@@ -15440,15 +15571,15 @@ func ParseVmInstanceLinuxCreateValidatePostApiV1MvmInstanceLinuxCreateValidatePo
 	return response, nil
 }
 
-// ParseVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse parses an HTTP response from a VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostWithResponse call
-func ParseVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse(rsp *http.Response) (*VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse, error) {
+// ParseVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse parses an HTTP response from a VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostWithResponse call
+func ParseVmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse(rsp *http.Response) (*VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &VmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostResponse{
+	response := &VmInstanceLinuxDisksPostApiV1MvmInstanceLinuxInstanceUuidDisksPostResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -15473,15 +15604,15 @@ func ParseVmInstanceLinuxDiskPostApiV1MvmInstanceLinuxInstanceUuidDiskPostRespon
 	return response, nil
 }
 
-// ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse parses an HTTP response from a VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostWithResponse call
-func ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse(rsp *http.Response) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse, error) {
+// ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse parses an HTTP response from a VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostWithResponse call
+func ParseVmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse(rsp *http.Response) (*VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDiskCreateValidatePostResponse{
+	response := &VmInstanceLinuxDiskCreateValidatePostApiV1MvmInstanceLinuxInstanceUuidDisksCreateValidatePostResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -15638,15 +15769,15 @@ func ParseVmInstanceWindowsCreateValidatePostApiV1MvmInstanceWindowsCreateValida
 	return response, nil
 }
 
-// ParseVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse parses an HTTP response from a VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostWithResponse call
-func ParseVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse(rsp *http.Response) (*VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse, error) {
+// ParseVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse parses an HTTP response from a VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostWithResponse call
+func ParseVmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse(rsp *http.Response) (*VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &VmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostResponse{
+	response := &VmInstanceWindowsDisksPostApiV1MvmInstanceWindowsInstanceUuidDisksPostResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -15671,15 +15802,15 @@ func ParseVmInstanceWindowsDiskPostApiV1MvmInstanceWindowsInstanceUuidDiskPostRe
 	return response, nil
 }
 
-// ParseVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse parses an HTTP response from a VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostWithResponse call
-func ParseVmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse(rsp *http.Response) (*VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse, error) {
+// ParseVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse parses an HTTP response from a VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostWithResponse call
+func ParseVmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse(rsp *http.Response) (*VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &VmInstanceWindowsDiskCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDiskCreateValidatePostResponse{
+	response := &VmInstanceWindowsDisksCreateValidatePostApiV1MvmInstanceWindowsInstanceUuidDisksCreateValidatePostResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -16776,6 +16907,32 @@ func ParseVmStagetypeGetApiV1MvmStagetypeGetResponse(rsp *http.Response) (*VmSta
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest VMInstanceGetStageTypesResponseModel
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseVmValidationsGetApiV1MvmValidationsGetResponse parses an HTTP response from a VmValidationsGetApiV1MvmValidationsGetWithResponse call
+func ParseVmValidationsGetApiV1MvmValidationsGetResponse(rsp *http.Response) (*VmValidationsGetApiV1MvmValidationsGetResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &VmValidationsGetApiV1MvmValidationsGetResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest VMInstanceGetValidationsResponseModel
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
