@@ -23,6 +23,9 @@ jobs:
           go-version-file: "go.mod"
           cache: false
 
+      - name: Check spec and validations are consistent
+        run: go test ./spec/...
+
       - name: Generate Client
         run: make generate-client
 
