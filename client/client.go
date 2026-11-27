@@ -63,6 +63,57 @@ func (e ContainerInstanceCreateInputModelServiceclass) Valid() bool {
 	}
 }
 
+// Defines values for EntityCrudOperation.
+const (
+	Create EntityCrudOperation = "create"
+	Delete EntityCrudOperation = "delete"
+	Read   EntityCrudOperation = "read"
+	Update EntityCrudOperation = "update"
+)
+
+// Valid indicates whether the value is a known member of the EntityCrudOperation enum.
+func (e EntityCrudOperation) Valid() bool {
+	switch e {
+	case Create:
+		return true
+	case Delete:
+		return true
+	case Read:
+		return true
+	case Update:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EntityType.
+const (
+	Contact  EntityType = "contact"
+	Disk     EntityType = "disk"
+	Ip       EntityType = "ip"
+	Snapshot EntityType = "snapshot"
+	Vm       EntityType = "vm"
+)
+
+// Valid indicates whether the value is a known member of the EntityType enum.
+func (e EntityType) Valid() bool {
+	switch e {
+	case Contact:
+		return true
+	case Disk:
+		return true
+	case Ip:
+		return true
+	case Snapshot:
+		return true
+	case Vm:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for KiteworksApplianceCreateInputModelAvailability.
 const (
 	KiteworksApplianceCreateInputModelAvailabilityV0 KiteworksApplianceCreateInputModelAvailability = "v0"
@@ -355,10 +406,16 @@ type DiskWindowsInputModel struct {
 
 // Entity defines model for Entity.
 type Entity struct {
-	CrudOperation string             `json:"crud_operation"`
-	Type          string             `json:"type"`
-	Uuid          openapi_types.UUID `json:"uuid"`
+	CrudOperation EntityCrudOperation `json:"crud_operation"`
+	Type          EntityType          `json:"type"`
+	Uuid          openapi_types.UUID  `json:"uuid"`
 }
+
+// EntityCrudOperation defines model for Entity.CrudOperation.
+type EntityCrudOperation string
+
+// EntityType defines model for Entity.Type.
+type EntityType string
 
 // GenericRequestResponseModel defines model for GenericRequestResponseModel.
 type GenericRequestResponseModel struct {

@@ -1,6 +1,6 @@
 {
   "openapi": "3.1.0",
-  "info": { "title": "NULINK", "version": "0.8.12" },
+  "info": { "title": "NULINK", "version": "0.8.14" },
   "paths": {
     "/api/v1/login/access-token": {
       "post": {
@@ -3661,9 +3661,17 @@
       },
       "Entity": {
         "properties": {
-          "type": { "type": "string", "title": "Type" },
+          "type": {
+            "type": "string",
+            "enum": ["vm", "disk", "ip", "contact", "snapshot"],
+            "title": "Type"
+          },
           "uuid": { "type": "string", "format": "uuid", "title": "Uuid" },
-          "crud_operation": { "type": "string", "title": "Crud Operation" }
+          "crud_operation": {
+            "type": "string",
+            "enum": ["create", "read", "update", "delete"],
+            "title": "Crud Operation"
+          }
         },
         "type": "object",
         "required": ["type", "uuid", "crud_operation"],

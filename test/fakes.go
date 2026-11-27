@@ -88,12 +88,12 @@ func registerVMHandlers(mux *http.ServeMux) {
 	})
 
 	mux.HandleFunc("POST /api/v1/tenant/contact", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_contact", entity("contact", "create", createdContactUUID)))
+		writeJSON(w, genericResponse("create_contact", entity(client.Contact, client.Create, createdContactUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/tenant/contact/create/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/tenant/contact/{contact_uuid}/", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_contact", entity("contact", "update", r.PathValue("contact_uuid"))))
+		writeJSON(w, genericResponse("update_contact", entity(client.Contact, client.Update, r.PathValue("contact_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/tenant/contact/{contact_uuid}/update/validate", validateOK)
 
@@ -153,17 +153,17 @@ func registerVMHandlers(mux *http.ServeMux) {
 	})
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_vm_application_server", entity("vm_instance", "create", linuxVMUUID)))
+		writeJSON(w, genericResponse("create_vm_application_server", entity(client.Vm, client.Create, linuxVMUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux/create/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("create_vm_application_server", entity("vm_instance", "create", windowsVMUUID)))
+		writeJSON(w, genericResponse("create_vm_application_server", entity(client.Vm, client.Create, windowsVMUUID)))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/create/validate", validateOK)
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("delete_vm", entity("vm_instance", "delete", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("delete_vm", entity(client.Vm, client.Delete, r.PathValue("instance_uuid"))))
 	})
 
 	// Add disks: one created disk entity per requested disk.
@@ -188,69 +188,69 @@ func registerVMHandlers(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/disks/create/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_disk", entity("vm_disk", "update", r.PathValue("disk_uuid"))))
+		writeJSON(w, genericResponse("update_vm_update_disk", entity(client.Disk, client.Update, r.PathValue("disk_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}/update/validate", validateOK)
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/disk/{disk_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_delete_disk", entity("vm_disk", "delete", r.PathValue("disk_uuid"))))
+		writeJSON(w, genericResponse("update_vm_delete_disk", entity(client.Disk, client.Delete, r.PathValue("disk_uuid"))))
 	})
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/ip", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_ip", entity("vm_interface", "create", createdInterfaceUUID)))
+		writeJSON(w, genericResponse("update_vm_create_ip", entity(client.Ip, client.Create, createdInterfaceUUID)))
 	})
 
 	// Move an IP address to another VM.
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_ip", entity("vm_interface", "update", r.PathValue("interface_uuid"))))
+		writeJSON(w, genericResponse("update_vm_update_ip", entity(client.Ip, client.Update, r.PathValue("interface_uuid"))))
 	})
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/ip/{interface_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_delete_ip", entity("vm_interface", "delete", r.PathValue("interface_uuid"))))
+		writeJSON(w, genericResponse("update_vm_delete_ip", entity(client.Ip, client.Delete, r.PathValue("interface_uuid"))))
 	})
 
 	// Update: contact, labels and performance class (cpu/ram).
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/contact", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_contact", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_update_contact", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/contact/update/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/labels", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_update_labels", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_update_labels", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/labels/update/validate", validateOK)
 
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/performanceclass", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_performanceclass", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_performanceclass", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/performanceclass/update/validate", validateOK)
 
 	// Deprecated UpdateServiceClass.
 	mux.HandleFunc("PUT /api/v1/mvm/instance/{instance_uuid}/serviceclass", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_serviceclass", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_serviceclass", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/serviceclass/update/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/restart", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_restart", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_restart", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_reinstall", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_reinstall", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/linux/{instance_uuid}/reinstall/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_reinstall", entity("vm_instance", "update", r.PathValue("instance_uuid"))))
+		writeJSON(w, genericResponse("update_vm_reinstall", entity(client.Vm, client.Update, r.PathValue("instance_uuid"))))
 	})
 	mux.HandleFunc("POST /api/v1/mvm/instance/windows/{instance_uuid}/reinstall/validate", validateOK)
 
 	mux.HandleFunc("POST /api/v1/mvm/instance/{instance_uuid}/snapshot", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, genericResponse("update_vm_create_snapshot", entity("vm_snapshot", "create", createdSnapshotUUID)))
+		writeJSON(w, genericResponse("update_vm_create_snapshot", entity(client.Snapshot, client.Create, createdSnapshotUUID)))
 	})
 
 	mux.HandleFunc("DELETE /api/v1/mvm/instance/{instance_uuid}/snapshot/{snapshot_uuid}", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, genericResponse("update_vm_delete_snapshot", entity("vm_snapshot", "delete", r.PathValue("snapshot_uuid"))))
+		writeJSON(w, genericResponse("update_vm_delete_snapshot", entity(client.Snapshot, client.Delete, r.PathValue("snapshot_uuid"))))
 	})
 }
 
@@ -259,7 +259,7 @@ var validateOK = func(w http.ResponseWriter, _ *http.Request) {
 }
 
 // entity builds a response entity reference.
-func entity(entityType, crudOperation, entityUUID string) client.Entity {
+func entity(entityType client.EntityType, crudOperation client.EntityCrudOperation, entityUUID string) client.Entity {
 	return client.Entity{
 		CrudOperation: crudOperation,
 		Type:          entityType,
@@ -271,7 +271,7 @@ func entity(entityType, crudOperation, entityUUID string) client.Entity {
 func createdDisksResponse(n int) *client.GenericRequestResponseModel {
 	entities := make([]client.Entity, 0, n)
 	for i := 0; i < n; i++ {
-		entities = append(entities, entity("vm_disk", "create", uuid.NewString()))
+		entities = append(entities, entity(client.Disk, client.Create, uuid.NewString()))
 	}
 	return genericResponse("update_vm_create_disk", entities...)
 }
